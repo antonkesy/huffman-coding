@@ -26,6 +26,7 @@ typedef struct
 
 typedef struct
 {
+    unsigned int bits;
     unsigned int stringSize;
     unsigned char *codedString;
     HuffmanHeap *hoffmanHeap;

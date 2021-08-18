@@ -184,16 +184,13 @@ HuffmanData *CodeIntoHuffmanString(char input[], unsigned int size, SortedItems 
 
     if (codes != NULL && data != NULL)
     {
-        //transform code to repCodeForChar
         FillCodesForChar(codes, heap->root, 0, 0);
 
+        data->bits = getCountOfBitsOutput(sortedItems, codes);
         //+1 for reminder
-        unsigned int destSize = getCountOfBitsOutput(sortedItems, codes) / 8U + 1;
-        char *output = calloc(1, destSize);
-
-        convertInputIntoCodedString(input, size, output, codes);
-        data->codedString = output;
-        data->stringSize = destSize;
+        data->stringSize = data->bits / 8U + 1;
+        data->codedString = calloc(1, data->stringSize);
+        convertInputIntoCodedString(input, size, data->codedString, codes);
     }
     else
     {
