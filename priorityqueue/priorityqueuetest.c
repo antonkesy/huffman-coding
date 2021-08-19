@@ -1,14 +1,9 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "priorityqueue.h"
+#include "priorityqueuetest.h"
 
-typedef struct
-{
-    int i;
-    char c;
-} testData;
-
-int compareTestData(void *a, void *b)
+int compareTestData(const void *a, const void *b)
 {
     testData *ta = (testData *)a;
     testData *tb = (testData *)b;
@@ -20,7 +15,7 @@ void printTestData(void *data)
     printf("data i = %i\n", *(testData *)data);
 }
 
-int testPriorityQueue()
+int test1()
 {
     int isError = 0;
     priorityque *pq = createPQ(compareTestData);
@@ -70,5 +65,66 @@ int testPriorityQueue()
     //printf("iterat:\n");
     //iterate(pq, printTestData);
 
+    //TODO free memory
+    return isError;
+}
+
+int compareInt(const void *a, const void *b)
+{
+    return (*(int *)a) - (*(int *)b);
+}
+
+void printInt(void *data)
+{
+    printf("%i", *(int *)data);
+}
+
+int test2()
+{
+    //TODO automate test
+    int isError = 0;
+    priorityque *pq = createPQ(compareInt);
+
+    int a = 5;
+    int b = 1;
+    int c = 3;
+    int d = 6;
+    int e = 0;
+
+    push(pq, &a);
+    push(pq, &b);
+    push(pq, &c);
+    push(pq, &d);
+    push(pq, &e);
+
+    iterate(pq, printInt);
+    printf("\n");
+    pop(pq);
+    pop(pq);
+    iterate(pq, printInt);
+    printf("\n");
+    push(pq, &a);
+    push(pq, &e);
+    iterate(pq, printInt);
+
+    clear(pq);
+    if (pq->size != 0)
+    {
+        isError = 1;
+    }
+    delete (pq);
+
+    if (pq != NULL)
+    {
+        isError = 1;
+    }
+
+    return isError;
+}
+
+int testPriorityQueue()
+{
+    int isError = test1();
+    //isError = test2();
     return isError;
 }
