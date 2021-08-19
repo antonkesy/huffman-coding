@@ -1,12 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "huffman.h"
 #include <stddef.h>
-
+#include "huffman.h"
+#include "priorityqueue/priorityqueue.h"
 #define DEBUG
 
-int main(void)
+int testHuffman()
 {
     char *testString = "abcdef";
     HuffmanData *hd = GetHuffmanData(testString, strlen(testString));
@@ -16,6 +16,19 @@ int main(void)
     dest[destSize] = '\0';
     printf("%s\n%s", testString, dest);
     printf("\n%u", strcmp(testString, dest));
+    return 1;
+}
+
+int main(void)
+{
+    if (testPriorityQueue() != 0)
+    {
+        printf("priority queue test failed");
+    }
+    if (testHuffman() != 0)
+    {
+        printf("huffman test failed");
+    }
 
 #ifndef DEBUG
     getchar();
