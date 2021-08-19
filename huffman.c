@@ -68,6 +68,7 @@ HuffmanData *GetHuffmanData(char *items, unsigned int size)
 
 HuffmanHeap *BuildHuffmanHeap(SortedItems *sortedItems)
 {
+    //todo heapify tree
     HuffmanNode *root = NULL;
 
     if (sortedItems->size > 2)
@@ -188,8 +189,9 @@ HuffmanData *CodeIntoHuffmanString(char input[], unsigned int size, SortedItems 
 
         data->bits = getCountOfBitsOutput(sortedItems, codes);
         //+1 for reminder
-        data->stringSize = data->bits / 8U + 1;
-        data->codedString = calloc(1, data->stringSize);
+        data->codeStringSize = data->bits / 8U + 1;
+        data->codedString = calloc(1, data->codeStringSize);
+        data->items = sortedItems;
         convertInputIntoCodedString(input, size, data->codedString, codes);
     }
     else
@@ -275,11 +277,12 @@ unsigned int countBits(unsigned int n)
 
 void printCharAsBinary(char c)
 {
+
     unsigned int flag = 0x80;
     for (register char i = 0; i < 8; ++i)
     {
         printf("%c", (flag & c) == flag ? '1' : '0');
-        if (i == 3)
+        if (((i + 1) % 4) == 0 && i != 31)
         {
             printf("_");
         }
@@ -289,9 +292,69 @@ void printCharAsBinary(char c)
 
 void printCodedString(HuffmanData *hd)
 {
-    for (register unsigned int i = 0; i < hd->stringSize; ++i)
+    for (register unsigned int i = 0; i < hd->codeStringSize; ++i)
     {
         printCharAsBinary(hd->codedString[i]);
         printf(" ");
     }
+}
+
+int decodeHuffmanData(HuffmanData *hd, char *dest, unsigned int size)
+{
+    HuffmanHeap *hh = BuildHuffmanHeap(hd->items);
+
+    register unsigned int bit = 0U;
+    register unsigned int destPos = 0U;
+    for (unsigned int i = 0; i < size; i++)
+    {
+        HuffmanNode *currentNode = hh->root;
+        while (currentNode->left != NULL)
+        {
+            char read = hd->codedString[bit / 8];
+            if (((read >> (7 - (bit % 8))) & 1) == 0)
+            {
+                currentNode = currentNode->left;
+            }
+            else
+            {
+                currentNode = currentNode->right;
+            }
+            ++bit;
+        }
+        dest[destPos++] = currentNode->value;
+    }
+
+    deleteHuffmanData(hd);
+}
+
+void deleteHuffmanHeap(HuffmanHeap *heap)
+{
+    delteHuffmanNodes(heap->root);
+    free(heap);
+}
+
+unsigned int getItemsSum(SortedItems *items)
+{
+    unsigned int sum = 0U;
+    for (register unsigned int i = 0; i < items->size; ++i)
+    {
+        sum += items->items[i].freq;
+    }
+    return sum;
+}
+
+void deleteHuffmanData(HuffmanData *data)
+{
+    free(data->codedString);
+    deleteSortedItems(data->items);
+    free(data);
+}
+
+void deleteSortedItems(SortedItems *items)
+{
+    for (register unsigned int i = 0; i < items->size; ++i)
+    {
+        free(&(items->items[i]));
+    }
+    free(items);
 }

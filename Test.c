@@ -1,17 +1,21 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include "huffman.h"
+#include <stddef.h>
 
 #define DEBUG
 
 int main(void)
 {
-    //TODO add cmake test
-    //should be 100 0 11 11 101 101 101 0 0 11 0 11 0 11 0
-    //          1000 1111 1011 0110 1001 1011 0110
-    char *testString = "BCAADDDCCACACAC";
+    char *testString = "abcdef";
     HuffmanData *hd = GetHuffmanData(testString, strlen(testString));
-    printCodedString(hd);
+    size_t destSize = getItemsSum(hd->items);
+    char *dest = malloc(destSize + 1);
+    decodeHuffmanData(hd, dest, destSize);
+    dest[destSize] = '\0';
+    printf("%s\n%s", testString, dest);
+    printf("\n%u", strcmp(testString, dest));
 
 #ifndef DEBUG
     getchar();
