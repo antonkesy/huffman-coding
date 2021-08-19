@@ -4,6 +4,6 @@ project(HuffmanCode VERSION 0.1.0)
 include(CTest)
 
 if(BUILD_TESTING)
-add_executable(HuffmanCode Test.c huffman.c)
+add_executable(HuffmanCode Test.c huffman.c priorityqueue/priorityqueue.c priorityqueue/priorityqueuetest.c)
 endif()
 
