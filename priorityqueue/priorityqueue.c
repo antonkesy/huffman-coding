@@ -13,7 +13,7 @@ priorityque *createPQ(compare compareFunction)
     return pq;
 }
 
-void push(priorityque *pq, void *item)
+void push(priorityque *pq, const void *item)
 {
     if (pq->firstItem == NULL)
     {
@@ -56,7 +56,7 @@ void push(priorityque *pq, void *item)
     }
     ++pq->size;
 }
-void *peek(priorityque *pq)
+void *peek(const priorityque *pq)
 {
     if (isEmpty(pq))
     {
@@ -81,12 +81,12 @@ void *pop(priorityque *pq)
     return item->data;
 }
 
-_Bool isEmpty(priorityque *pq)
+_Bool isEmpty(const priorityque *pq)
 {
     return (pq->size == 0) ? true : false;
 }
 
-void iterate(priorityque *pq, void (*simple)(void *))
+void iterate(const priorityque *pq, void (*simple)(void *))
 {
     linkedData *item = pq->firstItem;
     while (item != NULL)

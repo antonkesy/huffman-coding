@@ -17,7 +17,7 @@ struct data
 
 typedef struct data linkedData;
 
-typedef int (*compare)(void *, void *);
+typedef int (*compare)(const void *, const void *);
 
 typedef struct
 {
@@ -27,10 +27,10 @@ typedef struct
 } priorityque;
 
 priorityque *createPQ(compare compareFunction);
-void push(priorityque *pq, void *item);
-void *peek(priorityque *pq);
+void push(priorityque *pq, const void *item);
+void *peek(const priorityque *pq);
 void *pop(priorityque *pq);
-_Bool isEmpty(priorityque *pq);
-void iterate(priorityque *pq, void (*simple)(void *));
+_Bool isEmpty(const priorityque *pq);
+void iterate(const priorityque *pq, void (*simple)(void *));
 
 #endif
