@@ -13,8 +13,8 @@ typedef struct
 
 struct Node
 {
-    char value;
     unsigned int freq;
+    char value;
     struct Node *left, *right;
 };
 
@@ -55,10 +55,12 @@ typedef struct
 //TODO return value is int and output is parameter
 HuffmanData *GetHuffmanData(char *items, unsigned int size);
 int SortItemComparator(const void *first, const void *second);
+int NodeComparator(const void *first, const void *second);
 SortedItems *SortItemsByFrequency(char *items, unsigned int size);
-HuffmanHeap *BuildHuffmanHeap(SortedItems *sortedItems);
+HuffmanHeap *BuildHuffmanTree(SortedItems *sortedItems);
 void printHuffmanHeap(HuffmanHeap *heap);
 void printHuffmanNodes(HuffmanNode *node);
+void printHuffmanNode(void *node);
 HuffmanNode *createValueHuffmanNode(SortItem *sortItem);
 HuffmanNode *createParentHuffmanNode(HuffmanNode *leftChild, HuffmanNode *rightChild);
 void delteHuffmanNodes(HuffmanNode *root);

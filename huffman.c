@@ -1,7 +1,7 @@
 #include "huffman.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include <math.h>
+#include "priorityqueue/priorityqueue.h"
 
 //TODO free memory
 
@@ -66,43 +66,31 @@ HuffmanData *GetHuffmanData(char *items, unsigned int size)
     return CodeIntoHuffmanString(items, size, SortItemsByFrequency(items, size));
 }
 
-HuffmanHeap *BuildHuffmanHeap(SortedItems *sortedItems)
+HuffmanHeap *BuildHuffmanTree(SortedItems *sortedItems)
 {
-    //todo heapify tree
     HuffmanNode *root = NULL;
-
-    if (sortedItems->size > 2)
+    priorityque *prioQ = createPQ(NodeComparator);
+    HuffmanNode *nodes = (HuffmanNode *)calloc(sizeof(HuffmanNode), sortedItems->size);
+    for (register size_t i = 0U; i < sortedItems->size; ++i)
     {
-
-        HuffmanNode *nodeLeft = createValueHuffmanNode(&(sortedItems->items[0]));
-        HuffmanNode *nodeRight = createValueHuffmanNode(&(sortedItems->items[1]));
-        root = createParentHuffmanNode(nodeLeft, nodeRight);
-
-        for (register unsigned int i = 2U; i < sortedItems->size; ++i)
-        {
-            HuffmanNode *nodeNewValue = createValueHuffmanNode(&(sortedItems->items[i]));
-
-            if (root->freq > nodeNewValue->freq)
-            {
-                root = createParentHuffmanNode(nodeNewValue, root);
-            }
-            else
-            {
-                root = createParentHuffmanNode(root, nodeNewValue);
-            }
-        }
-    }
-    else
-    {
-        //TODO only double heap
+        nodes[i].freq = sortedItems->items[sortedItems->size - i - 1].freq;
+        nodes[i].value = sortedItems->items[sortedItems->size - i - 1].value;
+        push(prioQ, &nodes[i]);
     }
 
+    while (prioQ->size > 1)
+    {
+        HuffmanNode *left = pop(prioQ);
+        HuffmanNode *right = pop(prioQ);
+        push(prioQ, createParentHuffmanNode(left, right));
+    }
     HuffmanHeap *heap = malloc(sizeof(HuffmanHeap));
-    heap->root = root;
+    heap->root = pop(prioQ);
     heap->size = sortedItems->size;
 
+    //free(prioQ);
+    printHuffmanHeap(heap);
     return heap;
-    //free(sortItems);
 }
 
 void printHuffmanHeap(HuffmanHeap *heap)
@@ -179,7 +167,7 @@ void delteHuffmanNodes(HuffmanNode *node)
 
 HuffmanData *CodeIntoHuffmanString(char input[], unsigned int size, SortedItems *sortedItems)
 {
-    HuffmanHeap *heap = BuildHuffmanHeap(sortedItems);
+    HuffmanHeap *heap = BuildHuffmanTree(sortedItems);
     HuffmanCode *codes = malloc(sizeof(HuffmanCode) * 0xFF);
     HuffmanData *data = malloc(sizeof(HuffmanData));
 
@@ -301,7 +289,7 @@ void printCodedString(HuffmanData *hd)
 
 int decodeHuffmanData(HuffmanData *hd, char *dest, unsigned int size)
 {
-    HuffmanHeap *hh = BuildHuffmanHeap(hd->items);
+    HuffmanHeap *hh = BuildHuffmanTree(hd->items);
 
     register unsigned int bit = 0U;
     register unsigned int destPos = 0U;
@@ -323,7 +311,6 @@ int decodeHuffmanData(HuffmanData *hd, char *dest, unsigned int size)
         }
         dest[destPos++] = currentNode->value;
     }
-
     deleteHuffmanData(hd);
 }
 
@@ -345,6 +332,7 @@ unsigned int getItemsSum(SortedItems *items)
 
 void deleteHuffmanData(HuffmanData *data)
 {
+
     free(data->codedString);
     deleteSortedItems(data->items);
     free(data);
@@ -354,7 +342,19 @@ void deleteSortedItems(SortedItems *items)
 {
     for (register unsigned int i = 0; i < items->size; ++i)
     {
-        free(&(items->items[i]));
+        //TODO crashes here
+        //    free(&(items->items[i]));
     }
     free(items);
+}
+
+int NodeComparator(const void *first, const void *second)
+{
+    return (*(unsigned int *)first) - (*(unsigned int *)second);
+}
+
+void printHuffmanNode(void *node)
+{
+    HuffmanNode *hNode = (HuffmanNode *)node;
+    printf("Node = %i %c\n", hNode->freq, hNode->value);
 }
