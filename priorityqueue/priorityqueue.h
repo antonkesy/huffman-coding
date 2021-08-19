@@ -32,5 +32,7 @@ void *peek(const priorityque *pq);
 void *pop(priorityque *pq);
 _Bool isEmpty(const priorityque *pq);
 void iterate(const priorityque *pq, void (*simple)(void *));
+void clear(priorityque *pq);
+void delete(priorityque *pq);
 
 #endif

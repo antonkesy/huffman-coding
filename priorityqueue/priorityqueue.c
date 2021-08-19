@@ -18,7 +18,7 @@ void push(priorityque *pq, const void *item)
     if (pq->firstItem == NULL)
     {
         pq->firstItem = (linkedData *)malloc(sizeof(linkedData));
-        pq->firstItem->data = item;
+        pq->firstItem->data = (void *)item;
         pq->firstItem->next = NULL;
     }
     else
@@ -28,7 +28,7 @@ void push(priorityque *pq, const void *item)
         {
             linkedData *old = pq->firstItem;
             pq->firstItem = (linkedData *)malloc(sizeof(linkedData));
-            pq->firstItem->data = item;
+            pq->firstItem->data = (void *)item;
             pq->firstItem->next = old;
         }
         else
@@ -41,13 +41,13 @@ void push(priorityque *pq, const void *item)
             if (lastItem->next == NULL)
             {
                 lastItem->next = (linkedData *)malloc(sizeof(linkedData));
-                lastItem->next->data = item;
+                lastItem->next->data = (void *)item;
                 lastItem->next->next = NULL;
             }
             else
             {
                 linkedData *newItem = (linkedData *)malloc(sizeof(linkedData));
-                newItem->data = item;
+                newItem->data = (void *)item;
                 linkedData *next = lastItem->next;
                 newItem->next = next;
                 lastItem->next = newItem;
@@ -94,4 +94,26 @@ void iterate(const priorityque *pq, void (*simple)(void *))
         simple(item->data);
         item = item->next;
     }
+}
+
+void clear(priorityque *pq)
+{
+    if (pq != NULL)
+    {
+        linkedData *item = pq->firstItem;
+        while (item != NULL)
+        {
+            linkedData *last = item;
+            item = item->next;
+            free(last->data);
+            free(last);
+        }
+        pq->size = 0U;
+    }
+}
+void delete (priorityque *pq)
+{
+    clear(pq);
+    free(pq->compareFunction);
+    free(pq);
 }
