@@ -17,4 +17,6 @@ int test2();
 int compareInt(const void *a, const void *b);
 void printInt(void *data);
 
+int testSizePush();
+
 #endif

@@ -3,6 +3,8 @@
 #include "priorityqueue.h"
 #include "priorityqueuetest.h"
 
+#define SIZE_TEST_AMOUNT 100
+
 int compareTestData(const void *a, const void *b)
 {
     testData *ta = (testData *)a;
@@ -76,7 +78,7 @@ int compareInt(const void *a, const void *b)
 
 void printInt(void *data)
 {
-    printf("%i", *(int *)data);
+    printf("%i\n", *(int *)data);
 }
 
 int test2()
@@ -122,9 +124,48 @@ int test2()
     return isError;
 }
 
+int testSizePush()
+{
+    int isError = 0;
+    priorityque *pq = createPQ(compareInt);
+
+    if (pq->size != 0)
+    {
+        isError = 1;
+    }
+
+    int numbers[SIZE_TEST_AMOUNT];
+    for (register size_t i = 0U; i < SIZE_TEST_AMOUNT; ++i)
+    {
+        numbers[i] = SIZE_TEST_AMOUNT - i;
+        push(pq, &numbers[i]);
+        if (pq->size != (i + 1))
+        {
+            isError = 1;
+        }
+    }
+
+    for (register int i = SIZE_TEST_AMOUNT - 1; i >= 0; --i)
+    {
+        int value = *((int *)pop(pq));
+        if (pq->size != (i + 1) && value != SIZE_TEST_AMOUNT - i)
+        {
+            isError = 1;
+        }
+    }
+
+    if (pq->size != 0)
+    {
+        isError = 1;
+    }
+
+    return isError;
+}
+
 int testPriorityQueue()
 {
     int isError = test1();
     //isError = test2();
+    isError = testSizePush();
     return isError;
 }
