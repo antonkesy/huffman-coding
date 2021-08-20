@@ -66,11 +66,12 @@ HuffmanData *GetHuffmanData(char *items, unsigned int size)
     return CodeIntoHuffmanString(items, size, SortItemsByFrequency(items, size));
 }
 
-HuffmanHeap *BuildHuffmanTree(SortedItems *sortedItems)
+HuffmanTree *BuildHuffmanTree(SortedItems *sortedItems)
 {
     HuffmanNode *root = NULL;
     priorityque *prioQ = createPQ(NodeComparator);
     HuffmanNode *nodes = (HuffmanNode *)calloc(sizeof(HuffmanNode), sortedItems->size);
+
     for (register size_t i = 0U; i < sortedItems->size; ++i)
     {
         nodes[i].freq = sortedItems->items[sortedItems->size - i - 1].freq;
@@ -82,23 +83,23 @@ HuffmanHeap *BuildHuffmanTree(SortedItems *sortedItems)
     {
         HuffmanNode *left = pop(prioQ);
         HuffmanNode *right = pop(prioQ);
-        push(prioQ, createParentHuffmanNode(left, right));
+        HuffmanNode *parent = createParentHuffmanNode(left, right);
+        push(prioQ, parent);
     }
-    HuffmanHeap *heap = malloc(sizeof(HuffmanHeap));
+    HuffmanTree *heap = malloc(sizeof(HuffmanTree));
     heap->root = pop(prioQ);
     heap->size = sortedItems->size;
 
     //free(prioQ);
-    printHuffmanHeap(heap);
     return heap;
 }
 
-void printHuffmanHeap(HuffmanHeap *heap)
+void printHuffmanTree(HuffmanTree *heap)
 {
-    printf("Print heap\n");
+    printf("Print heap:\n");
     if (heap->root == NULL)
     {
-        printf("Heap empty\n");
+        printf("Heap empty!\n");
     }
     else
     {
@@ -115,7 +116,9 @@ void printHuffmanNodes(HuffmanNode *node)
         {
             printf("parent node sum = %u\n", node->freq);
             //parent node (should always have 2 children)
+            printf("parent node %u left = ", node->freq);
             printHuffmanNodes(node->left);
+            printf("parent node %u right = ", node->freq);
             printHuffmanNodes(node->right);
         }
         else
@@ -129,7 +132,7 @@ void printHuffmanNodes(HuffmanNode *node)
 HuffmanNode *createValueHuffmanNode(SortItem *sortItem)
 {
     //TODO check malloc error!
-    HuffmanNode *newNode = malloc(sizeof(HuffmanNode));
+    HuffmanNode *newNode = calloc(sizeof(HuffmanNode), 1);
     newNode->value = sortItem->value;
     newNode->freq = sortItem->freq;
     newNode->left = NULL;
@@ -141,7 +144,7 @@ HuffmanNode *createValueHuffmanNode(SortItem *sortItem)
 HuffmanNode *createParentHuffmanNode(HuffmanNode *leftChild, HuffmanNode *rightChild)
 {
     //TODO check malloc error!
-    HuffmanNode *parentNode = malloc(sizeof(HuffmanNode));
+    HuffmanNode *parentNode = calloc(sizeof(HuffmanNode), 1);
     parentNode->left = leftChild;
     parentNode->right = rightChild;
     parentNode->freq = leftChild->freq + rightChild->freq;
@@ -167,13 +170,13 @@ void delteHuffmanNodes(HuffmanNode *node)
 
 HuffmanData *CodeIntoHuffmanString(char input[], unsigned int size, SortedItems *sortedItems)
 {
-    HuffmanHeap *heap = BuildHuffmanTree(sortedItems);
+    HuffmanTree *tree = BuildHuffmanTree(sortedItems);
     HuffmanCode *codes = malloc(sizeof(HuffmanCode) * 0xFF);
     HuffmanData *data = malloc(sizeof(HuffmanData));
 
     if (codes != NULL && data != NULL)
     {
-        FillCodesForChar(codes, heap->root, 0, 0);
+        FillCodesForChar(codes, tree->root, 0, 0);
 
         data->bits = getCountOfBitsOutput(sortedItems, codes);
         //+1 for reminder
@@ -289,10 +292,10 @@ void printCodedString(HuffmanData *hd)
 
 int decodeHuffmanData(HuffmanData *hd, char *dest, unsigned int size)
 {
-    HuffmanHeap *hh = BuildHuffmanTree(hd->items);
-
+    HuffmanTree *hh = BuildHuffmanTree(hd->items);
     register unsigned int bit = 0U;
     register unsigned int destPos = 0U;
+
     for (unsigned int i = 0; i < size; i++)
     {
         HuffmanNode *currentNode = hh->root;
@@ -311,10 +314,9 @@ int decodeHuffmanData(HuffmanData *hd, char *dest, unsigned int size)
         }
         dest[destPos++] = currentNode->value;
     }
-    deleteHuffmanData(hd);
 }
 
-void deleteHuffmanHeap(HuffmanHeap *heap)
+void deleteHuffmanHeap(HuffmanTree *heap)
 {
     delteHuffmanNodes(heap->root);
     free(heap);
@@ -356,5 +358,12 @@ int NodeComparator(const void *first, const void *second)
 void printHuffmanNode(void *node)
 {
     HuffmanNode *hNode = (HuffmanNode *)node;
-    printf("Node = %i %c\n", hNode->freq, hNode->value);
+    if (hNode->left == NULL && hNode->right == NULL)
+    {
+        printf("Value Node = %i %c\n", hNode->freq, hNode->value);
+    }
+    else
+    {
+        printf("Parent node = %i\n", hNode->freq);
+    }
 }

@@ -24,7 +24,7 @@ typedef struct
 {
     unsigned int size;
     HuffmanNode *root;
-} HuffmanHeap;
+} HuffmanTree;
 
 typedef struct
 {
@@ -57,14 +57,14 @@ HuffmanData *GetHuffmanData(char *items, unsigned int size);
 int SortItemComparator(const void *first, const void *second);
 int NodeComparator(const void *first, const void *second);
 SortedItems *SortItemsByFrequency(char *items, unsigned int size);
-HuffmanHeap *BuildHuffmanTree(SortedItems *sortedItems);
-void printHuffmanHeap(HuffmanHeap *heap);
+HuffmanTree *BuildHuffmanTree(SortedItems *sortedItems);
+void printHuffmanTree(HuffmanTree *heap);
 void printHuffmanNodes(HuffmanNode *node);
 void printHuffmanNode(void *node);
 HuffmanNode *createValueHuffmanNode(SortItem *sortItem);
 HuffmanNode *createParentHuffmanNode(HuffmanNode *leftChild, HuffmanNode *rightChild);
 void delteHuffmanNodes(HuffmanNode *root);
-void deleteHuffmanHeap(HuffmanHeap *heap);
+void deleteHuffmanHeap(HuffmanTree *heap);
 void deleteHuffmanData(HuffmanData *data);
 void deleteSortedItems(SortedItems *items);
 HuffmanData *CodeIntoHuffmanString(char input[], unsigned int size, SortedItems *sortedItems);
