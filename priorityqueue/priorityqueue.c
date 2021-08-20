@@ -54,8 +54,9 @@ void push(priorityque *pq, const void *item)
             }
         }
     }
-    ++pq->size;
+    ++(pq->size);
 }
+
 void *peek(const priorityque *pq)
 {
     if (isEmpty(pq))
@@ -73,10 +74,7 @@ void *pop(priorityque *pq)
     }
 
     linkedData *item = pq->firstItem;
-    if (item->next != NULL)
-    {
-        pq->firstItem = item->next;
-    }
+    pq->firstItem = item->next;
     --(pq->size);
     return item->data;
 }
