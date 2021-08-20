@@ -178,12 +178,6 @@ HuffmanData *CodeIntoHuffmanString(char input[], size_t size, SortedItems *sorte
     {
         FillCodesForChar(codes, tree->root, 0, 0);
 
-        printf("code for ? = (size = %i)\t", codes['?'].size);
-        printCharAsBinary(codes['?'].code);
-
-        printf("\ncode for X = (size = %i)\t", codes['X'].size);
-        printCharAsBinary(codes['X'].code);
-
         data->bits = getCountOfBitsOutput(sortedItems, codes);
         //+1 for reminder
         data->codeStringSize = data->bits / 8U + 1;
@@ -249,10 +243,10 @@ void convertInputIntoCodedString(char src[], size_t srcSize, char dest[], Huffma
 
 void writeOverflow(char *dest, char *overflow, char *overflowSize, size_t *nextWriteBit)
 {
-    if (overflowSize != 0)
+    if (*overflowSize != 0)
     {
         dest[*nextWriteBit / 8] += *overflow;
-        overflowSize = 0;
+        *overflowSize = 0;
     }
 }
 
