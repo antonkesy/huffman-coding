@@ -7,18 +7,18 @@
 
 int SortItemComparator(const void *first, const void *second)
 {
-    return (*(unsigned int *)first) - (*(unsigned int *)second);
+    return (*(size_t *)first) - (*(size_t *)second);
 }
 
-SortedItems *SortItemsByFrequency(char *items, unsigned int size)
+SortedItems *SortItemsByFrequency(char *items, size_t size)
 {
     SortedItems *sortedItems = malloc(sizeof(SortedItems));
-    unsigned int *freqOfPosition = calloc(0xFF, sizeof(unsigned int));
-    register unsigned int uniqueCharsCount = 0U;
+    size_t *freqOfPosition = calloc(0xFF, sizeof(size_t));
+    register size_t uniqueCharsCount = 0U;
 
     if (freqOfPosition != NULL)
     {
-        for (register unsigned int i = 0U; i < size; ++i)
+        for (register size_t i = 0U; i < size; ++i)
         {
             if (freqOfPosition[items[i]]++ == 0)
             {
@@ -29,8 +29,8 @@ SortedItems *SortItemsByFrequency(char *items, unsigned int size)
         SortItem *sortItemsArray = malloc(sizeof(SortItem) * uniqueCharsCount);
         if (sortItemsArray != NULL)
         {
-            register unsigned int i = 0U;
-            for (register unsigned int j = 0U; j < 0xFF; ++j)
+            register size_t i = 0U;
+            for (register size_t j = 0U; j < 0xFF; ++j)
             {
                 if (freqOfPosition[j] != 0)
                 {
@@ -60,7 +60,7 @@ SortedItems *SortItemsByFrequency(char *items, unsigned int size)
     return sortedItems;
 }
 
-HuffmanData *GetHuffmanData(char *items, unsigned int size)
+HuffmanData *GetHuffmanData(char *items, size_t size)
 {
     //error check
     return CodeIntoHuffmanString(items, size, SortItemsByFrequency(items, size));
@@ -168,7 +168,7 @@ void delteHuffmanNodes(HuffmanNode *node)
     }
 }
 
-HuffmanData *CodeIntoHuffmanString(char input[], unsigned int size, SortedItems *sortedItems)
+HuffmanData *CodeIntoHuffmanString(char input[], size_t size, SortedItems *sortedItems)
 {
     HuffmanTree *tree = BuildHuffmanTree(sortedItems);
     HuffmanCode *codes = malloc(sizeof(HuffmanCode) * 0xFF);
@@ -193,7 +193,7 @@ HuffmanData *CodeIntoHuffmanString(char input[], unsigned int size, SortedItems 
     return data;
 }
 
-void FillCodesForChar(HuffmanCode *codes, HuffmanNode *node, char codeValue, unsigned int step)
+void FillCodesForChar(HuffmanCode *codes, HuffmanNode *node, char codeValue, size_t step)
 {
     //only need to check one side because parent has always two
     if (node->left == NULL)
@@ -208,13 +208,13 @@ void FillCodesForChar(HuffmanCode *codes, HuffmanNode *node, char codeValue, uns
     }
 }
 
-void convertInputIntoCodedString(char src[], unsigned int srcSize, char dest[], HuffmanCode *codes)
+void convertInputIntoCodedString(char src[], size_t srcSize, char dest[], HuffmanCode *codes)
 {
-    register unsigned int nextWriteBit = 0U;
+    register size_t nextWriteBit = 0U;
     register char overflow = 0;
     register char overflowSize = 0;
 
-    for (register unsigned int i = 0U; i < srcSize; ++i)
+    for (register size_t i = 0U; i < srcSize; ++i)
     {
         //get rid of overflow before loading new code
         if (overflowSize != 0)
@@ -243,21 +243,21 @@ void convertInputIntoCodedString(char src[], unsigned int srcSize, char dest[], 
     }
 }
 
-unsigned int getCountOfBitsOutput(SortedItems *sortedItems, HuffmanCode *codes)
+size_t getCountOfBitsOutput(SortedItems *sortedItems, HuffmanCode *codes)
 {
-    unsigned int size = 0U;
+    size_t size = 0U;
 
-    for (register unsigned int i = 0U; i < sortedItems->size; ++i)
+    for (register size_t i = 0U; i < sortedItems->size; ++i)
     {
         size += codes[sortedItems->items[i].value].size * sortedItems->items[i].freq;
     }
     return size;
 }
 
-unsigned int countBits(unsigned int n)
+size_t countBits(size_t n)
 {
     //log2(n)+1 maybe too slow
-    unsigned int count = 0;
+    size_t count = 0;
     while (n)
     {
         ++count;
@@ -269,7 +269,7 @@ unsigned int countBits(unsigned int n)
 void printCharAsBinary(char c)
 {
 
-    unsigned int flag = 0x80;
+    size_t flag = 0x80;
     for (register char i = 0; i < 8; ++i)
     {
         printf("%c", (flag & c) == flag ? '1' : '0');
@@ -283,20 +283,20 @@ void printCharAsBinary(char c)
 
 void printCodedString(HuffmanData *hd)
 {
-    for (register unsigned int i = 0; i < hd->codeStringSize; ++i)
+    for (register size_t i = 0; i < hd->codeStringSize; ++i)
     {
         printCharAsBinary(hd->codedString[i]);
         printf(" ");
     }
 }
 
-int decodeHuffmanData(HuffmanData *hd, char *dest, unsigned int size)
+int decodeHuffmanData(HuffmanData *hd, char *dest, size_t size)
 {
     HuffmanTree *hh = BuildHuffmanTree(hd->items);
-    register unsigned int bit = 0U;
-    register unsigned int destPos = 0U;
+    register size_t bit = 0U;
+    register size_t destPos = 0U;
 
-    for (unsigned int i = 0; i < size; i++)
+    for (size_t i = 0; i < size; i++)
     {
         HuffmanNode *currentNode = hh->root;
         while (currentNode->left != NULL)
@@ -322,10 +322,10 @@ void deleteHuffmanHeap(HuffmanTree *heap)
     free(heap);
 }
 
-unsigned int getItemsSum(SortedItems *items)
+size_t getItemsSum(SortedItems *items)
 {
-    unsigned int sum = 0U;
-    for (register unsigned int i = 0; i < items->size; ++i)
+    size_t sum = 0U;
+    for (register size_t i = 0; i < items->size; ++i)
     {
         sum += items->items[i].freq;
     }
@@ -342,7 +342,7 @@ void deleteHuffmanData(HuffmanData *data)
 
 void deleteSortedItems(SortedItems *items)
 {
-    for (register unsigned int i = 0; i < items->size; ++i)
+    for (register size_t i = 0; i < items->size; ++i)
     {
         //TODO crashes here
         //    free(&(items->items[i]));
@@ -352,7 +352,7 @@ void deleteSortedItems(SortedItems *items)
 
 int NodeComparator(const void *first, const void *second)
 {
-    return (*(unsigned int *)first) - (*(unsigned int *)second);
+    return (*(size_t *)first) - (*(size_t *)second);
 }
 
 void printHuffmanNode(void *node)

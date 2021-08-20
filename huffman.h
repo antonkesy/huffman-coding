@@ -13,7 +13,7 @@ typedef struct
 
 struct Node
 {
-    unsigned int freq;
+    size_t freq;
     char value;
     struct Node *left, *right;
 };
@@ -22,7 +22,7 @@ typedef struct Node HuffmanNode;
 
 typedef struct
 {
-    unsigned int size;
+    size_t size;
     HuffmanNode *root;
 } HuffmanTree;
 
@@ -34,29 +34,29 @@ typedef struct
 
 typedef struct
 {
-    unsigned int size;
+    size_t size;
     SortItem *items;
 } SortedItems;
 
 typedef struct
 {
-    unsigned int lenght;
+    size_t lenght;
     char *string;
 } HuffmanString;
 
 typedef struct
 {
-    unsigned int bits;
-    unsigned int codeStringSize; //calculate from sortedItems count?
+    size_t bits;
+    size_t codeStringSize; //calculate from sortedItems count?
     unsigned char *codedString;
     SortedItems *items;
 } HuffmanData;
 
 //TODO return value is int and output is parameter
-HuffmanData *GetHuffmanData(char *items, unsigned int size);
+HuffmanData *GetHuffmanData(char *items, size_t size);
 int SortItemComparator(const void *first, const void *second);
 int NodeComparator(const void *first, const void *second);
-SortedItems *SortItemsByFrequency(char *items, unsigned int size);
+SortedItems *SortItemsByFrequency(char *items, size_t size);
 HuffmanTree *BuildHuffmanTree(SortedItems *sortedItems);
 void printHuffmanTree(HuffmanTree *heap);
 void printHuffmanNodes(HuffmanNode *node);
@@ -67,13 +67,13 @@ void delteHuffmanNodes(HuffmanNode *root);
 void deleteHuffmanHeap(HuffmanTree *heap);
 void deleteHuffmanData(HuffmanData *data);
 void deleteSortedItems(SortedItems *items);
-HuffmanData *CodeIntoHuffmanString(char input[], unsigned int size, SortedItems *sortedItems);
-void FillCodesForChar(HuffmanCode *codes, HuffmanNode *node, char codeValue, unsigned int step);
-void convertInputIntoCodedString(char src[], unsigned int srcSize, char dest[], HuffmanCode *codes);
-unsigned int getCountOfBitsOutput(SortedItems *sortedItems, HuffmanCode *codes);
-unsigned int countBits(unsigned int n);
+HuffmanData *CodeIntoHuffmanString(char input[], size_t size, SortedItems *sortedItems);
+void FillCodesForChar(HuffmanCode *codes, HuffmanNode *node, char codeValue, size_t step);
+void convertInputIntoCodedString(char src[], size_t srcSize, char dest[], HuffmanCode *codes);
+size_t getCountOfBitsOutput(SortedItems *sortedItems, HuffmanCode *codes);
+size_t countBits(size_t n);
 void printLongAsBinary(char c);
 void printCodedString(HuffmanData *hd);
 int decodeHuffmanData(HuffmanData *hd, char *dest, size_t size);
-unsigned int getItemsSum(SortedItems *items);
+size_t getItemsSum(SortedItems *items);
 #endif
