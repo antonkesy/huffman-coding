@@ -178,6 +178,12 @@ HuffmanData *CodeIntoHuffmanString(char input[], size_t size, SortedItems *sorte
     {
         FillCodesForChar(codes, tree->root, 0, 0);
 
+        printf("code for ? = (size = %i)\t", codes['?'].size);
+        printCharAsBinary(codes['?'].code);
+
+        printf("\ncode for X = (size = %i)\t", codes['X'].size);
+        printCharAsBinary(codes['X'].code);
+
         data->bits = getCountOfBitsOutput(sortedItems, codes);
         //+1 for reminder
         data->codeStringSize = data->bits / 8U + 1;
@@ -210,18 +216,14 @@ void FillCodesForChar(HuffmanCode *codes, HuffmanNode *node, char codeValue, siz
 
 void convertInputIntoCodedString(char src[], size_t srcSize, char dest[], HuffmanCode *codes)
 {
-    register size_t nextWriteBit = 0U;
-    register char overflow = 0;
-    register char overflowSize = 0;
+    size_t nextWriteBit = 0U;
+    char overflow = 0;
+    char overflowSize = 0;
 
     for (register size_t i = 0U; i < srcSize; ++i)
     {
         //get rid of overflow before loading new code
-        if (overflowSize != 0)
-        {
-            dest[nextWriteBit / 8] += overflow;
-            overflowSize = 0;
-        }
+        writeOverflow(dest, &overflow, &overflowSize, &nextWriteBit);
 
         int shifts = 8 - nextWriteBit % 8 - codes[src[i]].size;
         char writeByte = codes[src[i]].code;
@@ -240,6 +242,17 @@ void convertInputIntoCodedString(char src[], size_t srcSize, char dest[], Huffma
         dest[nextWriteBit / 8] += writeByte;
 
         nextWriteBit += codes[src[i]].size;
+    }
+    //write last overflow
+    writeOverflow(dest, &overflow, &overflowSize, &nextWriteBit);
+}
+
+void writeOverflow(char *dest, char *overflow, char *overflowSize, size_t *nextWriteBit)
+{
+    if (overflowSize != 0)
+    {
+        dest[*nextWriteBit / 8] += *overflow;
+        overflowSize = 0;
     }
 }
 
@@ -293,6 +306,7 @@ void printCodedString(HuffmanData *hd)
 int decodeHuffmanData(HuffmanData *hd, char *dest, size_t size)
 {
     HuffmanTree *hh = BuildHuffmanTree(hd->items);
+
     register size_t bit = 0U;
     register size_t destPos = 0U;
 

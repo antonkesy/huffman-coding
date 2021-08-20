@@ -72,8 +72,9 @@ void FillCodesForChar(HuffmanCode *codes, HuffmanNode *node, char codeValue, siz
 void convertInputIntoCodedString(char src[], size_t srcSize, char dest[], HuffmanCode *codes);
 size_t getCountOfBitsOutput(SortedItems *sortedItems, HuffmanCode *codes);
 size_t countBits(size_t n);
-void printLongAsBinary(char c);
+void printCharAsBinary(char c);
 void printCodedString(HuffmanData *hd);
 int decodeHuffmanData(HuffmanData *hd, char *dest, size_t size);
 size_t getItemsSum(SortedItems *items);
+void writeOverflow(char *dest, char *overflow, char *overflowSize, size_t *nextWriteBit);
 #endif
