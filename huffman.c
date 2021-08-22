@@ -11,10 +11,10 @@ int _sort_item_comparator(const void *first, const void *second)
     return (*(size_t *)first) - (*(size_t *)second);
 }
 
-SortedItems *sort_by_frequency(char *items, size_t size)
+SortedItems *sort_by_frequency(unsigned char *items, size_t size)
 {
     SortedItems *sortedItems = malloc(sizeof(SortedItems));
-    size_t *freqOfPosition = calloc(0x100, sizeof(size_t));
+    size_t *freqOfPosition = calloc(sizeof(size_t), 0x100);
     register size_t uniqueCharsCount = 0U;
 
     if (freqOfPosition != NULL)
@@ -61,7 +61,7 @@ SortedItems *sort_by_frequency(char *items, size_t size)
     return sortedItems;
 }
 
-HuffmanData *code_into_huffmanData(char *items, size_t size)
+HuffmanData *code_into_huffmanData(unsigned char *items, size_t size)
 {
     //error check
     return _code_huffman_string(items, size, sort_by_frequency(items, size));
@@ -172,20 +172,19 @@ void _delte_huffman_nodes(HuffmanNode *node)
     }
 }
 
-HuffmanData *_code_huffman_string(char input[], size_t inputSize, SortedItems *sortedItems)
+HuffmanData *_code_huffman_string(unsigned char input[], size_t inputSize, SortedItems *sortedItems)
 {
     HuffmanTree *tree = build_huffman_tree(sortedItems);
     HuffmanData *data = malloc(sizeof(HuffmanData));
-
-    HuffmanNode **leafs = malloc(sizeof(HuffmanNode *) * 0x100);
+    HuffmanNode **leafs = (malloc(sizeof(HuffmanNode *) * 0x100));
     int *codeSize = malloc(sizeof(int) * 0x100);
     if (leafs != NULL && codeSize != NULL)
     {
         _set_leaf_nodes(leafs, tree->root);
         size_t bitsNeeded = _set_codes_size(leafs, codeSize, sortedItems);
 
-        char *outputBuffer = calloc(1, _fill_bytes_for_bits(bitsNeeded));
-        char **output = &outputBuffer;
+        unsigned char *outputBuffer = calloc(1, _fill_bytes_for_bits(bitsNeeded));
+        unsigned char **output = &outputBuffer;
 
         if (tree != NULL && data != NULL)
         {
@@ -193,7 +192,6 @@ HuffmanData *_code_huffman_string(char input[], size_t inputSize, SortedItems *s
 
             for (register size_t i = 0U; i < inputSize; ++i)
             {
-                //TODO null
                 bitPos += _add_huffman_code(output, leafs[input[i]], bitPos, 0) - 1;
             }
             data->bits = bitsNeeded;
@@ -236,7 +234,7 @@ int _get_leaf_height(HuffmanNode *leaf)
     }
 }
 
-size_t _add_huffman_code(char **output, HuffmanNode *leaf, size_t bitPos, size_t steps)
+size_t _add_huffman_code(unsigned char **output, HuffmanNode *leaf, size_t bitPos, size_t steps)
 {
     HuffmanNode *parent = leaf->parent;
     if (parent != NULL)
@@ -261,14 +259,14 @@ void _set_leaf_nodes(HuffmanNode **leafs, HuffmanNode *node)
     }
 }
 
-void _set_bit_at_pos(char *dest, size_t pos, char value)
+void _set_bit_at_pos(unsigned char *dest, size_t pos, unsigned char value)
 {
-    char writeValue = value;
+    unsigned char writeValue = value;
     writeValue <<= 7 - (pos % 8);
     dest[pos / 8] |= writeValue;
 }
 
-void print_char_as_binary(char c)
+void print_char_as_binary(unsigned char c)
 {
 
     size_t flag = 0x80;
@@ -292,7 +290,7 @@ void print_coded_string(HuffmanData *hd)
     }
 }
 
-int decode_huffman_data(HuffmanData *hd, char **dest, size_t *out_size)
+int decode_huffman_data(HuffmanData *hd, unsigned char **dest, size_t *out_size)
 {
     HuffmanTree *tree = build_huffman_tree(hd->items);
 
@@ -318,7 +316,7 @@ int decode_huffman_data(HuffmanData *hd, char **dest, size_t *out_size)
             HuffmanNode *currentNode = tree->root;
             while (currentNode->left != NULL)
             {
-                char read = hd->codedString[bit / 8];
+                unsigned char read = hd->codedString[bit / 8];
                 if (((read >> (7 - (bit % 8))) & 1) == 0)
                 {
                     currentNode = currentNode->left;
