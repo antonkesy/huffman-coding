@@ -15,11 +15,11 @@ int testHuffman()
     //fread while return not 0
     //do fixed blocks of 16kb or something like that
 
-    char *testString = "Were you able to open it before, on the computer you're using now? XYC23423";
+    unsigned char *testString = "Were you able to open it before, on the computer you're using now? XYC23423";
     //char *testString = "BCAADDDCCACACAC";
     int lenght = strlen(testString);
     HuffmanData *hd = code_into_huffmanData(testString, strlen(testString));
-    char **dest = malloc(sizeof(char **));
+    unsigned char **dest = malloc(sizeof(unsigned char **));
     size_t outputSize = 0;
     decode_huffman_data(hd, dest, &outputSize);
     //dest[outputSize - 2] = '\0';
@@ -32,14 +32,14 @@ int testHuffman()
 int testAllChars()
 {
     printf("test all chars\n");
-    int isError;
+    int isError = 0;
 
-    char *allChars = malloc(0x100);
+    unsigned char *allChars = malloc(0x100);
     if (allChars != NULL)
     {
         for (register int i = 0; i < 0x100; ++i)
         {
-            allChars[i] = (char)i;
+            allChars[i] = (unsigned char)i;
             //print_char_as_binary(allChars[i]);
             //printf("\n");
         }
@@ -47,13 +47,19 @@ int testAllChars()
         //printf("\n\n");
         HuffmanData *hd = code_into_huffmanData(allChars, 0x100);
 
-        char *allCharsDecode = malloc(0xFF);
+        unsigned char *allCharsDecode = malloc(0x100);
         if (allCharsDecode != NULL)
         {
             size_t outputSize = 0;
             decode_huffman_data(hd, &allCharsDecode, &outputSize);
             for (register int i = 0; i < 0x100; ++i)
             {
+                /*
+                printf("was = ");
+                print_char_as_binary(allChars[i]);
+                printf("\tshould = ");
+                print_char_as_binary(allCharsDecode[i]);
+                printf("\n");*/
                 if (allChars[i] != allCharsDecode[i])
                 {
                     isError = 1;
@@ -78,7 +84,7 @@ int testAllChars()
 int main(void)
 {
     printf("huffman test failed ? %i\n", testHuffman());
-    //printf("huffman test all chars failed ? %i\n", testAllChars());
+    printf("huffman test all chars failed ? %i\n", testAllChars());
     //testHeap();
 
 #ifndef DEBUG
