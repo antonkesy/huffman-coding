@@ -14,7 +14,7 @@ int _sort_item_comparator(const void *first, const void *second)
 SortedItems *sort_by_frequency(char *items, size_t size)
 {
     SortedItems *sortedItems = malloc(sizeof(SortedItems));
-    size_t *freqOfPosition = calloc(0xFF, sizeof(size_t));
+    size_t *freqOfPosition = calloc(0x100, sizeof(size_t));
     register size_t uniqueCharsCount = 0U;
 
     if (freqOfPosition != NULL)
@@ -31,7 +31,7 @@ SortedItems *sort_by_frequency(char *items, size_t size)
         if (sortItemsArray != NULL)
         {
             register size_t i = 0U;
-            for (register size_t j = 0U; j < 0xFF; ++j)
+            for (register size_t j = 0U; j < 0x100; ++j)
             {
                 if (freqOfPosition[j] != 0)
                 {
@@ -193,6 +193,7 @@ HuffmanData *_code_huffman_string(char input[], size_t inputSize, SortedItems *s
 
             for (register size_t i = 0U; i < inputSize; ++i)
             {
+                //TODO null
                 bitPos += _add_huffman_code(output, leafs[input[i]], bitPos, 0) - 1;
             }
             data->bits = bitsNeeded;
