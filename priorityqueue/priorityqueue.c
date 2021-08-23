@@ -104,7 +104,9 @@ void clear(priorityque *pq)
             linkedData *last = item;
             item = item->next;
             free(last->data);
+            last->data = NULL;
             free(last);
+            last = NULL;
         }
         pq->size = 0U;
     }
@@ -113,5 +115,7 @@ void delete (priorityque *pq)
 {
     clear(pq);
     free(pq->compareFunction);
+    pq->compareFunction = NULL;
     free(pq);
+    pq = NULL;
 }
