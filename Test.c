@@ -9,22 +9,39 @@
 #include "minheap/minheaptest.h"
 #define DEBUG
 
+void exampleUsage()
+{
+    //get unsigned char array of data to convert
+    char *exampleString = "BCAADDDCCACACAC";
+    //create huffman data
+    HuffmanData *hd = code_into_huffmanData((unsigned char *)exampleString, strlen(exampleString));
+    //need to transfer whole data to decode into original
+
+    //create pointer to unsigned char arrays
+    unsigned char **decoded = malloc(sizeof(unsigned char **));
+    //if you need size of the original unsigend char arrays
+    size_t outputSize;
+    //decodes huffman data into decoded
+    decode_huffman_data(hd, decoded, &outputSize);
+    printf("%s\n", *decoded);
+    //done?
+    delete_huffman_data(hd);
+}
+
 int testHuffman()
 {
     //TODO file reading:
     //fread while return not 0
     //do fixed blocks of 16kb or something like that
 
-    unsigned char *testString = "Were you able to open it before, on the computer you're using now? XYC23423";
-    //char *testString = "BCAADDDCCACACAC";
-    int lenght = strlen(testString);
-    HuffmanData *hd = code_into_huffmanData(testString, strlen(testString));
+    char *testString = "Were you able to open it before, on the computer you're using now? XYC23423";
+    HuffmanData *hd = code_into_huffmanData((unsigned char *)testString, strlen(testString));
     unsigned char **dest = malloc(sizeof(unsigned char **));
     size_t outputSize = 0;
     decode_huffman_data(hd, dest, &outputSize);
     //dest[outputSize - 2] = '\0';
     printf("%s\n%s\n", testString, *dest);
-    size_t compareValue = strcmp(testString, *dest);
+    size_t compareValue = strcmp(testString, (char *)*dest);
     printf("compare should be 0 = %u", compareValue);
     return compareValue;
 }
@@ -83,6 +100,7 @@ int testAllChars()
 
 int main(void)
 {
+    exampleUsage();
     printf("huffman test failed ? %i\n", testHuffman());
     printf("huffman test all chars failed ? %i\n", testAllChars());
     //testHeap();
