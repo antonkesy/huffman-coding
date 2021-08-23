@@ -38,7 +38,7 @@ typedef struct
 typedef struct
 {
     size_t bits;
-    unsigned char *codedString;
+    unsigned char *codedArray;
     SortedItems *items;
 } HuffmanData;
 
@@ -53,7 +53,6 @@ HuffmanData *_code_huffman_string(unsigned char input[], size_t inputSize, Sorte
 
 //tree
 HuffmanTree *build_huffman_tree(SortedItems *sortedItems);
-HuffmanNode *_create_value_huffman_node(SortItem *sortItem);
 HuffmanNode *_create_parent_huffman_node(HuffmanNode *leftChild, HuffmanNode *rightChild);
 
 //coding
@@ -71,13 +70,13 @@ size_t _fill_bytes_for_bits(size_t bits);
 size_t _get_amount_of_character(SortedItems *sortedItems);
 
 //delete
-void deleteHuffmanData(HuffmanData *data);
+void delete_huffman_data(HuffmanData *data);
 void _delte_huffman_nodes(HuffmanNode *root);
-void _delete_huffman_tree(HuffmanTree *heap);
+void _delete_huffman_tree(HuffmanTree *tree);
 void _delete_sorted_items(SortedItems *items);
 
 //print
-void print_huffman_tree(HuffmanTree *heap);
+void print_huffman_tree(HuffmanTree *tree);
 void print_huffman_nodes(HuffmanNode *node);
 void print_huffman_node(void *node);
 void print_char_as_binary(unsigned char c);
