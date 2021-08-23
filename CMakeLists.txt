@@ -3,7 +3,10 @@ project(HuffmanCode VERSION 0.1.0)
 
 include(CTest)
 
-if(BUILD_TESTING)
-add_executable(HuffmanCode Test.c huffman.c priorityqueue/priorityqueue.c priorityqueue/priorityqueuetest.c)
+if(CMAKE_COMPILER_IS_GNUCC)
+    add_compile_options(-Wall -Werror -fsanitize=leak)
 endif()
+ 
+add_executable(HuffmanCode Test.c huffman.c priorityqueue/priorityqueue.c priorityqueue/priorityqueuetest.c minheap/minheap.c minheap/minheaptest.c)
+
 
