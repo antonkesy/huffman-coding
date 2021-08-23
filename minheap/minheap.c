@@ -118,4 +118,5 @@ int insert(minheap *minheap, heapdata *data)
         swap(&minheap->elements[index], &minheap->elements[indexParent(index)]);
         index = indexParent(index);
     }
+    return index;
 }
