@@ -22,4 +22,6 @@ int testHeap()
     printf("%i\t%i\n", getKey(mh, 2), *(int *)getData(mh, 2));
     printf("%i\n", extractMin(mh)->key);
     printf("%i\n", extractMin(mh)->key);
+
+    return 0;
 }
