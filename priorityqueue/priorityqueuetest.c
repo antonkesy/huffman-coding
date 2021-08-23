@@ -14,7 +14,7 @@ int compareTestData(const void *a, const void *b)
 
 void printTestData(void *data)
 {
-    printf("data i = %i\n", *(testData *)data);
+    printf("data i = %i\n", *(int *)data);
 }
 
 int test1()
