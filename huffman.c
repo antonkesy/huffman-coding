@@ -2,7 +2,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include "priorityqueue/priorityqueue.h"
 #include "minheap/minheap.h"
 
 int _sort_item_comparator(const void *first, const void *second)

@@ -3,8 +3,6 @@
 #include <string.h>
 #include <stddef.h>
 #include "huffman.h"
-#include "priorityqueue/priorityqueue.h"
-#include "priorityqueue/priorityqueuetest.h"
 #include "minheap/minheap.h"
 #include "minheap/minheaptest.h"
 #define DEBUG
@@ -101,9 +99,11 @@ int testAllChars()
 int main(void)
 {
     exampleUsage();
-    printf("huffman test failed ? %i\n", testHuffman());
-    printf("huffman test all chars failed ? %i\n", testAllChars());
+    //printf("huffman test failed ? %i\n", testHuffman());
+    //printf("huffman test all chars failed ? %i\n", testAllChars());
     //test_min_heap();
+    //heap_test_range();
+    //heap_test_huffman_nodes();
 
 #ifndef DEBUG
     //getchar();
