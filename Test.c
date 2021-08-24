@@ -103,7 +103,7 @@ int main(void)
     exampleUsage();
     printf("huffman test failed ? %i\n", testHuffman());
     printf("huffman test all chars failed ? %i\n", testAllChars());
-    //testHeap();
+    //test_min_heap();
 
 #ifndef DEBUG
     //getchar();
