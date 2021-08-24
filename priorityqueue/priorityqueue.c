@@ -1,7 +1,7 @@
 #include "priorityqueue.h"
 #include <stdlib.h>
 
-priorityque *createPQ(compare compareFunction)
+priorityque *create_priority_que(compare compareFunction)
 {
     priorityque *pq = (priorityque *)malloc(sizeof(priorityque));
     if (pq != NULL && compareFunction != NULL)
@@ -59,7 +59,7 @@ void push(priorityque *pq, const void *item)
 
 void *peek(const priorityque *pq)
 {
-    if (isEmpty(pq))
+    if (is_empty(pq))
     {
         return NULL;
     }
@@ -68,7 +68,7 @@ void *peek(const priorityque *pq)
 
 void *pop(priorityque *pq)
 {
-    if (isEmpty(pq))
+    if (is_empty(pq))
     {
         return NULL;
     }
@@ -79,7 +79,7 @@ void *pop(priorityque *pq)
     return item->data;
 }
 
-_Bool isEmpty(const priorityque *pq)
+_Bool is_empty(const priorityque *pq)
 {
     return (pq->size == 0) ? true : false;
 }

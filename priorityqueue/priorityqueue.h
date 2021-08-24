@@ -26,11 +26,11 @@ typedef struct
     compare compareFunction;
 } priorityque;
 
-priorityque *createPQ(compare compareFunction);
+priorityque *create_priority_que(compare compareFunction);
 void push(priorityque *pq, const void *item);
 void *peek(const priorityque *pq);
 void *pop(priorityque *pq);
-_Bool isEmpty(const priorityque *pq);
+_Bool is_empty(const priorityque *pq);
 void iterate(const priorityque *pq, void (*simple)(void *));
 void clear(priorityque *pq);
 void delete(priorityque *pq);
