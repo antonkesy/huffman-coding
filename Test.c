@@ -2,12 +2,74 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stddef.h>
+#include <unistd.h>
 #include "huffman.h"
 #include "minheap/minheap.h"
 #include "minheap/minheaptest.h"
-#define DEBUG
 
-void exampleUsage()
+#define DEBUG
+#define TEST_INPUT_FILE_NAME "input.txt"
+#define TEST_CODED_FILE_NAME "coded.txt"
+#define TEST_OUTPUT_FILE_NAME "output.txt"
+
+void create_test_input_file()
+{
+    FILE *fp;
+    fp = fopen(TEST_INPUT_FILE_NAME, "w+");
+    if (fp != NULL)
+    {
+        fprintf(fp, "Hello,\tI'm a testing file :)\n");
+        for (register int i = 0; i < 1000; ++i)
+        {
+            fprintf(fp, "number iteration = %i\n", i);
+        }
+    }
+    fclose(fp);
+}
+
+void example_usage_files()
+{
+    create_test_input_file();
+    FILE *src = fopen(TEST_INPUT_FILE_NAME, "r");
+    if (src == NULL)
+    {
+        printf("Unable to open file.\n");
+        return;
+    }
+
+    FILE *codedFile = fopen(TEST_CODED_FILE_NAME, "w");
+    if (codedFile == NULL)
+    {
+        printf("Unable to create file.\n");
+        return;
+    }
+
+    huffman_code_file_to_file(src, codedFile);
+
+    fclose(src);
+    fclose(codedFile);
+
+    codedFile = fopen(TEST_CODED_FILE_NAME, "r");
+    if (codedFile == NULL)
+    {
+        printf("Unable to open file.\n");
+        return;
+    }
+
+    FILE *dest = fopen(TEST_OUTPUT_FILE_NAME, "w");
+    if (dest == NULL)
+    {
+        printf("Unable to create file.\n");
+        return;
+    }
+
+    huffman_decode_file_to_file(codedFile, dest);
+
+    fclose(codedFile);
+    fclose(dest);
+}
+
+void example_usage()
 {
     //get unsigned char array of data to convert
     char *exampleString = "BCAADDDCCACACAC";
@@ -44,7 +106,7 @@ int testHuffman()
     return compareValue;
 }
 
-int testAllChars()
+int test_all_chars()
 {
     printf("test all chars\n");
     int isError = 0;
@@ -98,9 +160,10 @@ int testAllChars()
 
 int main(void)
 {
-    exampleUsage();
+    //example_usage();
+    example_usage_files();
     //printf("huffman test failed ? %i\n", testHuffman());
-    //printf("huffman test all chars failed ? %i\n", testAllChars());
+    //printf("huffman test all chars failed ? %i\n", test_all_chars());
     //test_min_heap();
     //heap_test_range();
     //heap_test_huffman_nodes();
