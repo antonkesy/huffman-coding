@@ -165,6 +165,6 @@ int test_priority_queue()
 {
     int isError = test_1();
     //isError = test_2();
-    isError = testSizePush();
+    isError = test_size_push();
     return isError;
 }
