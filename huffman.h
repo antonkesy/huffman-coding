@@ -44,7 +44,7 @@ typedef struct
 {
     size_t bits;
     unsigned char *codedArray;
-    SortedItems *items;
+    SortedItems *sort_items;
 } HuffmanData;
 
 //TODO return value is int and output is parameter
@@ -76,7 +76,7 @@ HuffmanData *string_to_huffmandata(unsigned char *src);
 int _sort_item_comparator(const void *first, const void *second);
 int _node_comparator(const void *first, const void *second);
 void _set_bit_at_pos(unsigned char *dest, size_t pos, unsigned char value);
-size_t _get_items_sum(SortedItems *items);
+size_t _get_items_sum(SortedItems *sort_items);
 size_t _fill_bytes_for_bits(size_t bits);
 size_t _get_amount_of_character(SortedItems *sortedItems);
 
@@ -84,7 +84,7 @@ size_t _get_amount_of_character(SortedItems *sortedItems);
 void delete_huffman_data(HuffmanData *data);
 void _delte_huffman_nodes(HuffmanNode *root);
 void _delete_huffman_tree(HuffmanTree *tree);
-void _delete_sorted_items(SortedItems *items);
+void _delete_sorted_items(SortedItems *sort_items);
 
 //print
 void print_huffman_tree(HuffmanTree *tree);

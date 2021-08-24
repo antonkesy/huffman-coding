@@ -192,7 +192,7 @@ HuffmanData *_code_huffman_string(unsigned char input[], size_t inputSize, Sorte
 
             data->bits = bitsNeeded;
             data->codedArray = *output;
-            data->items = sortedItems;
+            data->sort_items = sortedItems;
         }
         else
         {
@@ -288,9 +288,9 @@ void print_coded_string(HuffmanData *hd)
 
 int decode_huffman_data(HuffmanData *hd, unsigned char **dest, size_t *out_size)
 {
-    size_t charCount = _get_amount_of_character(hd->items);
+    size_t charCount = _get_amount_of_character(hd->sort_items);
 
-    HuffmanTree *tree = build_huffman_tree(hd->items);
+    HuffmanTree *tree = build_huffman_tree(hd->sort_items);
     if (tree != NULL)
     {
         *dest = calloc(1, charCount);
@@ -346,12 +346,12 @@ void _delete_huffman_tree(HuffmanTree *tree)
     tree = NULL;
 }
 
-size_t _get_items_sum(SortedItems *items)
+size_t _get_items_sum(SortedItems *sort_items)
 {
     size_t sum = 0U;
-    for (register size_t i = 0; i < items->size; ++i)
+    for (register size_t i = 0; i < sort_items->size; ++i)
     {
-        sum += items->items[i].freq;
+        sum += sort_items->items[i].freq;
     }
     return sum;
 }
@@ -360,15 +360,15 @@ void delete_huffman_data(HuffmanData *data)
 {
     free(data->codedArray);
     data->codedArray = NULL;
-    _delete_sorted_items(data->items);
+    _delete_sorted_items(data->sort_items);
     free(data);
     data = NULL;
 }
 
-void _delete_sorted_items(SortedItems *items)
+void _delete_sorted_items(SortedItems *sort_items)
 {
-    free(items);
-    items = NULL;
+    free(sort_items);
+    sort_items = NULL;
 }
 
 int _node_comparator(const void *first, const void *second)
@@ -448,21 +448,21 @@ size_t huffmandata_to_string(HuffmanData *huffmandata, unsigned char **dest)
     // sizeof(size_t) = bits of code
     //rest is code
     size_t bytes_for_coded_string = _fill_bytes_for_bits(huffmandata->bits);
-    size_t total_bytes = 1 + sizeof(SortItem) * huffmandata->items->size + sizeof(size_t) + bytes_for_coded_string;
+    size_t total_bytes = 1 + sizeof(SortItem) * huffmandata->sort_items->size + sizeof(size_t) + bytes_for_coded_string;
     unsigned char *output = malloc(total_bytes);
     if (output != NULL)
     {
-        output[0] = huffmandata->items->size;
+        output[0] = huffmandata->sort_items->size;
 
-        //sort items
+        //sort sort_items
         int offset = 1;
-        for (int i = 0; i <= huffmandata->items->size * sizeof(SortItem); ++i)
+        for (int i = 0; i <= huffmandata->sort_items->size * sizeof(SortItem); ++i)
         {
-            output[i + offset] = ((unsigned char *)huffmandata->items->items)[i];
+            output[i + offset] = ((unsigned char *)huffmandata->sort_items->items)[i];
         }
 
         //bits
-        offset += huffmandata->items->size;
+        offset += huffmandata->sort_items->size;
         for (int i = 0; i < sizeof(size_t); ++i)
         {
             output[i + offset] = ((unsigned char *)(&huffmandata->bits))[i];
@@ -494,12 +494,12 @@ HuffmanData *string_to_huffmandata(unsigned char *src)
         {
             sortedItems->size = items_count;
             sortedItems->items = items;
-            hd->items = sortedItems;
+            hd->sort_items = sortedItems;
 
             int offset = 1;
             for (int i = 0; i <= items_count * sizeof(SortItem); ++i)
             {
-                ((unsigned char *)hd->items->items)[i] = src[i + offset];
+                ((unsigned char *)hd->sort_items->items)[i] = src[i + offset];
             }
 
             offset += items_count * sizeof(SortItem);
