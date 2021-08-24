@@ -2,6 +2,7 @@
 #include "minheap.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include "../huffman.h"
 
 int test_min_heap()
 {
@@ -51,6 +52,32 @@ int heap_test_range()
     }
 
     free(mh);
+
+    return 0;
+}
+
+int heap_test_huffman_nodes()
+{
+    minheap *mh = create_min_heap(10);
+    HuffmanNode a;
+    a.freq = 3;
+    HuffmanNode b;
+    b.freq = 1;
+    insert(mh, create_heap_data(3, &a));
+    insert(mh, create_heap_data(1, &b));
+    printf("\n");
+    print_min_heap(mh);
+
+    HuffmanNode *left = extract_min(mh)->data;
+    HuffmanNode *right = extract_min(mh)->data;
+    printf("\n");
+    print_min_heap(mh);
+
+    HuffmanNode *parent = _create_parent_huffman_node(left, right);
+    insert(mh, create_heap_data(parent->freq, parent));
+
+    printf("\n");
+    print_min_heap(mh);
 
     return 0;
 }
