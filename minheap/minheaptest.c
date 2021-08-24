@@ -1,6 +1,7 @@
 #include "minheaptest.h"
 #include "minheap.h"
 #include <stdio.h>
+#include <stdlib.h>
 
 int test_min_heap()
 {
@@ -22,6 +23,34 @@ int test_min_heap()
     printf("%i\t%i\n", get_key(mh, 2), *(int *)get_data(mh, 2));
     printf("%i\n", extract_min(mh)->key);
     printf("%i\n", extract_min(mh)->key);
+
+    free(a);
+    free(b);
+    free(c);
+    free(mh);
+
+    return 0;
+}
+
+int heap_test_range()
+{
+
+    minheap *mh = create_min_heap(100);
+    int *numbers = malloc(sizeof(int) * 100);
+
+    for (int i = 0; i < 100; ++i)
+    {
+        numbers[i] = 100 - i;
+        insert(mh, create_heap_data(numbers[i], &numbers[i]));
+    }
+    //print_min_heap(mh);
+
+    for (int i = 0; i < 100; ++i)
+    {
+        printf("%i\t", extract_min(mh)->key);
+    }
+
+    free(mh);
 
     return 0;
 }
