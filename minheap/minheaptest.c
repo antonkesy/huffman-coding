@@ -2,26 +2,26 @@
 #include "minheap.h"
 #include <stdio.h>
 
-int testHeap()
+int test_min_heap()
 {
-    minheap *mh = createMinHeap(10);
+    minheap *mh = create_min_heap(10);
     int ia = 73;
-    heapdata *a = createHeapData(3, &ia);
+    heapdata *a = create_heap_data(3, &ia);
     insert(mh, a);
 
     int ic = 42;
-    heapdata *c = createHeapData(1, &ic);
+    heapdata *c = create_heap_data(1, &ic);
     insert(mh, c);
 
     int ib = 66;
-    heapdata *b = createHeapData(6, &ib);
+    heapdata *b = create_heap_data(6, &ib);
     insert(mh, b);
 
-    printf("%i\t%i\n", getKey(mh, 0), *(int *)getData(mh, 0));
-    printf("%i\t%i\n", getKey(mh, 1), *(int *)getData(mh, 1));
-    printf("%i\t%i\n", getKey(mh, 2), *(int *)getData(mh, 2));
-    printf("%i\n", extractMin(mh)->key);
-    printf("%i\n", extractMin(mh)->key);
+    printf("%i\t%i\n", get_key(mh, 0), *(int *)get_data(mh, 0));
+    printf("%i\t%i\n", get_key(mh, 1), *(int *)get_data(mh, 1));
+    printf("%i\t%i\n", get_key(mh, 2), *(int *)get_data(mh, 2));
+    printf("%i\n", extract_min(mh)->key);
+    printf("%i\n", extract_min(mh)->key);
 
     return 0;
 }
