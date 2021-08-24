@@ -22,6 +22,7 @@ int _index_left(size_t index);
 int _index_right(size_t index);
 int insert(minheap *minheap, heapdata *data);
 heapdata *extract_min(minheap *minheap);
-void minHeapify(minheap *minheap, size_t index);
+void min_heapify(minheap *minheap, size_t index);
 
 void swap_heapdata(heapdata **i1, heapdata **i2);
+void print_min_heap(minheap* minheap);

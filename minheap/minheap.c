@@ -1,5 +1,6 @@
 #include "minheap.h"
 #include <stdlib.h>
+#include <stdio.h>
 
 heapdata *create_heap_data(int key, void *data)
 {
@@ -52,16 +53,16 @@ heapdata *extract_min(minheap *minheap)
     --(minheap->size);
 
     heapdata *root = minheap->elements[0];
-    minheap->elements[0] = minheap->elements[1];
+    minheap->elements[0] = minheap->elements[minheap->size - 1];
 
     if (minheap->size != 1)
     {
-        minHeapify(minheap, 0);
+        min_heapify(minheap, 0);
     }
 
     return root;
 }
-void minHeapify(minheap *minheap, size_t index)
+void min_heapify(minheap *minheap, size_t index)
 {
     int l = _index_left(index);
     int r = _index_right(index);
@@ -78,7 +79,7 @@ void minHeapify(minheap *minheap, size_t index)
     if (smallest != index)
     {
         swap_heapdata(&minheap->elements[index], &minheap->elements[smallest]);
-        minHeapify(minheap, smallest);
+        min_heapify(minheap, smallest);
     }
 }
 
@@ -95,8 +96,8 @@ int insert(minheap *minheap, heapdata *data)
     {
         return -1;
     }
+    int index = minheap->size;
     ++(minheap->size);
-    int index = minheap->size - 1;
     minheap->elements[index] = data;
 
     while (index != 0 && get_key(minheap, _index_parent(index)) > get_key(minheap, index))
@@ -106,3 +107,13 @@ int insert(minheap *minheap, heapdata *data)
     }
     return index;
 }
+
+void print_min_heap(minheap *minheap)
+{
+    for (int i = 0; i < minheap->size; ++i)
+    {
+        printf("%i\t", minheap->elements[i]->key);
+    }
+}
+
+//TODO get pair before resorting
