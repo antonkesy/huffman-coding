@@ -1,1 +1,1 @@
-int testHeap();
+int test_min_heap();
