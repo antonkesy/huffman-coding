@@ -53,9 +53,9 @@ heapdata *extract_min(minheap *minheap)
     --(minheap->size);
 
     heapdata *root = minheap->elements[0];
-    minheap->elements[0] = minheap->elements[minheap->size - 1];
+    minheap->elements[0] = minheap->elements[minheap->size];
 
-    if (minheap->size != 1)
+    if (minheap->size > 1)
     {
         min_heapify(minheap, 0);
     }
@@ -115,5 +115,3 @@ void print_min_heap(minheap *minheap)
         printf("%i\t", minheap->elements[i]->key);
     }
 }
-
-//TODO get pair before resorting
