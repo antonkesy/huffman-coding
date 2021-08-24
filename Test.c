@@ -88,6 +88,20 @@ void example_usage()
     delete_huffman_data(hd);
 }
 
+int test_serialization()
+{   
+    char *exampleString = "BCAADDDCCACACAC";
+    HuffmanData *hd = code_into_huffmanData((unsigned char *)exampleString, strlen(exampleString));
+    unsigned char **serialization = malloc(sizeof(unsigned char **));
+    size_t bytes = huffmandata_to_string(hd, serialization);
+    for (int i = 0; i < bytes; ++i)
+    {
+        print_char_as_binary((*serialization)[i]);
+    }
+
+    return 0;
+}
+
 int testHuffman()
 {
     //TODO file reading:
@@ -161,9 +175,10 @@ int test_all_chars()
 int main(void)
 {
     //example_usage();
-    example_usage_files();
+    //example_usage_files();
     //printf("huffman test failed ? %i\n", testHuffman());
     //printf("huffman test all chars failed ? %i\n", test_all_chars());
+    test_serialization();
     //test_min_heap();
     //heap_test_range();
     //heap_test_huffman_nodes();
