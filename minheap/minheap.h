@@ -13,18 +13,15 @@ typedef struct
     size_t capacity;
 } minheap;
 
-minheap *createMinHeap(size_t maxcap);
-heapdata *createHeapData(int key, void *data);
-int isElementEmpty(minheap *minheap, size_t index);
-int getKey(minheap *minheap, size_t index);
-void *getData(minheap *minheap, size_t index);
-int indexParent(size_t index);
-int indexLeft(size_t index);
-int indexRight(size_t index);
+minheap *create_min_heap(size_t maxcap);
+heapdata *create_heap_data(int key, void *data);
+int get_key(minheap *minheap, size_t index);
+void *get_data(minheap *minheap, size_t index);
+int _index_parent(size_t index);
+int _index_left(size_t index);
+int _index_right(size_t index);
 int insert(minheap *minheap, heapdata *data);
-heapdata *extractMin(minheap *minheap);
+heapdata *extract_min(minheap *minheap);
 void minHeapify(minheap *minheap, size_t index);
-void printMinHeap(minheap *minheap);
-void printHeight(minheap *minheap, size_t height);
 
-void swap(heapdata **i1, heapdata **i2);
+void swap_heapdata(heapdata **i1, heapdata **i2);
