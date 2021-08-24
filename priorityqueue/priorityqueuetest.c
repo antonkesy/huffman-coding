@@ -21,7 +21,7 @@ int test_1()
 {
     int isError = 0;
     priorityque *pq = create_priority_que(_compare_test_data);
-    if (is_empty(pq) != true)
+    if (is_empty_priority_que(pq) != true)
     {
         isError = 1;
     }
@@ -30,10 +30,10 @@ int test_1()
     {
         data[i].i = i;
         void *vData = &(data[i]);
-        push(pq, vData);
+        push_priority_que(pq, vData);
     }
 
-    if (is_empty(pq) != false)
+    if (is_empty_priority_que(pq) != false)
     {
         isError = 1;
     }
@@ -42,27 +42,27 @@ int test_1()
     {
         isError = 1;
     }
-    testData *first = (testData *)pop(pq);
+    testData *first = (testData *)pop_priority_que(pq);
 
     if (first->i != 0)
     {
         isError = 1;
     }
 
-    testData *second = (testData *)pop(pq);
+    testData *second = (testData *)pop_priority_que(pq);
 
     if (second->i != 1)
     {
         isError = 1;
     }
 
-    push(pq, first);
+    push_priority_que(pq, first);
     testData *small = (testData *)malloc(sizeof(testData));
     small->i = -1;
-    push(pq, small);
-    push(pq, first);
+    push_priority_que(pq, small);
+    push_priority_que(pq, first);
     testData two = {2, 12};
-    push(pq, &two);
+    push_priority_que(pq, &two);
 
     //printf("iterat:\n");
     //iterate(pq, print_test_data);
@@ -92,28 +92,28 @@ int test_2()
     int d = 6;
     int e = 0;
 
-    push(pq, &a);
-    push(pq, &b);
-    push(pq, &c);
-    push(pq, &d);
-    push(pq, &e);
+    push_priority_que(pq, &a);
+    push_priority_que(pq, &b);
+    push_priority_que(pq, &c);
+    push_priority_que(pq, &d);
+    push_priority_que(pq, &e);
 
-    iterate(pq, print_test_data_int);
+    iterate_priority_que(pq, print_test_data_int);
     printf("\n");
-    pop(pq);
-    pop(pq);
-    iterate(pq, print_test_data_int);
+    pop_priority_que(pq);
+    pop_priority_que(pq);
+    iterate_priority_que(pq, print_test_data_int);
     printf("\n");
-    push(pq, &a);
-    push(pq, &e);
-    iterate(pq, print_test_data_int);
+    push_priority_que(pq, &a);
+    push_priority_que(pq, &e);
+    iterate_priority_que(pq, print_test_data_int);
 
-    clear(pq);
+    clear_priority_que(pq);
     if (pq->size != 0)
     {
         isError = 1;
     }
-    delete (pq);
+    delete_priority_que(pq);
 
     if (pq != NULL)
     {
@@ -137,7 +137,7 @@ int test_size_push()
     for (register size_t i = 0U; i < SIZE_TEST_AMOUNT; ++i)
     {
         numbers[i] = SIZE_TEST_AMOUNT - i;
-        push(pq, &numbers[i]);
+        push_priority_que(pq, &numbers[i]);
         if (pq->size != (i + 1))
         {
             isError = 1;
@@ -146,7 +146,7 @@ int test_size_push()
 
     for (register int i = SIZE_TEST_AMOUNT - 1; i >= 0; --i)
     {
-        int value = *((int *)pop(pq));
+        int value = *((int *)pop_priority_que(pq));
         if (pq->size != (i + 1) && value != SIZE_TEST_AMOUNT - i)
         {
             isError = 1;

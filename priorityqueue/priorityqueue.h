@@ -27,12 +27,12 @@ typedef struct
 } priorityque;
 
 priorityque *create_priority_que(compare compareFunction);
-void push(priorityque *pq, const void *item);
-void *peek(const priorityque *pq);
-void *pop(priorityque *pq);
-_Bool is_empty(const priorityque *pq);
-void iterate(const priorityque *pq, void (*simple)(void *));
-void clear(priorityque *pq);
-void delete(priorityque *pq);
+void push_priority_que(priorityque *pq, const void *item);
+void *peek_priority_que(const priorityque *pq);
+void *pop_priority_que(priorityque *pq);
+_Bool is_empty_priority_que(const priorityque *pq);
+void iterate_priority_que(const priorityque *pq, void (*simple)(void *));
+void clear_priority_que(priorityque *pq);
+void delete_priority_que(priorityque *pq);
 
 #endif

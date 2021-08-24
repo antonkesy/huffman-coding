@@ -13,7 +13,7 @@ priorityque *create_priority_que(compare compareFunction)
     return pq;
 }
 
-void push(priorityque *pq, const void *item)
+void push_priority_que(priorityque *pq, const void *item)
 {
     if (pq->firstItem == NULL)
     {
@@ -57,18 +57,18 @@ void push(priorityque *pq, const void *item)
     ++(pq->size);
 }
 
-void *peek(const priorityque *pq)
+void *peek_priority_que(const priorityque *pq)
 {
-    if (is_empty(pq))
+    if (is_empty_priority_que(pq))
     {
         return NULL;
     }
     return pq->firstItem->data;
 }
 
-void *pop(priorityque *pq)
+void *pop_priority_que(priorityque *pq)
 {
-    if (is_empty(pq))
+    if (is_empty_priority_que(pq))
     {
         return NULL;
     }
@@ -79,12 +79,12 @@ void *pop(priorityque *pq)
     return item->data;
 }
 
-_Bool is_empty(const priorityque *pq)
+_Bool is_empty_priority_que(const priorityque *pq)
 {
     return (pq->size == 0) ? true : false;
 }
 
-void iterate(const priorityque *pq, void (*simple)(void *))
+void iterate_priority_que(const priorityque *pq, void (*simple)(void *))
 {
     linkedData *item = pq->firstItem;
     while (item != NULL)
@@ -94,7 +94,7 @@ void iterate(const priorityque *pq, void (*simple)(void *))
     }
 }
 
-void clear(priorityque *pq)
+void clear_priority_que(priorityque *pq)
 {
     if (pq != NULL)
     {
@@ -111,9 +111,9 @@ void clear(priorityque *pq)
         pq->size = 0U;
     }
 }
-void delete (priorityque *pq)
+void delete_priority_que(priorityque *pq)
 {
-    clear(pq);
+    clear_priority_que(pq);
     free(pq->compareFunction);
     pq->compareFunction = NULL;
     free(pq);
