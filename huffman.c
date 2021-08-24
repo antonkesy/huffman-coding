@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include "priorityqueue/priorityqueue.h"
+#include "minheap/minheap.h"
 
 int _sort_item_comparator(const void *first, const void *second)
 {
@@ -68,27 +69,27 @@ HuffmanData *code_into_huffmanData(unsigned char *items, size_t size)
 
 HuffmanTree *build_huffman_tree(SortedItems *sortedItems)
 {
-    priorityque *prioQ = create_priority_que(_node_comparator);
+    minheap *minheap = create_min_heap_minheap(sortedItems->size);
     HuffmanNode *nodes = (HuffmanNode *)calloc(sizeof(HuffmanNode), sortedItems->size);
 
     for (register size_t i = 0U; i < sortedItems->size; ++i)
     {
         nodes[i].freq = sortedItems->items[sortedItems->size - i - 1].freq;
         nodes[i].value = sortedItems->items[sortedItems->size - i - 1].value;
-        push(prioQ, &nodes[i]);
+        insert_minheap(minheap, create_heap_data_minheap(nodes[i].freq, &nodes[i]));
     }
 
-    while (prioQ->size > 1)
+    while (minheap->size > 1)
     {
-        HuffmanNode *left = pop(prioQ);
-        HuffmanNode *right = pop(prioQ);
+        HuffmanNode *left = (HuffmanNode *)extract_min(minheap)->data;
+        HuffmanNode *right = (HuffmanNode *)extract_min(minheap)->data;
         HuffmanNode *parent = _create_parent_huffman_node(left, right);
-        push(prioQ, parent);
+        insert_minheap(minheap, create_heap_data_minheap(parent->freq, parent));
     }
     HuffmanTree *tree = malloc(sizeof(HuffmanTree));
     if (tree != NULL)
     {
-        tree->root = pop(prioQ);
+        tree->root = (HuffmanNode *)extract_min(minheap)->data;
         tree->size = sortedItems->size;
     }
     else
@@ -96,7 +97,7 @@ HuffmanTree *build_huffman_tree(SortedItems *sortedItems)
         printf("malloc error");
     }
 
-    delete (prioQ);
+    delete_minheap(minheap);
     return tree;
 }
 
