@@ -5,23 +5,23 @@
 
 #define SIZE_TEST_AMOUNT 100
 
-int compareTestData(const void *a, const void *b)
+int _compare_test_data(const void *a, const void *b)
 {
     testData *ta = (testData *)a;
     testData *tb = (testData *)b;
     return ta->i - tb->i;
 }
 
-void printTestData(void *data)
+void print_test_data(void *data)
 {
     printf("data i = %i\n", *(int *)data);
 }
 
-int test1()
+int test_1()
 {
     int isError = 0;
-    priorityque *pq = createPQ(compareTestData);
-    if (isEmpty(pq) != true)
+    priorityque *pq = create_priority_que(_compare_test_data);
+    if (is_empty(pq) != true)
     {
         isError = 1;
     }
@@ -33,7 +33,7 @@ int test1()
         push(pq, vData);
     }
 
-    if (isEmpty(pq) != false)
+    if (is_empty(pq) != false)
     {
         isError = 1;
     }
@@ -65,27 +65,26 @@ int test1()
     push(pq, &two);
 
     //printf("iterat:\n");
-    //iterate(pq, printTestData);
+    //iterate(pq, print_test_data);
 
     //TODO free memory
     return isError;
 }
 
-int compareInt(const void *a, const void *b)
+int _compare_int(const void *a, const void *b)
 {
     return (*(int *)a) - (*(int *)b);
 }
 
-void printInt(void *data)
+void print_test_data_int(void *data)
 {
     printf("%i\n", *(int *)data);
 }
 
-int test2()
+int test_2()
 {
-    //TODO automate test
     int isError = 0;
-    priorityque *pq = createPQ(compareInt);
+    priorityque *pq = create_priority_que(_compare_int);
 
     int a = 5;
     int b = 1;
@@ -99,15 +98,15 @@ int test2()
     push(pq, &d);
     push(pq, &e);
 
-    iterate(pq, printInt);
+    iterate(pq, print_test_data_int);
     printf("\n");
     pop(pq);
     pop(pq);
-    iterate(pq, printInt);
+    iterate(pq, print_test_data_int);
     printf("\n");
     push(pq, &a);
     push(pq, &e);
-    iterate(pq, printInt);
+    iterate(pq, print_test_data_int);
 
     clear(pq);
     if (pq->size != 0)
@@ -124,10 +123,10 @@ int test2()
     return isError;
 }
 
-int testSizePush()
+int test_size_push()
 {
     int isError = 0;
-    priorityque *pq = createPQ(compareInt);
+    priorityque *pq = create_priority_que(_compare_int);
 
     if (pq->size != 0)
     {
@@ -162,10 +161,10 @@ int testSizePush()
     return isError;
 }
 
-int testPriorityQueue()
+int test_priority_queue()
 {
-    int isError = test1();
-    //isError = test2();
+    int isError = test_1();
+    //isError = test_2();
     isError = testSizePush();
     return isError;
 }

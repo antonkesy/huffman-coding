@@ -7,15 +7,15 @@ typedef struct
     char c;
 } testData;
 
-int testPriorityQueue();
+int test_priority_queue();
 
-int test1();
-int compareTestData(const void *a, const void *b);
-void printTestData(void *data);
+int test_1();
+int _compare_test_data(const void *a, const void *b);
+void print_test_data(void *data);
 
-int test2();
-int compareInt(const void *a, const void *b);
-void printInt(void *data);
+int test_2();
+int _compare_int(const void *a, const void *b);
+void print_test_data_int(void *data);
 
 int testSizePush();
 
