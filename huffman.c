@@ -424,10 +424,10 @@ void huffman_decode_file_to_file(FILE *src, FILE *des)
 {
     unsigned char buffer[BUFFSIZE_FILE];
     int elements_read = 0;
-
     //TODO read from offset chunk coded != buffsize
     do
     {
+        fseek(src, elements_read, SEEK_SET);
         elements_read = fread(buffer, 1, BUFFSIZE_FILE, src);
         printf("read\n");
         HuffmanData *hd = string_to_huffmandata(buffer);
@@ -462,7 +462,7 @@ size_t huffmandata_to_string(HuffmanData *huffmandata, unsigned char **dest)
         }
 
         //bits
-        offset += huffmandata->sort_items->size;
+        offset += huffmandata->sort_items->size * sizeof(SortItem);
         for (int i = 0; i < sizeof(size_t); ++i)
         {
             output[i + offset] = ((unsigned char *)(&huffmandata->bits))[i];
