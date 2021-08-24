@@ -62,7 +62,6 @@ SortedItems *sort_by_frequency(unsigned char *items, size_t size)
 
 HuffmanData *code_into_huffmanData(unsigned char *items, size_t size)
 {
-    //todo error check
     return _code_huffman_string(items, size, sort_by_frequency(items, size));
 }
 
@@ -187,7 +186,7 @@ HuffmanData *_code_huffman_string(unsigned char input[], size_t inputSize, Sorte
                 bitPos += _add_huffman_code(output, leafs[input[i]], bitPos, 0) - 1;
             }
 
-            _delete_huffman_tree(tree);
+            //_delete_huffman_tree(tree);
             free(leafs);
             leafs = NULL;
 
@@ -330,7 +329,7 @@ int decode_huffman_data(HuffmanData *hd, unsigned char **dest, size_t *out_size)
         {
             printf("dest malloc error\n");
         }
-        _delete_huffman_tree(tree);
+        //_delete_huffman_tree(tree);
     }
     else
     {
@@ -403,4 +402,125 @@ size_t _get_amount_of_character(SortedItems *sortedItems)
         amount += sortedItems->items[i].freq;
     }
     return amount;
+}
+void huffman_code_file_to_file(FILE *src, FILE *des)
+{
+    unsigned char buffer[BUFFSIZE_FILE];
+    int elements_read = 0;
+
+    do
+    {
+        elements_read = fread(buffer, 1, BUFFSIZE_FILE, src);
+        printf("write\n");
+        HuffmanData *hd = code_into_huffmanData(buffer, elements_read);
+        unsigned char *write_bytes = NULL;
+        size_t to_write_bytes = huffmandata_to_string(hd, &write_bytes);
+        fwrite(write_bytes, 1, to_write_bytes, des);
+        delete_huffman_data(hd);
+    } while (elements_read == BUFFSIZE_FILE);
+    printf("write done\n");
+}
+void huffman_decode_file_to_file(FILE *src, FILE *des)
+{
+    unsigned char buffer[BUFFSIZE_FILE];
+    int elements_read = 0;
+
+    //TODO read from offset chunk coded != buffsize
+    do
+    {
+        elements_read = fread(buffer, 1, BUFFSIZE_FILE, src);
+        printf("read\n");
+        HuffmanData *hd = string_to_huffmandata(buffer);
+        unsigned char **decoded = malloc(sizeof(unsigned char **));
+        size_t outputSize = 0U;
+        decode_huffman_data(hd, decoded, &outputSize);
+        //delete_huffman_data(hd);
+        fwrite(*decoded, 1, outputSize, des);
+        free(decoded);
+    } while (elements_read > 0);
+    printf("read done\n");
+}
+
+size_t huffmandata_to_string(HuffmanData *huffmandata, unsigned char **dest)
+{
+    //first byte = sortItems count
+    // bytes 1 to sizeof(SortItem) * count = filled with sortItmes
+    // sizeof(size_t) = bits of code
+    //rest is code
+    size_t bytes_for_coded_string = _fill_bytes_for_bits(huffmandata->bits);
+    size_t total_bytes = 1 + sizeof(SortItem) * huffmandata->items->size + sizeof(size_t) + bytes_for_coded_string;
+    unsigned char *output = malloc(total_bytes);
+    if (output != NULL)
+    {
+        output[0] = huffmandata->items->size;
+
+        //sort items
+        int offset = 1;
+        for (int i = 0; i <= huffmandata->items->size * sizeof(SortItem); ++i)
+        {
+            output[i + offset] = ((unsigned char *)huffmandata->items->items)[i];
+        }
+
+        //bits
+        offset += huffmandata->items->size;
+        for (int i = 0; i < sizeof(size_t); ++i)
+        {
+            output[i + offset] = ((unsigned char *)(&huffmandata->bits))[i];
+        }
+
+        //coded string
+        offset += sizeof(size_t);
+        for (int i = 0; i < bytes_for_coded_string; ++i)
+        {
+            output[i + offset] = huffmandata->codedArray[i];
+        }
+
+        *dest = output;
+        return total_bytes;
+    }
+    return 0;
+}
+
+HuffmanData *string_to_huffmandata(unsigned char *src)
+{
+    HuffmanData *retData = NULL;
+    HuffmanData *hd = malloc(sizeof(HuffmanData));
+    if (hd != NULL && src != NULL)
+    {
+        unsigned char items_count = src[0];
+        SortItem *items = calloc(1, sizeof(SortItem) * items_count);
+        SortedItems *sortedItems = malloc(sizeof(SortedItems));
+        if (items != NULL && sortedItems != NULL)
+        {
+            sortedItems->size = items_count;
+            sortedItems->items = items;
+            hd->items = sortedItems;
+
+            int offset = 1;
+            for (int i = 0; i <= items_count * sizeof(SortItem); ++i)
+            {
+                ((unsigned char *)hd->items->items)[i] = src[i + offset];
+            }
+
+            offset += items_count * sizeof(SortItem);
+            for (int i = 0; i < sizeof(size_t); ++i)
+            {
+                ((unsigned char *)(&hd->bits))[i] = src[i + offset];
+            }
+
+            offset += sizeof(size_t);
+            size_t coded_array_size = _fill_bytes_for_bits(hd->bits);
+            unsigned char *coded_array = malloc(coded_array_size);
+            if (coded_array != NULL)
+            {
+                hd->codedArray = coded_array;
+                for (int i = 0; i < coded_array_size; ++i)
+                {
+                    hd->codedArray[i] = src[i + offset];
+                }
+                retData = hd;
+            }
+        }
+    }
+    return retData;
 }

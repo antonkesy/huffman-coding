@@ -7,6 +7,11 @@
 #ifndef _STDBOOL_H
 #include <stdbool.h>
 #endif
+#ifndef _STDIO_H
+#include <stdio.h>
+#endif
+
+#define BUFFSIZE_FILE 16384
 
 struct Node
 {
@@ -31,7 +36,7 @@ typedef struct
 
 typedef struct
 {
-    size_t size;
+    unsigned char size;
     SortItem *items;
 } SortedItems;
 
@@ -44,9 +49,13 @@ typedef struct
 
 //TODO return value is int and output is parameter
 
-//
+//code unsigned char array into hd and reverse
 HuffmanData *code_into_huffmanData(unsigned char *items, size_t size);
 int decode_huffman_data(HuffmanData *hd, unsigned char **dest, size_t *out_size);
+
+//code file into new file
+void huffman_code_file_to_file(FILE *src, FILE *des);
+void huffman_decode_file_to_file(FILE *src, FILE *des);
 
 SortedItems *sort_by_frequency(unsigned char *items, size_t size);
 HuffmanData *_code_huffman_string(unsigned char input[], size_t inputSize, SortedItems *sortedItems);
@@ -59,7 +68,9 @@ HuffmanNode *_create_parent_huffman_node(HuffmanNode *leftChild, HuffmanNode *ri
 int _get_leaf_height(HuffmanNode *leaf);
 void _set_leaf_nodes(HuffmanNode **leafs, HuffmanNode *node);
 size_t _set_codes_size(HuffmanNode **leafs, int *codeSize, SortedItems *sortedItems);
-size_t _add_huffman_code(unsigned char **output, HuffmanNode *leaf, size_t bitPos, size_t steps);
+size_t _add_huffman_code(unsigned char **dest, HuffmanNode *leaf, size_t bitPos, size_t steps);
+size_t huffmandata_to_string(HuffmanData *huffmandata, unsigned char **dest);
+HuffmanData *string_to_huffmandata(unsigned char *src);
 
 //utility
 int _sort_item_comparator(const void *first, const void *second);
