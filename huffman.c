@@ -68,7 +68,7 @@ HuffmanData *code_into_huffmanData(unsigned char *items, size_t size)
 
 HuffmanTree *build_huffman_tree(SortedItems *sortedItems)
 {
-    priorityque *prioQ = createPQ(_node_comparator);
+    priorityque *prioQ = create_priority_que(_node_comparator);
     HuffmanNode *nodes = (HuffmanNode *)calloc(sizeof(HuffmanNode), sortedItems->size);
 
     for (register size_t i = 0U; i < sortedItems->size; ++i)
