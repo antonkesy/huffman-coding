@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-heapdata *create_heap_data(int key, void *data)
+heapdata *create_heap_data_minheap(int key, void *data)
 {
     heapdata *hd = malloc(sizeof(heapdata));
     hd->data = data;
@@ -10,7 +10,7 @@ heapdata *create_heap_data(int key, void *data)
     return hd;
 }
 
-minheap *create_min_heap(size_t maxcap)
+minheap *create_min_heap_minheap(size_t maxcap)
 {
     minheap *mh = malloc(sizeof(minheap));
     mh->capacity = maxcap;
@@ -19,27 +19,27 @@ minheap *create_min_heap(size_t maxcap)
     return mh;
 }
 
-int _index_parent(size_t index)
+int _index_parent_minheap(size_t index)
 {
     return (index - 1) / 2;
 }
 
-int _index_left(size_t index)
+int _index_left_minheap(size_t index)
 {
     return (2 * index + 1);
 }
 
-int _index_right(size_t index)
+int _index_right_minheap(size_t index)
 {
     return (2 * index + 2);
 }
 
-int get_key(minheap *minheap, size_t index)
+int get_key_minheap(minheap *minheap, size_t index)
 {
     return (*(minheap->elements[index])).key;
 }
 
-void *get_data(minheap *minheap, size_t index)
+void *get_data_minheap(minheap *minheap, size_t index)
 {
     return (*(minheap->elements[index])).data;
 }
@@ -64,15 +64,15 @@ heapdata *extract_min(minheap *minheap)
 }
 void min_heapify(minheap *minheap, size_t index)
 {
-    int l = _index_left(index);
-    int r = _index_right(index);
+    int l = _index_left_minheap(index);
+    int r = _index_right_minheap(index);
     int smallest = index;
 
-    if (l < minheap->size && get_key(minheap, l) < get_key(minheap, index))
+    if (l < minheap->size && get_key_minheap(minheap, l) < get_key_minheap(minheap, index))
     {
         smallest = l;
     }
-    if (r < minheap->size && get_key(minheap, r) < get_key(minheap, smallest))
+    if (r < minheap->size && get_key_minheap(minheap, r) < get_key_minheap(minheap, smallest))
     {
         smallest = r;
     }
@@ -90,7 +90,7 @@ void swap_heapdata(heapdata **i1, heapdata **i2)
     *i2 = tmp;
 }
 
-int insert(minheap *minheap, heapdata *data)
+int insert_minheap(minheap *minheap, heapdata *data)
 {
     if (minheap->size == minheap->capacity)
     {
@@ -100,10 +100,10 @@ int insert(minheap *minheap, heapdata *data)
     ++(minheap->size);
     minheap->elements[index] = data;
 
-    while (index != 0 && get_key(minheap, _index_parent(index)) > get_key(minheap, index))
+    while (index != 0 && get_key_minheap(minheap, _index_parent_minheap(index)) > get_key_minheap(minheap, index))
     {
-        swap_heapdata(&minheap->elements[index], &minheap->elements[_index_parent(index)]);
-        index = _index_parent(index);
+        swap_heapdata(&minheap->elements[index], &minheap->elements[_index_parent_minheap(index)]);
+        index = _index_parent_minheap(index);
     }
     return index;
 }
@@ -114,4 +114,9 @@ void print_min_heap(minheap *minheap)
     {
         printf("%i\t", minheap->elements[i]->key);
     }
+}
+
+void delete_minheap(minheap* minheap){
+    free(minheap->elements);
+    free(minheap);
 }
