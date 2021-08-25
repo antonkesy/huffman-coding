@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stddef.h>
-#include <unistd.h>
 #include "huffman.h"
 #include "minheap/minheap.h"
 #include "minheap/minheaptest.h"
@@ -78,7 +77,7 @@ void example_usage()
     //need to transfer whole data to decode into original
 
     //create pointer to unsigned char arrays
-    unsigned char **decoded = malloc(sizeof(unsigned char **));
+    unsigned char **decoded = (unsigned char **)malloc(sizeof(unsigned char **));
     //if you need size of the original unsigend char arrays
     size_t outputSize;
     //decodes huffman data into decoded
@@ -92,7 +91,7 @@ int test_serialization()
 {   
     char *exampleString = "BCAADDDCCACACAC";
     HuffmanData *hd = code_into_huffmanData((unsigned char *)exampleString, strlen(exampleString));
-    unsigned char **serialization = malloc(sizeof(unsigned char **));
+    unsigned char **serialization = (unsigned char **)malloc(sizeof(unsigned char **));
     size_t bytes = huffmandata_to_string(hd, serialization);
     for (int i = 0; i < bytes; ++i)
     {
@@ -110,7 +109,7 @@ int testHuffman()
 
     char *testString = "Were you able to open it before, on the computer you're using now? XYC23423";
     HuffmanData *hd = code_into_huffmanData((unsigned char *)testString, strlen(testString));
-    unsigned char **dest = malloc(sizeof(unsigned char **));
+    unsigned char **dest =  (unsigned char **)malloc(sizeof(unsigned char **));
     size_t outputSize = 0;
     decode_huffman_data(hd, dest, &outputSize);
     //dest[outputSize - 2] = '\0';
@@ -125,7 +124,7 @@ int test_all_chars()
     printf("test all chars\n");
     int isError = 0;
 
-    unsigned char *allChars = malloc(0x100);
+    unsigned char *allChars = (unsigned char *)malloc(0x100);
     if (allChars != NULL)
     {
         for (register int i = 0; i < 0x100; ++i)
@@ -138,7 +137,7 @@ int test_all_chars()
         //printf("\n\n");
         HuffmanData *hd = code_into_huffmanData(allChars, 0x100);
 
-        unsigned char *allCharsDecode = malloc(0x100);
+        unsigned char *allCharsDecode =  (unsigned char *)malloc(0x100);
         if (allCharsDecode != NULL)
         {
             size_t outputSize = 0;
