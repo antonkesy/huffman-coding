@@ -36,7 +36,7 @@ typedef struct
 
 typedef struct
 {
-    unsigned char size;
+    unsigned int size; //max 256
     SortItem *items;
 } SortedItems;
 
