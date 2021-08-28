@@ -80,12 +80,25 @@ int is_huffman_data_equal(HuffmanData *hd1, HuffmanData *hd2)
         return 1;
     }
 
-    if (hd1->bits != hd2->bits || !is_coded_string_equal(hd1->coded_array, hd2->coded_array, hd1->bits) || !is_sorted_items_equal(hd1->sort_items, hd2->sort_items))
+    int ret_value = 1;
+
+    if (hd1->bits != hd2->bits)
     {
-        return 0;
+        printf("huffman data bits not same!\n");
+        ret_value = 0;
+    }
+    if (!is_coded_string_equal(hd1->coded_array, hd2->coded_array, hd1->bits))
+    {
+        printf("huffman data coded string not same!\n");
+        ret_value = 0;
+    }
+    if (!is_sorted_items_equal(hd1->sort_items, hd2->sort_items))
+    {
+        printf("huffman data sorted items not same!\n");
+        ret_value = 0;
     }
 
-    return 1;
+    return ret_value;
 }
 
 int is_coded_string_equal(unsigned char *coded_string_1, unsigned char *coded_string_2, size_t size)
