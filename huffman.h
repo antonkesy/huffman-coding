@@ -43,7 +43,7 @@ typedef struct
 typedef struct
 {
     size_t bits;
-    unsigned char *codedArray;
+    unsigned char *coded_array;
     SortedItems *sort_items;
 } HuffmanData;
 
@@ -58,17 +58,17 @@ void huffman_code_file_to_file(FILE *src, FILE *des);
 void huffman_decode_file_to_file(FILE *src, FILE *des);
 
 SortedItems *sort_by_frequency(unsigned char *items, size_t size);
-HuffmanData *_code_huffman_string(unsigned char input[], size_t inputSize, SortedItems *sortedItems);
+HuffmanData *_code_huffman_string(unsigned char input[], size_t input_size, SortedItems *sorted_items);
 
 //tree
-HuffmanTree *build_huffman_tree(SortedItems *sortedItems);
-HuffmanNode *_create_parent_huffman_node(HuffmanNode *leftChild, HuffmanNode *rightChild);
+HuffmanTree *build_huffman_tree(SortedItems *sorted_items);
+HuffmanNode *_create_parent_huffman_node(HuffmanNode *left_child, HuffmanNode *right_child);
 
 //coding
 int _get_leaf_height(HuffmanNode *leaf);
 void _set_leaf_nodes(HuffmanNode **leafs, HuffmanNode *node);
-size_t _set_codes_size(HuffmanNode **leafs, int *codeSize, SortedItems *sortedItems);
-size_t _add_huffman_code(unsigned char **dest, HuffmanNode *leaf, size_t bitPos, size_t steps);
+size_t _set_codes_size(HuffmanNode **leafs, int *codeSize, SortedItems *sorted_items);
+size_t _add_huffman_code(unsigned char **dest, HuffmanNode *leaf, size_t bit_pos, size_t steps);
 size_t serialize_huffmandata(HuffmanData *huffmandata, unsigned char **dest);
 HuffmanData *deserialize_huffmandata(unsigned char *src, size_t *out_byte_read);
 
@@ -78,7 +78,7 @@ int _node_comparator(const void *first, const void *second);
 void _set_bit_at_pos(unsigned char *dest, size_t pos, unsigned char value);
 size_t _get_items_sum(SortedItems *sort_items);
 size_t _fill_bytes_for_bits(size_t bits);
-size_t _get_amount_of_character(SortedItems *sortedItems);
+size_t _get_amount_of_character(SortedItems *sorted_items);
 size_t _get_huffmandata_needed_bytes(HuffmanData *hd);
 size_t _get_huffmandata_needed_bytes_add_coded_string(HuffmanData *hd, size_t coded_string_bytes);
 //delete

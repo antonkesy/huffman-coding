@@ -207,10 +207,10 @@ int test_all_chars()
 
 int main(void)
 {
-    //example_usage();
-    example_usage_files();
-    //printf("huffman test failed ? %i\n", testHuffman());
-    //printf("huffman test all chars failed ? %i\n", test_all_chars());
+    example_usage();
+    //example_usage_files();
+    printf("huffman test failed ? %i\n", testHuffman());
+    printf("huffman test all chars failed ? %i\n", test_all_chars());
     //test_serialization();
     //test_deserialisation();
     //test_min_heap();

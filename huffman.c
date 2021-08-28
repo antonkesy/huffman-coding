@@ -11,30 +11,30 @@ int _sort_item_comparator(const void *first, const void *second)
 
 SortedItems *sort_by_frequency(unsigned char *items, size_t size)
 {
-    SortedItems *sortedItems = malloc(sizeof(SortedItems));
-    size_t *freqOfPosition = calloc(sizeof(size_t), 0x100);
-    register size_t uniqueCharsCount = 0U;
+    SortedItems *sorted_items = malloc(sizeof(SortedItems));
+    size_t *freq_of_position = calloc(sizeof(size_t), 0x100);
+    register size_t unique_chars_count = 0U;
 
-    if (freqOfPosition != NULL)
+    if (freq_of_position != NULL)
     {
         for (register size_t i = 0U; i < size; ++i)
         {
-            if (freqOfPosition[items[i]]++ == 0)
+            if (freq_of_position[items[i]]++ == 0)
             {
-                ++uniqueCharsCount;
+                ++unique_chars_count;
             }
         }
 
-        SortItem *sortItemsArray = calloc(sizeof(SortItem), uniqueCharsCount);
-        if (sortItemsArray != NULL)
+        SortItem *sort_items_array = calloc(sizeof(SortItem), unique_chars_count);
+        if (sort_items_array != NULL)
         {
             register size_t i = 0U;
             for (register size_t j = 0U; j < 0x100; ++j)
             {
-                if (freqOfPosition[j] != 0)
+                if (freq_of_position[j] != 0)
                 {
-                    sortItemsArray[i].value = j;
-                    sortItemsArray[i].freq = freqOfPosition[j];
+                    sort_items_array[i].value = j;
+                    sort_items_array[i].freq = freq_of_position[j];
                     ++i;
                 }
             }
@@ -44,20 +44,20 @@ SortedItems *sort_by_frequency(unsigned char *items, size_t size)
             printf("malloc error");
         }
 
-        qsort(sortItemsArray, uniqueCharsCount, sizeof(SortItem), _sort_item_comparator);
+        qsort(sort_items_array, unique_chars_count, sizeof(SortItem), _sort_item_comparator);
 
-        sortedItems->items = sortItemsArray;
-        sortedItems->size = uniqueCharsCount;
+        sorted_items->items = sort_items_array;
+        sorted_items->size = unique_chars_count;
     }
     else
     {
         //MALLOC ERROR
         printf("malloc error");
     }
-    free(freqOfPosition);
-    freqOfPosition = NULL;
+    free(freq_of_position);
+    freq_of_position = NULL;
 
-    return sortedItems;
+    return sorted_items;
 }
 
 HuffmanData *code_into_huffmanData(unsigned char *items, size_t size)
@@ -65,15 +65,15 @@ HuffmanData *code_into_huffmanData(unsigned char *items, size_t size)
     return _code_huffman_string(items, size, sort_by_frequency(items, size));
 }
 
-HuffmanTree *build_huffman_tree(SortedItems *sortedItems)
+HuffmanTree *build_huffman_tree(SortedItems *sorted_items)
 {
-    minheap *minheap = create_min_heap_minheap(sortedItems->size);
-    HuffmanNode *nodes = (HuffmanNode *)calloc(sizeof(HuffmanNode), sortedItems->size);
+    minheap *minheap = create_min_heap_minheap(sorted_items->size);
+    HuffmanNode *nodes = (HuffmanNode *)calloc(sizeof(HuffmanNode), sorted_items->size);
 
-    for (register size_t i = 0U; i < sortedItems->size; ++i)
+    for (register size_t i = 0U; i < sorted_items->size; ++i)
     {
-        nodes[i].freq = sortedItems->items[sortedItems->size - i - 1].freq;
-        nodes[i].value = sortedItems->items[sortedItems->size - i - 1].value;
+        nodes[i].freq = sorted_items->items[sorted_items->size - i - 1].freq;
+        nodes[i].value = sorted_items->items[sorted_items->size - i - 1].value;
         insert_minheap(minheap, create_heap_data_minheap(nodes[i].freq, &nodes[i]));
     }
 
@@ -88,7 +88,7 @@ HuffmanTree *build_huffman_tree(SortedItems *sortedItems)
     if (tree != NULL)
     {
         tree->root = (HuffmanNode *)extract_min(minheap)->data;
-        tree->size = sortedItems->size;
+        tree->size = sorted_items->size;
     }
     else
     {
@@ -134,17 +134,17 @@ void print_huffman_nodes(HuffmanNode *node)
     }
 }
 
-HuffmanNode *_create_parent_huffman_node(HuffmanNode *leftChild, HuffmanNode *rightChild)
+HuffmanNode *_create_parent_huffman_node(HuffmanNode *left_child, HuffmanNode *right_child)
 {
     //TODO check malloc error!
-    HuffmanNode *parentNode = calloc(sizeof(HuffmanNode), 1);
-    parentNode->left = leftChild;
-    parentNode->right = rightChild;
-    parentNode->left->parent = parentNode;
-    parentNode->right->parent = parentNode;
-    parentNode->freq = leftChild->freq + rightChild->freq;
+    HuffmanNode *parent_node = calloc(sizeof(HuffmanNode), 1);
+    parent_node->left = left_child;
+    parent_node->right = right_child;
+    parent_node->left->parent = parent_node;
+    parent_node->right->parent = parent_node;
+    parent_node->freq = left_child->freq + right_child->freq;
 
-    return parentNode;
+    return parent_node;
 }
 
 void _delte_huffman_nodes(HuffmanNode *node)
@@ -160,28 +160,28 @@ void _delte_huffman_nodes(HuffmanNode *node)
     }
 }
 
-HuffmanData *_code_huffman_string(unsigned char input[], size_t inputSize, SortedItems *sortedItems)
+HuffmanData *_code_huffman_string(unsigned char input[], size_t input_size, SortedItems *sorted_items)
 {
-    HuffmanTree *tree = build_huffman_tree(sortedItems);
+    HuffmanTree *tree = build_huffman_tree(sorted_items);
     HuffmanData *data = malloc(sizeof(HuffmanData));
     HuffmanNode **leafs = (malloc(sizeof(HuffmanNode *) * 0x100));
-    int *codeSize = malloc(sizeof(int) * 0x100);
-    if (leafs != NULL && codeSize != NULL)
+    int *code_size = malloc(sizeof(int) * 0x100);
+    if (leafs != NULL && code_size != NULL)
     {
         _set_leaf_nodes(leafs, tree->root);
-        size_t bitsNeeded = _set_codes_size(leafs, codeSize, sortedItems);
+        size_t bits_needed = _set_codes_size(leafs, code_size, sorted_items);
 
-        free(codeSize);
-        codeSize = NULL;
+        free(code_size);
+        code_size = NULL;
 
-        unsigned char *outputBuffer = calloc(1, _fill_bytes_for_bits(bitsNeeded));
-        unsigned char **output = &outputBuffer;
+        unsigned char *output_buffer = calloc(1, _fill_bytes_for_bits(bits_needed));
+        unsigned char **output = &output_buffer;
 
         if (tree != NULL && data != NULL)
         {
             size_t bitPos = 0U;
 
-            for (register size_t i = 0U; i < inputSize; ++i)
+            for (register size_t i = 0U; i < input_size; ++i)
             {
                 bitPos += _add_huffman_code(output, leafs[input[i]], bitPos, 0) - 1;
             }
@@ -190,9 +190,9 @@ HuffmanData *_code_huffman_string(unsigned char input[], size_t inputSize, Sorte
             free(leafs);
             leafs = NULL;
 
-            data->bits = bitsNeeded;
-            data->codedArray = *output;
-            data->sort_items = sortedItems;
+            data->bits = bits_needed;
+            data->coded_array = *output;
+            data->sort_items = sorted_items;
         }
         else
         {
@@ -207,13 +207,13 @@ HuffmanData *_code_huffman_string(unsigned char input[], size_t inputSize, Sorte
     return data;
 }
 
-size_t _set_codes_size(HuffmanNode **leafs, int *codeSize, SortedItems *sortedItems)
+size_t _set_codes_size(HuffmanNode **leafs, int *code_size, SortedItems *sorted_items)
 {
     size_t bits = 0U;
-    for (register int i = 0; i < sortedItems->size; ++i)
+    for (register int i = 0; i < sorted_items->size; ++i)
     {
-        codeSize[sortedItems->items[i].value] = _get_leaf_height(leafs[sortedItems->items[i].value]);
-        bits += codeSize[sortedItems->items[i].value] * sortedItems->items[i].freq;
+        code_size[sorted_items->items[i].value] = _get_leaf_height(leafs[sorted_items->items[i].value]);
+        bits += code_size[sorted_items->items[i].value] * sorted_items->items[i].freq;
     }
     return bits;
 }
@@ -230,13 +230,13 @@ int _get_leaf_height(HuffmanNode *leaf)
     }
 }
 
-size_t _add_huffman_code(unsigned char **output, HuffmanNode *leaf, size_t bitPos, size_t steps)
+size_t _add_huffman_code(unsigned char **output, HuffmanNode *leaf, size_t bit_pos, size_t steps)
 {
     HuffmanNode *parent = leaf->parent;
     if (parent != NULL)
     {
-        steps = _add_huffman_code(output, parent, bitPos, steps);
-        _set_bit_at_pos(*output, (bitPos + steps) - 1, parent->right == leaf ? 1 : 0);
+        steps = _add_huffman_code(output, parent, bit_pos, steps);
+        _set_bit_at_pos(*output, (bit_pos + steps) - 1, parent->right == leaf ? 1 : 0);
     }
     return steps + 1;
 }
@@ -257,9 +257,9 @@ void _set_leaf_nodes(HuffmanNode **leafs, HuffmanNode *node)
 
 void _set_bit_at_pos(unsigned char *dest, size_t pos, unsigned char value)
 {
-    unsigned char writeValue = value;
-    writeValue <<= 7 - (pos % 8);
-    dest[pos / 8] |= writeValue;
+    unsigned char write_value = value;
+    write_value <<= 7 - (pos % 8);
+    dest[pos / 8] |= write_value;
 }
 
 void print_char_as_binary(unsigned char c)
@@ -281,48 +281,48 @@ void print_coded_string(HuffmanData *hd)
 {
     for (register size_t i = 0; i < _fill_bytes_for_bits(hd->bits); ++i)
     {
-        print_char_as_binary(hd->codedArray[i]);
+        print_char_as_binary(hd->coded_array[i]);
         printf(" ");
     }
 }
 
 int decode_huffman_data(HuffmanData *hd, unsigned char **dest, size_t *out_size)
 {
-    size_t charCount = _get_amount_of_character(hd->sort_items);
+    size_t char_count = _get_amount_of_character(hd->sort_items);
 
     HuffmanTree *tree = build_huffman_tree(hd->sort_items);
     if (tree != NULL)
     {
-        *dest = calloc(1, charCount);
+        *dest = calloc(1, char_count);
 
         if (out_size != NULL)
         {
-            *out_size = charCount;
+            *out_size = char_count;
         }
 
         //todo malloc error check
         if (*dest != NULL)
         {
             register size_t bit = 0U;
-            register size_t destPos = 0U;
+            register size_t dest_pos = 0U;
 
-            while (destPos < charCount)
+            while (dest_pos < char_count)
             {
-                HuffmanNode *currentNode = tree->root;
-                while (currentNode->left != NULL)
+                HuffmanNode *current_node = tree->root;
+                while (current_node->left != NULL)
                 {
-                    unsigned char read = hd->codedArray[bit / 8];
+                    unsigned char read = hd->coded_array[bit / 8];
                     if (((read >> (7 - (bit % 8))) & 1) == 0)
                     {
-                        currentNode = currentNode->left;
+                        current_node = current_node->left;
                     }
                     else
                     {
-                        currentNode = currentNode->right;
+                        current_node = current_node->right;
                     }
                     ++bit;
                 }
-                (*dest)[destPos++] = currentNode->value;
+                (*dest)[dest_pos++] = current_node->value;
             }
         }
         else
@@ -358,8 +358,8 @@ size_t _get_items_sum(SortedItems *sort_items)
 
 void delete_huffman_data(HuffmanData *data)
 {
-    free(data->codedArray);
-    data->codedArray = NULL;
+    free(data->coded_array);
+    data->coded_array = NULL;
     _delete_sorted_items(data->sort_items);
     free(data);
     data = NULL;
@@ -378,14 +378,14 @@ int _node_comparator(const void *first, const void *second)
 
 void print_huffman_node(void *node)
 {
-    HuffmanNode *hNode = (HuffmanNode *)node;
-    if (hNode->left == NULL && hNode->right == NULL)
+    HuffmanNode *huffman_node = (HuffmanNode *)node;
+    if (huffman_node->left == NULL && huffman_node->right == NULL)
     {
-        printf("Value Node = %i %c\n", hNode->freq, hNode->value);
+        printf("Value Node = %i %c\n", huffman_node->freq, huffman_node->value);
     }
     else
     {
-        printf("Parent node = %i\n", hNode->freq);
+        printf("Parent node = %i\n", huffman_node->freq);
     }
 }
 
@@ -394,12 +394,12 @@ size_t _fill_bytes_for_bits(size_t bits)
     return (bits / 8U) + ((bits % 8U) ? 1U : 0U);
 }
 
-size_t _get_amount_of_character(SortedItems *sortedItems)
+size_t _get_amount_of_character(SortedItems *sorted_items)
 {
     size_t amount = 0U;
-    for (register int i = 0; i < sortedItems->size; ++i)
+    for (register int i = 0; i < sorted_items->size; ++i)
     {
-        amount += sortedItems->items[i].freq;
+        amount += sorted_items->items[i].freq;
     }
     return amount;
 }
@@ -483,7 +483,7 @@ size_t serialize_huffmandata(HuffmanData *huffmandata, unsigned char **dest)
         //coded string
         for (int i = 0; i < bytes_for_coded_string; ++i)
         {
-            output[i + offset] = huffmandata->codedArray[i];
+            output[i + offset] = huffmandata->coded_array[i];
         }
 
         *dest = output;
@@ -532,10 +532,10 @@ HuffmanData *deserialize_huffmandata(unsigned char *src, size_t *out_byte_read)
             unsigned char *coded_array = malloc(coded_array_size);
             if (coded_array != NULL)
             {
-                hd->codedArray = coded_array;
+                hd->coded_array = coded_array;
                 for (size_t i = 0U; i < coded_array_size; ++i)
                 {
-                    hd->codedArray[i] = src[i + offset];
+                    hd->coded_array[i] = src[i + offset];
                 }
                 *out_byte_read = offset + coded_array_size;
                 retData = hd;
