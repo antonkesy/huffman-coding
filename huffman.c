@@ -441,6 +441,7 @@ void huffman_decode_file_to_file(FILE *src, FILE *des)
             unsigned char **decoded = malloc(sizeof(unsigned char **));
             size_t outputSize = 0U;
             decode_huffman_data(hd, decoded, &outputSize);
+            //TODO #1 check first and last decoded element -> not quite right result
             fwrite(*decoded, 1, outputSize, des);
             free(decoded);
             //delete_huffman_data(hd);
