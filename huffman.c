@@ -444,8 +444,8 @@ void huffman_decode_file_to_file(FILE *src, FILE *des)
             fwrite(*decoded, 1, outputSize, des);
             free(decoded);
             //delete_huffman_data(hd);
-            //TODO read offset not working corretly
-            read_offset += byte_needed_for_data + 2;
+            //TODO #2 read offset not working corretly
+            read_offset += byte_needed_for_data + 1;
         }
     } while (elements_read > 0);
     printf("read done\n");
@@ -527,8 +527,6 @@ HuffmanData *deserialize_huffmandata(unsigned char *src, size_t *out_byte_read)
             offset += items_count * sizeof(SortItem);
 
             size_t coded_array_size = _fill_bytes_for_bits(hd->bits);
-            //printf("!! %i\n", coded_array_size);
-            //normal run stops here?!
             unsigned char *coded_array = malloc(coded_array_size);
             if (coded_array != NULL)
             {
