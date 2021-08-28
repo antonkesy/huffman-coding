@@ -453,9 +453,10 @@ size_t serialize_huffmandata(HuffmanData *huffmandata, unsigned char **dest)
     if (output != NULL)
     {
         output[0] = huffmandata->sort_items->size;
+        output[1] = sizeof(size_t);
 
         //sort sort_items
-        int offset = 1;
+        int offset = 2;
         for (int i = 0; i <= huffmandata->sort_items->size * sizeof(SortItem); ++i)
         {
             output[i + offset] = ((unsigned char *)huffmandata->sort_items->items)[i];
@@ -488,6 +489,11 @@ HuffmanData *deserialize_huffmandata(unsigned char *src)
     if (hd != NULL && src != NULL)
     {
         unsigned char items_count = src[0];
+        char size_of_size_t = src[1];
+        if (size_of_size_t > sizeof(size_t))
+        {
+            printf("size_t is too small!\n");
+        }
         SortItem *items = calloc(1, sizeof(SortItem) * items_count);
         SortedItems *sortedItems = malloc(sizeof(SortedItems));
         if (items != NULL && sortedItems != NULL)
@@ -496,19 +502,19 @@ HuffmanData *deserialize_huffmandata(unsigned char *src)
             sortedItems->items = items;
             hd->sort_items = sortedItems;
 
-            int offset = 1;
+            int offset = 2;
             for (int i = 0; i <= items_count * sizeof(SortItem); ++i)
             {
                 ((unsigned char *)hd->sort_items->items)[i] = src[i + offset];
             }
 
             offset += items_count * sizeof(SortItem);
-            for (int i = 0; i < sizeof(size_t); ++i)
+            for (int i = 0; i < size_of_size_t; ++i)
             {
                 ((unsigned char *)(&hd->bits))[i] = src[i + offset];
             }
 
-            offset += sizeof(size_t);
+            offset += size_of_size_t;
             size_t coded_array_size = _fill_bytes_for_bits(hd->bits);
             unsigned char *coded_array = malloc(coded_array_size);
             if (coded_array != NULL)

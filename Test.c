@@ -92,7 +92,7 @@ int test_serialization()
     char *exampleString = "BCAADDDCCACACAC";
     HuffmanData *hd = code_into_huffmanData((unsigned char *)exampleString, strlen(exampleString));
     unsigned char **serialization = (unsigned char **)malloc(sizeof(unsigned char **));
-    size_t bytes = huffmandata_to_string(hd, serialization);
+    size_t bytes = serialize_huffmandata(hd, serialization);
     for (int i = 0; i < bytes; ++i)
     {
         print_char_as_binary((*serialization)[i]);
