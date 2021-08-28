@@ -407,9 +407,13 @@ void huffman_code_file_to_file(FILE *src, FILE *des)
 {
     unsigned char buffer[BUFFSIZE_FILE];
     int elements_read = 0;
-
+    size_t read_offset = 0U;
     do
     {
+        if (fseek(src, read_offset, SEEK_SET) != 0)
+        {
+            printf("fseek error\n");
+        } //trivial
         elements_read = fread(buffer, 1, BUFFSIZE_FILE, src);
         printf("write\n");
         HuffmanData *hd = code_into_huffmanData(buffer, elements_read);
@@ -417,6 +421,7 @@ void huffman_code_file_to_file(FILE *src, FILE *des)
         size_t to_write_bytes = serialize_huffmandata(hd, &write_bytes);
         fwrite(write_bytes, 1, to_write_bytes, des);
         delete_huffman_data(hd);
+        read_offset += elements_read;
     } while (elements_read == BUFFSIZE_FILE);
     printf("write done\n");
 }
@@ -434,20 +439,17 @@ void huffman_decode_file_to_file(FILE *src, FILE *des)
             printf("fseek erro\n");
         }
         elements_read = fread(buffer, 1, BUFFSIZE_FILE, src);
-        if (elements_read > 0)
-        {
-            printf("read\n");
-            HuffmanData *hd = deserialize_huffmandata(buffer, &byte_needed_for_data);
-            unsigned char **decoded = malloc(sizeof(unsigned char **));
-            size_t outputSize = 0U;
-            decode_huffman_data(hd, decoded, &outputSize);
-            fwrite(*decoded, 1, outputSize, des);
-            free(decoded);
-            //delete_huffman_data(hd);
-            //TODO #2 read offset not working corretly
-            read_offset += byte_needed_for_data + 1;
-        }
-    } while (elements_read > 0);
+        printf("read\n");
+        HuffmanData *hd = deserialize_huffmandata(buffer, &byte_needed_for_data);
+        unsigned char **decoded = malloc(sizeof(unsigned char **));
+        size_t outputSize = 0U;
+        decode_huffman_data(hd, decoded, &outputSize);
+        fwrite(*decoded, 1, outputSize, des);
+        free(decoded);
+        //delete_huffman_data(hd);
+        //TODO #2 read offset not working corretly
+        read_offset += byte_needed_for_data + 2;
+    } while (elements_read >= byte_needed_for_data);
     printf("read done\n");
 }
 
