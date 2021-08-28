@@ -7,6 +7,7 @@
 #include "minheap/minheaptest.h"
 #include "test_utility.h"
 #include "huffman_utility.h"
+#include "huffman_utility_test.h"
 
 #define DEBUG
 #define TEST_INPUT_FILE_NAME "input.txt"
@@ -212,7 +213,10 @@ int test_all_chars()
 int main(void)
 {
     //example_usage();
-    example_usage_files();
+    //example_usage_files();
+    //test_equal_sort_item();
+    //test_equal_sorted_items();
+    test_is_huffman_data_equal();
     //printf("huffman test failed ? %i\n", testHuffman());
     //printf("huffman test all chars failed ? %i\n", test_all_chars());
     //test_serialization();
