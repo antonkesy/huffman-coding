@@ -121,7 +121,8 @@ int test_deserialisation()
     HuffmanData *hd = code_into_huffmanData((unsigned char *)exampleString, strlen(exampleString));
     unsigned char **serialization = (unsigned char **)malloc(sizeof(unsigned char **));
     serialize_huffmandata(hd, serialization);
-    HuffmanData *hdDeSeri = deserialize_huffmandata(*serialization);
+    size_t bytes_for_data = 0U;
+    HuffmanData *hdDeSeri = deserialize_huffmandata(*serialization, &bytes_for_data);
 
     if (hd->bits == hdDeSeri->bits)
     {
@@ -207,11 +208,11 @@ int test_all_chars()
 int main(void)
 {
     //example_usage();
-    //example_usage_files();
+    example_usage_files();
     //printf("huffman test failed ? %i\n", testHuffman());
     //printf("huffman test all chars failed ? %i\n", test_all_chars());
     //test_serialization();
-    test_deserialisation();
+    //test_deserialisation();
     //test_min_heap();
     //heap_test_range();
     //heap_test_huffman_nodes();
