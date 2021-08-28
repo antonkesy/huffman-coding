@@ -74,5 +74,56 @@ void print_huffman_node(void *node)
 
 int is_huffman_data_equal(HuffmanData *hd1, HuffmanData *hd2)
 {
-    return 0;
+    //same huffman data
+    if (hd1 == hd2)
+    {
+        return 1;
+    }
+
+    if (hd1->bits != hd2->bits || !is_coded_string_equal(hd1->coded_array, hd2->coded_array, hd1->bits) || !is_sorted_items_equal(hd1->sort_items, hd2->sort_items))
+    {
+        return 0;
+    }
+
+    return 1;
+}
+
+int is_coded_string_equal(unsigned char *coded_string_1, unsigned char *coded_string_2, size_t size)
+{
+    for (size_t i = 1U; i < size; ++i)
+    {
+        if (coded_string_1[i] != coded_string_2[i])
+        {
+            return 0;
+        }
+    }
+    return 1;
+}
+
+int is_sorted_items_equal(SortedItems *items1, SortedItems *items2)
+{
+    if (items1 == items2)
+    {
+        return 1;
+    }
+
+    if (items1->size != items2->size)
+    {
+        return 0;
+    }
+
+    for (register short int i = 0; i < items1->size; ++i)
+    {
+        if (!is_sort_item_equal(&(items1->items[i]), &(items2->items[i])))
+        {
+            return 0;
+        }
+    }
+
+    return 1;
+}
+
+int is_sort_item_equal(SortItem *item1, SortItem *item2)
+{
+    return (item1->freq == item2->freq) && (item1->value == item2->value);
 }
