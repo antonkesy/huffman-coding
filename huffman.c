@@ -25,7 +25,7 @@ SortedItems *sort_by_frequency(unsigned char *items, size_t size)
             }
         }
 
-        SortItem *sortItemsArray = malloc(sizeof(SortItem) * uniqueCharsCount);
+        SortItem *sortItemsArray = calloc(sizeof(SortItem), uniqueCharsCount);
         if (sortItemsArray != NULL)
         {
             register size_t i = 0U;
@@ -448,7 +448,7 @@ size_t serialize_huffmandata(HuffmanData *huffmandata, unsigned char **dest)
     // sizeof(size_t) = bits of code
     //rest is code
     size_t bytes_for_coded_string = _fill_bytes_for_bits(huffmandata->bits);
-    size_t total_bytes = 1 + sizeof(SortItem) * huffmandata->sort_items->size + sizeof(size_t) + bytes_for_coded_string;
+    size_t total_bytes = 2 + sizeof(SortItem) * huffmandata->sort_items->size + sizeof(size_t) + bytes_for_coded_string;
     unsigned char *output = malloc(total_bytes);
     if (output != NULL)
     {
@@ -489,7 +489,7 @@ HuffmanData *deserialize_huffmandata(unsigned char *src)
     if (hd != NULL && src != NULL)
     {
         unsigned char items_count = src[0];
-        char size_of_size_t = src[1];
+        unsigned char size_of_size_t = src[1];
         if (size_of_size_t > sizeof(size_t))
         {
             printf("size_t is too small!\n");
