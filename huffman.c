@@ -508,6 +508,7 @@ HuffmanData *deserialize_huffmandata(unsigned char *src, size_t *out_byte_read)
         SortedItems *sortedItems = malloc(sizeof(SortedItems));
         if (items != NULL && sortedItems != NULL)
         {
+
             int offset = 2;
             sortedItems->size = items_count;
             sortedItems->items = items;
@@ -526,11 +527,13 @@ HuffmanData *deserialize_huffmandata(unsigned char *src, size_t *out_byte_read)
             offset += items_count * sizeof(SortItem);
 
             size_t coded_array_size = _fill_bytes_for_bits(hd->bits);
+            //printf("!! %i\n", coded_array_size);
+            //normal run stops here?!
             unsigned char *coded_array = malloc(coded_array_size);
             if (coded_array != NULL)
             {
                 hd->codedArray = coded_array;
-                for (int i = 0; i < coded_array_size; ++i)
+                for (size_t i = 0U; i < coded_array_size; ++i)
                 {
                     hd->codedArray[i] = src[i + offset];
                 }
