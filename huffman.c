@@ -455,22 +455,22 @@ size_t serialize_huffmandata(HuffmanData *huffmandata, unsigned char **dest)
         output[0] = huffmandata->sort_items->size;
         output[1] = sizeof(size_t);
 
-        //sort sort_items
-        int offset = 2;
-        for (int i = 0; i <= huffmandata->sort_items->size * sizeof(SortItem); ++i)
-        {
-            output[i + offset] = ((unsigned char *)huffmandata->sort_items->items)[i];
-        }
-
         //bits
-        offset += huffmandata->sort_items->size * sizeof(SortItem);
+        int offset = 2;
         for (int i = 0; i < sizeof(size_t); ++i)
         {
             output[i + offset] = ((unsigned char *)(&huffmandata->bits))[i];
         }
 
-        //coded string
+        //sort sort_items
         offset += sizeof(size_t);
+        for (int i = 0; i <= huffmandata->sort_items->size * sizeof(SortItem); ++i)
+        {
+            output[i + offset] = ((unsigned char *)huffmandata->sort_items->items)[i];
+        }
+
+        //coded string
+        offset += huffmandata->sort_items->size * sizeof(SortItem);
         for (int i = 0; i < bytes_for_coded_string; ++i)
         {
             output[i + offset] = huffmandata->codedArray[i];
@@ -503,18 +503,18 @@ HuffmanData *deserialize_huffmandata(unsigned char *src)
             hd->sort_items = sortedItems;
 
             int offset = 2;
-            for (int i = 0; i <= items_count * sizeof(SortItem); ++i)
-            {
-                ((unsigned char *)hd->sort_items->items)[i] = src[i + offset];
-            }
-
-            offset += items_count * sizeof(SortItem);
             for (int i = 0; i < size_of_size_t; ++i)
             {
                 ((unsigned char *)(&hd->bits))[i] = src[i + offset];
             }
 
             offset += size_of_size_t;
+            for (int i = 0; i <= items_count * sizeof(SortItem); ++i)
+            {
+                ((unsigned char *)hd->sort_items->items)[i] = src[i + offset];
+            }
+
+            offset += items_count * sizeof(SortItem);
             size_t coded_array_size = _fill_bytes_for_bits(hd->bits);
             unsigned char *coded_array = malloc(coded_array_size);
             if (coded_array != NULL)
