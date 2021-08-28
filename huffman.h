@@ -70,7 +70,7 @@ void _set_leaf_nodes(HuffmanNode **leafs, HuffmanNode *node);
 size_t _set_codes_size(HuffmanNode **leafs, int *codeSize, SortedItems *sortedItems);
 size_t _add_huffman_code(unsigned char **dest, HuffmanNode *leaf, size_t bitPos, size_t steps);
 size_t serialize_huffmandata(HuffmanData *huffmandata, unsigned char **dest);
-HuffmanData *deserialize_huffmandata(unsigned char *src);
+HuffmanData *deserialize_huffmandata(unsigned char *src, size_t *out_byte_read);
 
 //utility
 int _sort_item_comparator(const void *first, const void *second);
@@ -79,7 +79,8 @@ void _set_bit_at_pos(unsigned char *dest, size_t pos, unsigned char value);
 size_t _get_items_sum(SortedItems *sort_items);
 size_t _fill_bytes_for_bits(size_t bits);
 size_t _get_amount_of_character(SortedItems *sortedItems);
-
+size_t _get_huffmandata_needed_bytes(HuffmanData *hd);
+size_t _get_huffmandata_needed_bytes_add_coded_string(HuffmanData *hd, size_t coded_string_bytes);
 //delete
 void delete_huffman_data(HuffmanData *data);
 void _delte_huffman_nodes(HuffmanNode *root);

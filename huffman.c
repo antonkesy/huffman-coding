@@ -423,19 +423,22 @@ void huffman_code_file_to_file(FILE *src, FILE *des)
 void huffman_decode_file_to_file(FILE *src, FILE *des)
 {
     unsigned char buffer[BUFFSIZE_FILE];
+    int read_offset = 0;
     int elements_read = 0;
     //TODO read from offset chunk coded != buffsize
     do
     {
-        fseek(src, elements_read, SEEK_SET);
+        fseek(src, read_offset, SEEK_SET);
         elements_read = fread(buffer, 1, BUFFSIZE_FILE, src);
         printf("read\n");
-        HuffmanData *hd = deserialize_huffmandata(buffer);
+        size_t byte_needed_for_data = 0U;
+        HuffmanData *hd = deserialize_huffmandata(buffer, &byte_needed_for_data);
         unsigned char **decoded = malloc(sizeof(unsigned char **));
         size_t outputSize = 0U;
         decode_huffman_data(hd, decoded, &outputSize);
-        //delete_huffman_data(hd);
         fwrite(*decoded, 1, outputSize, des);
+        read_offset += byte_needed_for_data;
+        //delete_huffman_data(hd);
         free(decoded);
     } while (elements_read > 0);
     printf("read done\n");
@@ -448,7 +451,7 @@ size_t serialize_huffmandata(HuffmanData *huffmandata, unsigned char **dest)
     // sizeof(size_t) = bits of code
     //rest is code
     size_t bytes_for_coded_string = _fill_bytes_for_bits(huffmandata->bits);
-    size_t total_bytes = 2 + sizeof(SortItem) * huffmandata->sort_items->size + sizeof(size_t) + bytes_for_coded_string;
+    size_t total_bytes = _get_huffmandata_needed_bytes_add_coded_string(huffmandata, bytes_for_coded_string);
     unsigned char *output = malloc(total_bytes);
     if (output != NULL)
     {
@@ -482,7 +485,7 @@ size_t serialize_huffmandata(HuffmanData *huffmandata, unsigned char **dest)
     return 0;
 }
 
-HuffmanData *deserialize_huffmandata(unsigned char *src)
+HuffmanData *deserialize_huffmandata(unsigned char *src, size_t *out_byte_read)
 {
     HuffmanData *retData = NULL;
     HuffmanData *hd = malloc(sizeof(HuffmanData));
@@ -524,9 +527,20 @@ HuffmanData *deserialize_huffmandata(unsigned char *src)
                 {
                     hd->codedArray[i] = src[i + offset];
                 }
+                *out_byte_read = offset + coded_array_size;
                 retData = hd;
             }
         }
     }
     return retData;
+}
+
+size_t _get_huffmandata_needed_bytes(HuffmanData *hd)
+{
+    return _get_huffmandata_needed_bytes_add_coded_string(hd, _fill_bytes_for_bits(hd->bits));
+}
+
+size_t _get_huffmandata_needed_bytes_add_coded_string(HuffmanData *hd, size_t coded_string_bytes)
+{
+    return 2 + sizeof(SortItem) * hd->sort_items->size + sizeof(size_t) + coded_string_bytes;
 }
