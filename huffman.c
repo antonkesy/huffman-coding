@@ -414,7 +414,7 @@ void huffman_code_file_to_file(FILE *src, FILE *des)
         printf("write\n");
         HuffmanData *hd = code_into_huffmanData(buffer, elements_read);
         unsigned char *write_bytes = NULL;
-        size_t to_write_bytes = huffmandata_to_string(hd, &write_bytes);
+        size_t to_write_bytes = serialize_huffmandata(hd, &write_bytes);
         fwrite(write_bytes, 1, to_write_bytes, des);
         delete_huffman_data(hd);
     } while (elements_read == BUFFSIZE_FILE);
@@ -430,7 +430,7 @@ void huffman_decode_file_to_file(FILE *src, FILE *des)
         fseek(src, elements_read, SEEK_SET);
         elements_read = fread(buffer, 1, BUFFSIZE_FILE, src);
         printf("read\n");
-        HuffmanData *hd = string_to_huffmandata(buffer);
+        HuffmanData *hd = deserialize_huffmandata(buffer);
         unsigned char **decoded = malloc(sizeof(unsigned char **));
         size_t outputSize = 0U;
         decode_huffman_data(hd, decoded, &outputSize);
@@ -441,7 +441,7 @@ void huffman_decode_file_to_file(FILE *src, FILE *des)
     printf("read done\n");
 }
 
-size_t huffmandata_to_string(HuffmanData *huffmandata, unsigned char **dest)
+size_t serialize_huffmandata(HuffmanData *huffmandata, unsigned char **dest)
 {
     //first byte = sortItems count
     // bytes 1 to sizeof(SortItem) * count = filled with sortItmes
@@ -481,7 +481,7 @@ size_t huffmandata_to_string(HuffmanData *huffmandata, unsigned char **dest)
     return 0;
 }
 
-HuffmanData *string_to_huffmandata(unsigned char *src)
+HuffmanData *deserialize_huffmandata(unsigned char *src)
 {
     HuffmanData *retData = NULL;
     HuffmanData *hd = malloc(sizeof(HuffmanData));
