@@ -106,16 +106,30 @@ int test_serialization()
     HuffmanData *hd = code_into_huffmanData((unsigned char *)exampleString, strlen(exampleString));
     unsigned char **serialization = (unsigned char **)malloc(sizeof(unsigned char **));
     size_t bytes = serialize_huffmandata(hd, serialization);
-    printf("sizeof sortItem = %i\n", sizeof(SortItem));
-    for (int i = 0; i < hd->sort_items->size; ++i)
-    {
-        printf("%i %i\n", hd->sort_items->items[i].freq, hd->sort_items->items[i].value);
-    }
     for (int i = 0; i < bytes; ++i)
     {
         print_char_as_binary((*serialization)[i]);
         if (i == 0 || i == 1 || i == 5 || i == 13 || ((i > 13) && ((i - 13) % (8) == 0)))
             printf("\n");
+    }
+    return 0;
+}
+
+int test_deserialisation()
+{
+    char *exampleString = "BCAADDDCCACACAC";
+    HuffmanData *hd = code_into_huffmanData((unsigned char *)exampleString, strlen(exampleString));
+    unsigned char **serialization = (unsigned char **)malloc(sizeof(unsigned char **));
+    serialize_huffmandata(hd, serialization);
+    HuffmanData *hdDeSeri = deserialize_huffmandata(*serialization);
+
+    if (hd->bits == hdDeSeri->bits)
+    {
+        printf("bits same!\n");
+    }
+    for (int i = 0; i < hd->sort_items->size; ++i)
+    {
+        printf("%i %i\n", hd->sort_items->items[i].freq, hd->sort_items->items[i].value);
     }
     return 0;
 }
@@ -196,7 +210,8 @@ int main(void)
     //example_usage_files();
     //printf("huffman test failed ? %i\n", testHuffman());
     //printf("huffman test all chars failed ? %i\n", test_all_chars());
-    test_serialization();
+    //test_serialization();
+    test_deserialisation();
     //test_min_heap();
     //heap_test_range();
     //heap_test_huffman_nodes();
