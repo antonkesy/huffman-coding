@@ -391,7 +391,7 @@ void print_huffman_node(void *node)
 
 size_t _fill_bytes_for_bits(size_t bits)
 {
-    return (bits / 8U) + ((bits % 8) ? 1 : 0);
+    return (bits / 8U) + ((bits % 8U) ? 1U : 0U);
 }
 
 size_t _get_amount_of_character(SortedItems *sortedItems)
@@ -427,25 +427,27 @@ void huffman_decode_file_to_file(FILE *src, FILE *des)
     size_t elements_read = 0;
     size_t byte_needed_for_data = 0U;
 
-    fseek(src, read_offset, SEEK_SET);
-    elements_read = fread(buffer, 1, BUFFSIZE_FILE, src);
-
-    while (elements_read > 0)
+    do
     {
-        printf("read\n");
-        HuffmanData *hd = deserialize_huffmandata(buffer, &byte_needed_for_data);
-        unsigned char **decoded = malloc(sizeof(unsigned char **));
-        size_t outputSize = 0U;
-        decode_huffman_data(hd, decoded, &outputSize);
-        fwrite(*decoded, 1, outputSize, des);
-        free(decoded);
-        //delete_huffman_data(hd);
-
-        //TODO read offset not working corretly
-        read_offset += byte_needed_for_data + 2;
-        fseek(src, read_offset, SEEK_SET);
+        if (fseek(src, read_offset, SEEK_SET) != 0)
+        {
+            printf("fseek erro\n");
+        }
         elements_read = fread(buffer, 1, BUFFSIZE_FILE, src);
-    }
+        if (elements_read > 0)
+        {
+            printf("read\n");
+            HuffmanData *hd = deserialize_huffmandata(buffer, &byte_needed_for_data);
+            unsigned char **decoded = malloc(sizeof(unsigned char **));
+            size_t outputSize = 0U;
+            decode_huffman_data(hd, decoded, &outputSize);
+            fwrite(*decoded, 1, outputSize, des);
+            free(decoded);
+            //delete_huffman_data(hd);
+            //TODO read offset not working corretly
+            read_offset += byte_needed_for_data + 2;
+        }
+    } while (elements_read > 0);
     printf("read done\n");
 }
 
