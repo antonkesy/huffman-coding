@@ -5,6 +5,7 @@
 #include "huffman.h"
 #include "minheap/minheap.h"
 #include "minheap/minheaptest.h"
+#include "test_utility.h"
 
 #define DEBUG
 #define TEST_INPUT_FILE_NAME "input.txt"
@@ -63,6 +64,8 @@ void example_usage_files()
     }
 
     huffman_decode_file_to_file(codedFile, dest);
+
+    printf("files equal ? %i\n", files_equal(codedFile, dest));
 
     fclose(codedFile);
     fclose(dest);
@@ -207,10 +210,10 @@ int test_all_chars()
 
 int main(void)
 {
-    example_usage();
-    //example_usage_files();
-    printf("huffman test failed ? %i\n", testHuffman());
-    printf("huffman test all chars failed ? %i\n", test_all_chars());
+    //example_usage();
+    example_usage_files();
+    //printf("huffman test failed ? %i\n", testHuffman());
+    //printf("huffman test all chars failed ? %i\n", test_all_chars());
     //test_serialization();
     //test_deserialisation();
     //test_min_heap();
