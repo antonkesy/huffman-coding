@@ -60,3 +60,14 @@ int test_is_huffman_data_equal()
 
     return 0;
 }
+
+int test_coded_string_equal()
+{
+    unsigned char *coded_string_1 = (unsigned char *)"hello";
+    unsigned char *coded_string_1_1 = (unsigned char *)"hello";
+    unsigned char *coded_string_2 = (unsigned char *)"hello!";
+    unsigned char *coded_string_3 = (unsigned char *)":) i bims 1 test";
+
+    printf("%i %i %i", is_coded_string_equal(coded_string_1, coded_string_1_1, 5), is_coded_string_equal(coded_string_1, coded_string_2, 5), is_coded_string_equal(coded_string_1, coded_string_3, 5));
+    return 0;
+}
