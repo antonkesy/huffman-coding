@@ -7,6 +7,6 @@ if(CMAKE_COMPILER_IS_GNUCC)
     add_compile_options(-Wall -Werror -fsanitize=leak)
 endif()
  
-add_executable(HuffmanCode Test.c huffman.c minheap/minheap.c minheap/minheaptest.c test_utility.c huffman_utility.c huffman_utility_test.c)
+add_executable(huffman_code test.c huffman.c minheap/minheap.c minheap/minheaptest.c test_utility.c huffman_utility.c huffman_utility_test.c)
 
 
