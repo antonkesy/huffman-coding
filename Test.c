@@ -6,6 +6,7 @@
 #include "minheap/minheap.h"
 #include "minheap/minheaptest.h"
 #include "test_utility.h"
+#include "huffman_utility.h"
 
 #define DEBUG
 #define TEST_INPUT_FILE_NAME "input.txt"
