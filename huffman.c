@@ -423,32 +423,37 @@ void huffman_code_file_to_file(FILE *src, FILE *des)
 void huffman_decode_file_to_file(FILE *src, FILE *des)
 {
     unsigned char buffer[BUFFSIZE_FILE];
-    int read_offset = 0;
-    int elements_read = 0;
-    //TODO read from offset chunk coded != buffsize
-    do
+    size_t read_offset = 0;
+    size_t elements_read = 0;
+    size_t byte_needed_for_data = 0U;
+
+    fseek(src, read_offset, SEEK_SET);
+    elements_read = fread(buffer, 1, BUFFSIZE_FILE, src);
+
+    while (elements_read > 0)
     {
-        fseek(src, read_offset, SEEK_SET);
-        elements_read = fread(buffer, 1, BUFFSIZE_FILE, src);
         printf("read\n");
-        size_t byte_needed_for_data = 0U;
         HuffmanData *hd = deserialize_huffmandata(buffer, &byte_needed_for_data);
         unsigned char **decoded = malloc(sizeof(unsigned char **));
         size_t outputSize = 0U;
         decode_huffman_data(hd, decoded, &outputSize);
         fwrite(*decoded, 1, outputSize, des);
-        read_offset += byte_needed_for_data;
-        //delete_huffman_data(hd);
         free(decoded);
-    } while (elements_read > 0);
+        //delete_huffman_data(hd);
+
+        //TODO read offset not working corretly
+        read_offset += byte_needed_for_data + 2;
+        fseek(src, read_offset, SEEK_SET);
+        elements_read = fread(buffer, 1, BUFFSIZE_FILE, src);
+    }
     printf("read done\n");
 }
 
 size_t serialize_huffmandata(HuffmanData *huffmandata, unsigned char **dest)
 {
     //first byte = sortItems count
-    // bytes 1 to sizeof(SortItem) * count = filled with sortItmes
     // sizeof(size_t) = bits of code
+    // bytes 1 to sizeof(SortItem) * count = filled with sortItmes
     //rest is code
     size_t bytes_for_coded_string = _fill_bytes_for_bits(huffmandata->bits);
     size_t total_bytes = _get_huffmandata_needed_bytes_add_coded_string(huffmandata, bytes_for_coded_string);
@@ -457,23 +462,23 @@ size_t serialize_huffmandata(HuffmanData *huffmandata, unsigned char **dest)
     {
         output[0] = huffmandata->sort_items->size;
         output[1] = sizeof(size_t);
+        int offset = 2;
 
         //bits
-        int offset = 2;
         for (int i = 0; i < sizeof(size_t); ++i)
         {
             output[i + offset] = ((unsigned char *)(&huffmandata->bits))[i];
         }
+        offset += sizeof(size_t);
 
         //sort sort_items
-        offset += sizeof(size_t);
         for (int i = 0; i <= huffmandata->sort_items->size * sizeof(SortItem); ++i)
         {
             output[i + offset] = ((unsigned char *)huffmandata->sort_items->items)[i];
         }
+        offset += huffmandata->sort_items->size * sizeof(SortItem);
 
         //coded string
-        offset += huffmandata->sort_items->size * sizeof(SortItem);
         for (int i = 0; i < bytes_for_coded_string; ++i)
         {
             output[i + offset] = huffmandata->codedArray[i];
@@ -501,23 +506,23 @@ HuffmanData *deserialize_huffmandata(unsigned char *src, size_t *out_byte_read)
         SortedItems *sortedItems = malloc(sizeof(SortedItems));
         if (items != NULL && sortedItems != NULL)
         {
+            int offset = 2;
             sortedItems->size = items_count;
             sortedItems->items = items;
             hd->sort_items = sortedItems;
 
-            int offset = 2;
             for (int i = 0; i < size_of_size_t; ++i)
             {
                 ((unsigned char *)(&hd->bits))[i] = src[i + offset];
             }
-
             offset += size_of_size_t;
+
             for (int i = 0; i <= items_count * sizeof(SortItem); ++i)
             {
                 ((unsigned char *)hd->sort_items->items)[i] = src[i + offset];
             }
-
             offset += items_count * sizeof(SortItem);
+
             size_t coded_array_size = _fill_bytes_for_bits(hd->bits);
             unsigned char *coded_array = malloc(coded_array_size);
             if (coded_array != NULL)
@@ -542,5 +547,6 @@ size_t _get_huffmandata_needed_bytes(HuffmanData *hd)
 
 size_t _get_huffmandata_needed_bytes_add_coded_string(HuffmanData *hd, size_t coded_string_bytes)
 {
-    return 2 + sizeof(SortItem) * hd->sort_items->size + sizeof(size_t) + coded_string_bytes;
+    //sort count + size of size_t + bits + sorteditems + coded_string size
+    return 2 + sizeof(size_t) + sizeof(SortItem) * hd->sort_items->size + coded_string_bytes;
 }
