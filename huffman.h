@@ -81,16 +81,10 @@ size_t _fill_bytes_for_bits(size_t bits);
 size_t _get_amount_of_character(SortedItems *sorted_items);
 size_t _get_huffmandata_needed_bytes(HuffmanData *hd);
 size_t _get_huffmandata_needed_bytes_add_coded_string(HuffmanData *hd, size_t coded_string_bytes);
+
 //delete
 void delete_huffman_data(HuffmanData *data);
 void _delte_huffman_nodes(HuffmanNode *root);
 void _delete_huffman_tree(HuffmanTree *tree);
 void _delete_sorted_items(SortedItems *sort_items);
-
-//print
-void print_huffman_tree(HuffmanTree *tree);
-void print_huffman_nodes(HuffmanNode *node);
-void print_huffman_node(void *node);
-void print_char_as_binary(unsigned char c);
-void print_coded_string(HuffmanData *hd);
 #endif
