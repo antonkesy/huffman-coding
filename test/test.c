@@ -13,25 +13,7 @@
 
 
 
-int test_deserialisation()
-{
-    char *exampleString = "BCAADDDCCACACAC";
-    HuffmanData *hd = code_into_huffmanData((unsigned char *)exampleString, strlen(exampleString));
-    unsigned char **serialization = (unsigned char **)malloc(sizeof(unsigned char **));
-    serialize_huffmandata(hd, serialization);
-    size_t bytes_for_data = 0U;
-    HuffmanData *hdDeSeri = deserialize_huffmandata(*serialization, &bytes_for_data);
 
-    if (hd->bits == hdDeSeri->bits)
-    {
-        printf("bits same!\n");
-    }
-    for (int i = 0; i < hd->sort_items->size; ++i)
-    {
-        printf("%i %i\n", hd->sort_items->items[i].freq, hd->sort_items->items[i].value);
-    }
-    return 0;
-}
 
 int testHuffman()
 {
