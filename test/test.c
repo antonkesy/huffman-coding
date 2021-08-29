@@ -15,23 +15,7 @@
 
 
 
-int testHuffman()
-{
-    //TODO file reading:
-    //fread while return not 0
-    //do fixed blocks of 16kb or something like that
 
-    char *testString = "Were you able to open it before, on the computer you're using now? XYC23423";
-    HuffmanData *hd = code_into_huffmanData((unsigned char *)testString, strlen(testString));
-    unsigned char **dest = (unsigned char **)malloc(sizeof(unsigned char **));
-    size_t outputSize = 0;
-    decode_huffman_data(hd, dest, &outputSize);
-    //dest[outputSize - 2] = '\0';
-    printf("%s\n%s\n", testString, *dest);
-    size_t compareValue = strcmp(testString, (char *)*dest);
-    printf("compare should be 0 = %u", compareValue);
-    return compareValue;
-}
 
 int test_all_chars()
 {
