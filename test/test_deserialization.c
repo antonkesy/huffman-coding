@@ -25,5 +25,12 @@ int main(void)
             return 1;
         }
     }
+
+    free(serialization);
+    serialization = NULL;
+    delete_huffman_data(hd);
+    hd = NULL;
+    delete_huffman_data(hdDeSeri);
+    hdDeSeri = NULL;
     return 0;
 }
