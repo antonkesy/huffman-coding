@@ -99,7 +99,6 @@ HuffmanTree *build_huffman_tree(SortedItems *sorted_items)
     return tree;
 }
 
-
 HuffmanNode *_create_parent_huffman_node(HuffmanNode *left_child, HuffmanNode *right_child)
 {
     //TODO check malloc error!
@@ -318,8 +317,6 @@ int _node_comparator(const void *first, const void *second)
     return (*(size_t *)first) - (*(size_t *)second);
 }
 
-
-
 size_t _fill_bytes_for_bits(size_t bits)
 {
     return (bits / 8U) + ((bits % 8U) ? 1U : 0U);
@@ -387,6 +384,7 @@ void huffman_decode_file_to_file(FILE *src, FILE *des)
 size_t serialize_huffmandata(HuffmanData *huffmandata, unsigned char **dest)
 {
     //first byte = sortItems count
+    //sizeof size_t
     // sizeof(size_t) = bits of code
     // bytes 1 to sizeof(SortItem) * count = filled with sortItmes
     //rest is code
@@ -414,7 +412,7 @@ size_t serialize_huffmandata(HuffmanData *huffmandata, unsigned char **dest)
         offset += huffmandata->sort_items->size * sizeof(SortItem);
 
         //coded string
-        for (int i = 0; i < bytes_for_coded_string; ++i)
+        for (size_t i = 0U; i < bytes_for_coded_string; ++i)
         {
             output[i + offset] = huffmandata->coded_array[i];
         }
@@ -459,6 +457,7 @@ HuffmanData *deserialize_huffmandata(unsigned char *src, size_t *out_byte_read)
             }
             offset += items_count * sizeof(SortItem);
 
+            //src is two bytes longer?!
             size_t coded_array_size = _fill_bytes_for_bits(hd->bits);
             unsigned char *coded_array = malloc(coded_array_size);
             if (coded_array != NULL)
@@ -466,7 +465,7 @@ HuffmanData *deserialize_huffmandata(unsigned char *src, size_t *out_byte_read)
                 hd->coded_array = coded_array;
                 for (size_t i = 0U; i < coded_array_size; ++i)
                 {
-                    hd->coded_array[i] = src[i + offset];
+                    hd->coded_array[i] = src[offset + i];
                 }
                 *out_byte_read = offset + coded_array_size;
                 retData = hd;
