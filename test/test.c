@@ -131,6 +131,7 @@ int test_all_chars()
 
 int main(void)
 {
+    //TODO split tests for automated testing
     //test_equal_sort_item();
     //test_equal_sorted_items();
     //test_is_huffman_data_equal();
