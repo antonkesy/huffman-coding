@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "huffman.h"
-#include "huffman_utility.h"
+#include "../huffman.h"
+#include "../utility/huffman_utility.h"
 
 int test_equal_sort_item()
 {
@@ -15,8 +15,8 @@ int test_equal_sort_item()
 
 int test_equal_sorted_items()
 {
-    SortItem *items1 = malloc(sizeof(SortItem) * 3);
-    SortItem *items2 = malloc(sizeof(SortItem) * 3);
+    SortItem *items1 = (SortItem *)malloc(sizeof(SortItem) * 3);
+    SortItem *items2 = (SortItem *)malloc(sizeof(SortItem) * 3);
     for (int i = 0; i < 3; ++i)
     {
         items1[i].freq = i;
@@ -35,8 +35,8 @@ int test_equal_sorted_items()
 int test_is_huffman_data_equal()
 {
 
-    SortItem *items1 = malloc(sizeof(SortItem) * 3);
-    SortItem *items2 = malloc(sizeof(SortItem) * 3);
+    SortItem *items1 = (SortItem *)malloc(sizeof(SortItem) * 3);
+    SortItem *items2 = (SortItem *)malloc(sizeof(SortItem) * 3);
     for (int i = 0; i < 3; ++i)
     {
         items1[i].freq = i;
