@@ -347,6 +347,11 @@ void huffman_code_file_to_file(FILE *src, FILE *des)
         HuffmanData *hd = code_into_huffmanData(buffer, elements_read);
         unsigned char *write_bytes = NULL;
         size_t to_write_bytes = serialize_huffmandata(hd, &write_bytes);
+
+        //TODO bytes not the same?!
+        unsigned char c[] = {write_bytes[to_write_bytes], write_bytes[to_write_bytes - 1], write_bytes[to_write_bytes - 2]};
+        printf("%c", c[0]);
+
         fwrite(write_bytes, 1, to_write_bytes, des);
         delete_huffman_data(hd);
         read_offset += elements_read;
@@ -415,6 +420,11 @@ size_t serialize_huffmandata(HuffmanData *huffmandata, unsigned char **dest)
         for (size_t i = 0U; i < bytes_for_coded_string; ++i)
         {
             output[i + offset] = huffmandata->coded_array[i];
+            if (i == bytes_for_coded_string - 1)
+            {
+                unsigned char c[] = {huffmandata->coded_array[i], huffmandata->coded_array[i - 1], huffmandata->coded_array[i - 2]};
+                printf("%c", c[0]);
+            }
         }
 
         *dest = output;
