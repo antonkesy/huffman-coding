@@ -87,7 +87,7 @@ int is_huffman_data_equal(HuffmanData *hd1, HuffmanData *hd2)
         printf("huffman data bits not same!\n");
         ret_value = 0;
     }
-    if (!is_coded_string_equal(hd1->coded_array, hd2->coded_array, hd1->bits))
+    if (!is_coded_string_equal(hd1->coded_array, hd2->coded_array, _fill_bytes_for_bits(hd1->bits)))
     {
         printf("huffman data coded string not same!\n");
         ret_value = 0;
@@ -107,6 +107,9 @@ int is_coded_string_equal(unsigned char *coded_string_1, unsigned char *coded_st
     {
         if (coded_string_1[i] != coded_string_2[i])
         {
+            unsigned char c1 = coded_string_1[i];
+            unsigned char c2 = coded_string_2[i];
+            printf("coded char at pos %i not same! %c %c", i, c1, c2);
             return 0;
         }
     }
