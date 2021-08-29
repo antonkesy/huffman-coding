@@ -1,8 +1,7 @@
 #include <stdlib.h>
 #include <string.h>
-#include "../huffman.h"
-#include "../utility/huffman_utility.h"
-
+#include "../../huffman.h"
+#include "../../utility/huffman_utility.h"
 
 int main(void)
 {

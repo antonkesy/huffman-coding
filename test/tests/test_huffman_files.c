@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "../huffman.h"
-#include "test_utility.h"
+#include "../../huffman.h"
+#include "../test_utility.h"
 
 #define TEST_INPUT_FILE_NAME "input.txt"
 #define TEST_CODED_FILE_NAME "coded.txt"

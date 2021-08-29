@@ -1,0 +1,17 @@
+project(huffman_test)
+cmake_minimum_required(VERSION 2.8.12)
+
+add_executable(test_serialization test/tests/test_serialization.c huffman.c minheap/minheap.c utility/huffman_utility.c test/test_utility.c)
+add_executable(test_deserialization test/tests/test_deserialization.c huffman.c minheap/minheap.c utility/huffman_utility.c test/test_utility.c)
+add_executable(test_huffman_simple test/tests/test_huffman_simple.c huffman.c minheap/minheap.c utility/huffman_utility.c test/test_utility.c)
+add_executable(test_huffman_all_chars test/tests/test_all_chars.c huffman.c minheap/minheap.c utility/huffman_utility.c test/test_utility.c)
+add_executable(test_huffman_files test/tests/test_huffman_files.c huffman.c minheap/minheap.c utility/huffman_utility.c test/test_utility.c)
+
+enable_testing()
+add_test(complete_test huffman_test serial_test test_serialization)
+add_test(serial_test test_serialization)
+add_test(deserial_test test_serialization)
+add_test(huffman_simple_test test_serialization)
+add_test(huffman_all_chars_test test_huffman_all_chars)
+add_test(huffman_files_test test_huffman_files)
+set_tests_properties(complete_test serial_test deserial_test huffman_simple_test huffman_all_chars_test huffman_files_test PROPERTIES WILL_FAIL FALSE)
