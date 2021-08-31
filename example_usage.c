@@ -87,7 +87,7 @@ void example_usage(void)
    //get unsigned char array of data to convert
    char* example_string = "BCAADDDCCACACAC";
    //create huffman data
-   HuffmanData* hd = code_into_huffmanData((unsigned char*)example_string, strlen(example_string));
+   HuffmanData* hd = code_into_huffman_data((unsigned char*)example_string, strlen(example_string));
    //need to transfer whole data to decode into original
 
    //create pointer to unsigned char arrays

@@ -55,7 +55,7 @@ SortedItems* sort_by_frequency(const unsigned char* items, const size_t size)
    return sorted_items;
 }
 
-HuffmanData* code_into_huffmanData(unsigned char* items, size_t size)
+HuffmanData* code_into_huffman_data(unsigned char* items, const size_t size)
 {
    return _code_huffman_string(items, size, sort_by_frequency(items, size));
 }
@@ -338,7 +338,7 @@ void huffman_code_file_to_file(FILE* src, FILE* des)
       } //trivial
       elements_read = fread(buffer, 1, BUFFSIZE_FILE, src);
       printf("write\n");
-      HuffmanData* hd = code_into_huffmanData(buffer, elements_read);
+      HuffmanData* hd = code_into_huffman_data(buffer, elements_read);
       unsigned char* write_bytes = NULL;
       size_t to_write_bytes = serialize_huffmandata(hd, &write_bytes);
       fwrite(write_bytes, 1, to_write_bytes, des);

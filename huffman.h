@@ -50,7 +50,7 @@ typedef struct
 //TODO return value is int and output is parameter
 
 //code unsigned char array into hd and reverse
-HuffmanData* code_into_huffmanData(unsigned char* items, size_t size);
+HuffmanData* code_into_huffman_data(unsigned char* items, const size_t size);
 int decode_huffman_data(HuffmanData* hd, unsigned char** dest, size_t* out_size);
 
 //code file into new file

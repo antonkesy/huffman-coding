@@ -5,7 +5,7 @@
 int main(void)
 {
     char *example_string = "BCAADDDCCACACAC";
-    HuffmanData *hd = code_into_huffmanData((unsigned char *)example_string, strlen(example_string));
+    HuffmanData *hd = code_into_huffman_data((unsigned char *)example_string, strlen(example_string));
     unsigned char **serialization = (unsigned char **)malloc(sizeof(unsigned char **));
     serialize_huffmandata(hd, serialization);
     size_t bytes_for_data = 0U;
