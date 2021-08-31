@@ -33,20 +33,20 @@ void example_usage_files()
         return;
     }
 
-    FILE *codedFile = fopen(TEST_CODED_FILE_NAME, "w");
-    if (codedFile == NULL)
+    FILE *coded_file = fopen(TEST_CODED_FILE_NAME, "w");
+    if (coded_file == NULL)
     {
         printf("Unable to create file.\n");
         return;
     }
 
-    huffman_code_file_to_file(src, codedFile);
+    huffman_code_file_to_file(src, coded_file);
 
     fclose(src);
-    fclose(codedFile);
+    fclose(coded_file);
 
-    codedFile = fopen(TEST_CODED_FILE_NAME, "r");
-    if (codedFile == NULL)
+    coded_file = fopen(TEST_CODED_FILE_NAME, "r");
+    if (coded_file == NULL)
     {
         printf("Unable to open file.\n");
         return;
@@ -59,28 +59,28 @@ void example_usage_files()
         return;
     }
 
-    huffman_decode_file_to_file(codedFile, dest);
+    huffman_decode_file_to_file(coded_file, dest);
 
-    printf("files equal ? %i\n", files_equal(codedFile, dest));
+    printf("files equal ? %i\n", files_equal(coded_file, dest));
 
-    fclose(codedFile);
+    fclose(coded_file);
     fclose(dest);
 }
 
 void example_usage()
 {
     //get unsigned char array of data to convert
-    char *exampleString = "BCAADDDCCACACAC";
+    char *example_string = "BCAADDDCCACACAC";
     //create huffman data
-    HuffmanData *hd = code_into_huffmanData((unsigned char *)exampleString, strlen(exampleString));
+    HuffmanData *hd = code_into_huffmanData((unsigned char *)example_string, strlen(example_string));
     //need to transfer whole data to decode into original
 
     //create pointer to unsigned char arrays
     unsigned char **decoded = (unsigned char **)malloc(sizeof(unsigned char **));
     //if you need size of the original unsigend char arrays
-    size_t outputSize;
+    size_t output_size;
     //decodes huffman data into decoded
-    decode_huffman_data(hd, decoded, &outputSize);
+    decode_huffman_data(hd, decoded, &output_size);
     printf("%s\n", *decoded);
     //done?
     delete_huffman_data(hd);
@@ -89,5 +89,6 @@ void example_usage()
 int main(void)
 {
     example_usage();
+    example_usage_files();
     return 0;
 }
