@@ -4,14 +4,14 @@
 
 int main(void)
 {
-    char *exampleString = "BCAADDDCCACACAC";
-    HuffmanData *hd = code_into_huffmanData((unsigned char *)exampleString, strlen(exampleString));
+    char *example_string = "BCAADDDCCACACAC";
+    HuffmanData *hd = code_into_huffmanData((unsigned char *)example_string, strlen(example_string));
     unsigned char **serialization = (unsigned char **)malloc(sizeof(unsigned char **));
     serialize_huffmandata(hd, serialization);
     size_t bytes_for_data = 0U;
-    HuffmanData *hdDeSeri = deserialize_huffmandata(*serialization, &bytes_for_data);
+    HuffmanData *hd_deserial = deserialize_huffmandata(*serialization, &bytes_for_data);
 
-    if (hd->bits != hdDeSeri->bits)
+    if (hd->bits != hd_deserial->bits)
     {
         printf("bits not same!\n");
         return 1;
@@ -30,7 +30,7 @@ int main(void)
     serialization = NULL;
     delete_huffman_data(hd);
     hd = NULL;
-    delete_huffman_data(hdDeSeri);
-    hdDeSeri = NULL;
+    delete_huffman_data(hd_deserial);
+    hd_deserial = NULL;
     return 0;
 }
