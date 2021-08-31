@@ -1,75 +1,78 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include "../../huffman.h"
 #include "../test_utility.h"
+
 
 #define TEST_INPUT_FILE_NAME "input.txt"
 #define TEST_CODED_FILE_NAME "coded.txt"
 #define TEST_OUTPUT_FILE_NAME "output.txt"
 
-void create_test_input_file()
+
+int test_file_coding(void)
 {
-    FILE *fp;
-    fp = fopen(TEST_INPUT_FILE_NAME, "w+");
-    if (fp != NULL)
-    {
-        fprintf(fp, "Hello,\tI'm a testing file :)\n");
-        for (register int i = 0; i < 100; ++i)
-        {
-            fprintf(fp, "number iteration = %i\n", i);
-        }
-    }
-    fclose(fp);
-}
+   create_test_input_file(TEST_INPUT_FILE_NAME);
+   FILE** src = malloc(sizeof(FILE**));
+   if (src == NULL)
+   {
+      return 1;
+   }
 
-int test_file_coding()
-{
-    create_test_input_file();
-    FILE *src = fopen(TEST_INPUT_FILE_NAME, "r");
-    if (src == NULL)
-    {
-        printf("Unable to open file.\n");
-        return 1;
-    }
+   fopen_s(src, TEST_INPUT_FILE_NAME, "r");
 
-    FILE *codedFile = fopen(TEST_CODED_FILE_NAME, "w");
-    if (codedFile == NULL)
-    {
-        printf("Unable to create file.\n");
-        return 1;
-    }
+   if (*src == NULL)
+   {
+      printf("Unable to open file.\n");
+      return 1;
+   }
 
-    huffman_code_file_to_file(src, codedFile);
+   FILE** coded_file = malloc(sizeof(FILE**));
+   if (coded_file == NULL)
+   {
+      return 1;
+   }
+   fopen_s(coded_file, TEST_CODED_FILE_NAME, "w");
+   if (*coded_file == NULL)
+   {
+      printf("Unable to create file.\n");
+      return 1;
+   }
 
-    fclose(src);
-    fclose(codedFile);
+   huffman_code_file_to_file(*src, *coded_file);
 
-    codedFile = fopen(TEST_CODED_FILE_NAME, "r");
-    if (codedFile == NULL)
-    {
-        printf("Unable to open file.\n");
-        return 1;
-    }
+   fclose(*src);
+   fclose(*coded_file);
 
-    FILE *dest = fopen(TEST_OUTPUT_FILE_NAME, "w");
-    if (dest == NULL)
-    {
-        printf("Unable to create file.\n");
-        return 1;
-    }
+   fopen_s(coded_file, TEST_CODED_FILE_NAME, "r");
+   if (*coded_file == NULL)
+   {
+      printf("Unable to open file.\n");
+      return 1;
+   }
 
-    huffman_decode_file_to_file(codedFile, dest);
+   FILE** dest = malloc(sizeof(FILE**));
+   if (dest == NULL)
+   {
+      return 0;
+   }
+   fopen_s(dest, TEST_OUTPUT_FILE_NAME, "w");
+   if (*dest == NULL)
+   {
+      printf("Unable to create file.\n");
+      return 1;
+   }
 
-    int ret_val = files_equal(codedFile, dest);
+   huffman_decode_file_to_file(*coded_file, *dest);
 
-    fclose(codedFile);
-    fclose(dest);
+   const int ret_val = files_equal(*coded_file, *dest);
 
-    return ret_val;
+   fclose(*coded_file);
+   fclose(*dest);
+
+   return ret_val;
 }
 
 int main(void)
 {
-    return test_file_coding();
+   return test_file_coding();
 }
