@@ -68,7 +68,7 @@ HuffmanNode* _create_parent_huffman_node(HuffmanNode* left_child, HuffmanNode* r
 int _get_leaf_height(HuffmanNode* leaf);
 void _set_leaf_nodes(HuffmanNode** leafs, HuffmanNode* node);
 size_t _set_codes_size(HuffmanNode** leafs, int* code_size, SortedItems* sorted_items);
-size_t _add_huffman_code(unsigned char** dest, HuffmanNode* leaf, size_t bit_pos, size_t steps);
+size_t _add_huffman_code(unsigned char** dest, HuffmanNode* leaf, const size_t bit_pos, size_t steps);
 size_t serialize_huffmandata(HuffmanData* huffmandata, unsigned char** dest);
 HuffmanData* deserialize_huffmandata(unsigned char* src, size_t* out_byte_read);
 

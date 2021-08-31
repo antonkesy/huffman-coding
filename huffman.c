@@ -194,13 +194,13 @@ int _get_leaf_height(HuffmanNode* leaf)
    return 0;
 }
 
-size_t _add_huffman_code(unsigned char** output, HuffmanNode* leaf, size_t bit_pos, size_t steps)
+size_t _add_huffman_code(unsigned char** dest, HuffmanNode* leaf, const size_t bit_pos, size_t steps)
 {
    HuffmanNode* parent = leaf->parent;
    if (parent != NULL)
    {
-      steps = _add_huffman_code(output, parent, bit_pos, steps);
-      _set_bit_at_pos(*output, (bit_pos + steps) - 1, parent->right == leaf ? 1 : 0);
+      steps = _add_huffman_code(dest, parent, bit_pos, steps);
+      _set_bit_at_pos(*dest, (bit_pos + steps) - 1, parent->right == leaf ? 1 : 0);
    }
    return steps + 1;
 }
