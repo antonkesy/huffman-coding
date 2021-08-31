@@ -40,7 +40,7 @@ SortedItems* sort_by_frequency(const unsigned char* items, const size_t size)
          }
          qsort(sort_items_array, unique_chars_count, sizeof(SortItem), _sort_item_comparator);
          sorted_items->items = sort_items_array;
-         sorted_items->size = (unsigned char)unique_chars_count;
+         sorted_items->size = (unsigned short)unique_chars_count;
       }
       else
       {
@@ -57,6 +57,11 @@ SortedItems* sort_by_frequency(const unsigned char* items, const size_t size)
 
 HuffmanData* code_into_huffman_data(unsigned char* items, const size_t size)
 {
+   if (size == 0)
+   {
+      printf("no items to code");
+      return NULL;
+   }
    return _code_huffman_string(items, size, sort_by_frequency(items, size));
 }
 
@@ -88,14 +93,13 @@ HuffmanTree* build_huffman_tree(SortedItems* sorted_items)
          {
             tree->root = (HuffmanNode*)extract_min(min_heap)->data;
             tree->size = sorted_items->size;
+            delete_minheap(min_heap);
+            return tree;
          }
          else
          {
             printf("malloc error");
          }
-
-         delete_minheap(min_heap);
-         return tree;
       }
    }
    return NULL;
@@ -130,11 +134,11 @@ void _delete_huffman_nodes(HuffmanNode* node)
 
 HuffmanData* _code_huffman_string(const unsigned char input[], const size_t input_size, SortedItems* sorted_items)
 {
-   HuffmanTree* tree = build_huffman_tree(sorted_items);
    HuffmanData* data = malloc(sizeof(HuffmanData));
+   HuffmanTree* tree = build_huffman_tree(sorted_items);
    HuffmanNode** leafs = (malloc(sizeof(HuffmanNode*) * 0x100));
    int* code_size = malloc(sizeof(int) * 0x100);
-   if (leafs != NULL && code_size != NULL)
+   if (leafs != NULL && code_size != NULL && tree != NULL && data != NULL)
    {
       _set_leaf_nodes(leafs, tree->root);
       const size_t bits_needed = _set_codes_size(leafs, code_size, sorted_items);
@@ -145,7 +149,7 @@ HuffmanData* _code_huffman_string(const unsigned char input[], const size_t inpu
       unsigned char* output_buffer = calloc(1, _fill_bytes_for_bits(bits_needed));
       unsigned char** output = &output_buffer;
 
-      if (tree != NULL && data != NULL)
+      if (output_buffer != NULL)
       {
          size_t bit_pos = 0U;
 
@@ -169,6 +173,7 @@ HuffmanData* _code_huffman_string(const unsigned char input[], const size_t inpu
    else
    {
       printf("malloc error");
+      return NULL;
    }
 
    return data;
