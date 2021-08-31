@@ -3,9 +3,9 @@
 #include <stdlib.h>
 #include "minheap/minheap.h"
 
-long int _sort_item_comparator(const void* first, const void* second)
+int _sort_item_comparator(const void* first, const void* second)
 {
-   return (long int)(*(const size_t*)first) - (long int)(*(const size_t*)second);
+   return (int)(*(const size_t*)first) - (long int)(*(const size_t*)second);
 }
 
 SortedItems* sort_by_frequency(const unsigned char* items, const size_t size)
@@ -311,7 +311,7 @@ void _delete_sorted_items(SortedItems* sort_items)
    sort_items = NULL;
 }
 
-long int _node_comparator(const void* first, const void* second)
+int _node_comparator(const void* first, const void* second)
 {
    return (long int)(*(const size_t*)first) - (long int)(*(const size_t*)second);
 }
