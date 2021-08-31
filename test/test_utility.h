@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 
-int files_equal(FILE *fp1, FILE *fp2);
+int files_equal(FILE* fp1, FILE* fp2);
+void create_test_input_file(const char* file_name);
 
 #endif
