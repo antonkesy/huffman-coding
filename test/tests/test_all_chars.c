@@ -1,24 +1,23 @@
 #include <stdlib.h>
-#include <string.h>
 #include "../../huffman.h"
 
 int main(void)
 {
    printf("test all chars\n");
-   int isError = 0;
+   int is_error = 0;
 
-   unsigned char* allChars = (unsigned char*)malloc(0x100);
-   if (allChars != NULL)
+   unsigned char* all_chars = (unsigned char*)malloc(0x100);
+   if (all_chars != NULL)
    {
       for (register int i = 0; i < 0x100; ++i)
       {
-         allChars[i] = (unsigned char)i;
+         all_chars[i] = (unsigned char)i;
          //print_char_as_binary(allChars[i]);
          //printf("\n");
       }
 
       //printf("\n\n");
-      HuffmanData* hd = code_into_huffman_data(allChars, 0x100);
+      HuffmanData* hd = code_into_huffman_data(all_chars, 0x100);
 
       unsigned char* allCharsDecode = (unsigned char*)malloc(0x100);
       if (allCharsDecode != NULL)
@@ -33,15 +32,15 @@ int main(void)
             printf("\tshould = ");
             print_char_as_binary(allCharsDecode[i]);
             printf("\n");*/
-            if (allChars[i] != allCharsDecode[i])
+            if (all_chars[i] != allCharsDecode[i])
             {
-               isError = 1;
+               is_error = 1;
             }
          }
       }
       else
       {
-         isError = 1;
+         is_error = 1;
       }
       free(allCharsDecode);
       delete_huffman_data(hd);
@@ -49,10 +48,10 @@ int main(void)
    else
    {
       //malloc error
-      isError = 1;
+      is_error = 1;
    }
 
-   free(allChars);
+   free(all_chars);
 
-   return isError;
+   return is_error;
 }
