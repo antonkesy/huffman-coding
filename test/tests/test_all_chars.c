@@ -20,7 +20,7 @@ int main(void)
       HuffmanData* hd = code_into_huffman_data(all_chars, 0x100);
 
       unsigned char* allCharsDecode = (unsigned char*)malloc(0x100);
-      if (allCharsDecode != NULL)
+      if (allCharsDecode != NULL && hd!=NULL)
       {
          size_t outputSize = 0;
          decode_huffman_data(hd, &allCharsDecode, &outputSize);
