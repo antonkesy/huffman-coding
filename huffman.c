@@ -191,10 +191,7 @@ int _get_leaf_height(HuffmanNode* leaf)
    {
       return 1 + _get_leaf_height(leaf->parent);
    }
-   else
-   {
-      return 0;
-   }
+   return 0;
 }
 
 size_t _add_huffman_code(unsigned char** output, HuffmanNode* leaf, size_t bit_pos, size_t steps)
