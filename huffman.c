@@ -62,36 +62,43 @@ HuffmanData* code_into_huffman_data(unsigned char* items, const size_t size)
 
 HuffmanTree* build_huffman_tree(SortedItems* sorted_items)
 {
-   minheap* minheap = create_min_heap_minheap(sorted_items->size);
-   HuffmanNode* nodes = (HuffmanNode*)calloc(sizeof(HuffmanNode), sorted_items->size);
+   if (sorted_items != NULL)
+   {
+      minheap* min_heap = create_min_heap_minheap(sorted_items->size);
+      HuffmanNode* nodes = (HuffmanNode*)calloc(sizeof(HuffmanNode), sorted_items->size);
 
-   for (register size_t i = 0U; i < sorted_items->size; ++i)
-   {
-      nodes[i].freq = sorted_items->items[sorted_items->size - i - 1].freq;
-      nodes[i].value = sorted_items->items[sorted_items->size - i - 1].value;
-      insert_minheap(minheap, create_heap_data_minheap(nodes[i].freq, &nodes[i]));
-   }
+      if (min_heap != NULL && nodes != NULL)
+      {
+         for (register size_t i = 0U; i < sorted_items->size; ++i)
+         {
+            nodes[i].freq = sorted_items->items[sorted_items->size - i - 1].freq;
+            nodes[i].value = sorted_items->items[sorted_items->size - i - 1].value;
+            insert_minheap(min_heap, create_heap_data_minheap(nodes[i].freq, &nodes[i]));
+         }
 
-   while (minheap->size > 1)
-   {
-      HuffmanNode* left = (HuffmanNode*)extract_min(minheap)->data;
-      HuffmanNode* right = (HuffmanNode*)extract_min(minheap)->data;
-      HuffmanNode* parent = _create_parent_huffman_node(left, right);
-      insert_minheap(minheap, create_heap_data_minheap(parent->freq, parent));
-   }
-   HuffmanTree* tree = malloc(sizeof(HuffmanTree));
-   if (tree != NULL)
-   {
-      tree->root = (HuffmanNode*)extract_min(minheap)->data;
-      tree->size = sorted_items->size;
-   }
-   else
-   {
-      printf("malloc error");
-   }
+         while (min_heap->size > 1)
+         {
+            HuffmanNode* left = (HuffmanNode*)extract_min(min_heap)->data;
+            HuffmanNode* right = (HuffmanNode*)extract_min(min_heap)->data;
+            HuffmanNode* parent = _create_parent_huffman_node(left, right);
+            insert_minheap(min_heap, create_heap_data_minheap(parent->freq, parent));
+         }
+         HuffmanTree* tree = malloc(sizeof(HuffmanTree));
+         if (tree != NULL)
+         {
+            tree->root = (HuffmanNode*)extract_min(min_heap)->data;
+            tree->size = sorted_items->size;
+         }
+         else
+         {
+            printf("malloc error");
+         }
 
-   delete_minheap(minheap);
-   return tree;
+         delete_minheap(min_heap);
+         return tree;
+      }
+   }
+   return NULL;
 }
 
 HuffmanNode* _create_parent_huffman_node(HuffmanNode* left_child, HuffmanNode* right_child)
