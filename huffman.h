@@ -58,7 +58,7 @@ void huffman_code_file_to_file(FILE* src, FILE* des);
 void huffman_decode_file_to_file(FILE* src, FILE* des);
 
 SortedItems* sort_by_frequency(const unsigned char* items, const size_t size);
-HuffmanData* _code_huffman_string(unsigned char input[], size_t input_size, SortedItems* sorted_items);
+HuffmanData* _code_huffman_string(const unsigned char input[], const size_t input_size, SortedItems* sorted_items);
 
 //tree
 HuffmanTree* build_huffman_tree(SortedItems* sorted_items);
