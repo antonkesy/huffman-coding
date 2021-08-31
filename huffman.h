@@ -84,7 +84,7 @@ size_t _get_huffmandata_needed_bytes_add_coded_string(HuffmanData* hd, size_t co
 
 //delete
 void delete_huffman_data(HuffmanData* data);
-void _delete_huffman_nodes(HuffmanNode* root);
+void _delete_huffman_nodes(HuffmanNode* node);
 void _delete_huffman_tree(HuffmanTree* tree);
 void _delete_sorted_items(SortedItems* sort_items);
 #endif
