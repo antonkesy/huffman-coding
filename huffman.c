@@ -115,14 +115,14 @@ HuffmanNode* _create_parent_huffman_node(HuffmanNode* left_child, HuffmanNode* r
    return parent_node;
 }
 
-void _delte_huffman_nodes(HuffmanNode* node)
+void _delete_huffman_nodes(HuffmanNode* node)
 {
    //TODO fixme
    //leaf is not there anymore ?! feeefeee
    if (node != NULL)
    {
-      _delte_huffman_nodes(node->left);
-      _delte_huffman_nodes(node->right);
+      _delete_huffman_nodes(node->left);
+      _delete_huffman_nodes(node->right);
       free(node);
       node = NULL;
    }
@@ -284,7 +284,7 @@ int decode_huffman_data(HuffmanData* hd, unsigned char** dest, size_t* out_size)
 
 void _delete_huffman_tree(HuffmanTree* tree)
 {
-   _delte_huffman_nodes(tree->root);
+   _delete_huffman_nodes(tree->root);
    free(tree);
    tree = NULL;
 }
