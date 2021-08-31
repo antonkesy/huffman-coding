@@ -219,7 +219,7 @@ void _set_leaf_nodes(HuffmanNode** leafs, HuffmanNode* node)
    }
 }
 
-void _set_bit_at_pos(unsigned char* dest, size_t pos, unsigned char value)
+void _set_bit_at_pos(unsigned char* dest, const size_t pos, const unsigned char value)
 {
    unsigned char write_value = value;
    write_value <<= 7 - (pos % 8);
