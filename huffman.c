@@ -103,14 +103,15 @@ HuffmanTree* build_huffman_tree(SortedItems* sorted_items)
 
 HuffmanNode* _create_parent_huffman_node(HuffmanNode* left_child, HuffmanNode* right_child)
 {
-   //TODO check malloc error!
    HuffmanNode* parent_node = calloc(sizeof(HuffmanNode), 1);
-   parent_node->left = left_child;
-   parent_node->right = right_child;
-   parent_node->left->parent = parent_node;
-   parent_node->right->parent = parent_node;
-   parent_node->freq = left_child->freq + right_child->freq;
-
+   if (parent_node != NULL)
+   {
+      parent_node->left = left_child;
+      parent_node->right = right_child;
+      parent_node->left->parent = parent_node;
+      parent_node->right->parent = parent_node;
+      parent_node->freq = left_child->freq + right_child->freq;
+   }
    return parent_node;
 }
 
