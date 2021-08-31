@@ -8,27 +8,10 @@
 #define TEST_CODED_FILE_NAME "coded.txt"
 #define TEST_OUTPUT_FILE_NAME "output.txt"
 
-void create_test_input_file(void)
-{
-   FILE** fp = malloc(sizeof(FILE**));
-   if (fp != NULL)
-   {
-      fopen_s(fp, TEST_INPUT_FILE_NAME, "w+");
-      if (*fp != NULL)
-      {
-         fprintf(*fp, "Hello,\tI'm a testing file :)\n");
-         for (register int i = 0; i < 100; ++i)
-         {
-            fprintf(*fp, "number iteration = %i\n", i);
-         }
-         fclose(*fp);
-      }
-   }
-}
 
 void example_usage_files(void)
 {
-   create_test_input_file();
+   create_test_input_file(TEST_INPUT_FILE_NAME);
    FILE** src = malloc(sizeof(FILE**));
    if (src != NULL)
    {
