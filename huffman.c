@@ -442,7 +442,7 @@ HuffmanData* deserialize_huffman_data(const unsigned char* src, size_t* out_byte
    HuffmanData* hd = malloc(sizeof(HuffmanData));
    if (hd != NULL && src != NULL)
    {
-      const unsigned short items_count = (unsigned short)(src[0] << 8) + src[0];
+      const unsigned short items_count = (unsigned short)(src[0] << 8) + src[1];
       const unsigned char size_of_size_t = src[2];
       if (size_of_size_t > sizeof(size_t))
       {
