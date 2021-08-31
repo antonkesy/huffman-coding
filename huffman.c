@@ -150,7 +150,6 @@ HuffmanData *_code_huffman_string(unsigned char input[], size_t input_size, Sort
             {
                 bitPos += _add_huffman_code(output, leafs[input[i]], bitPos, 0) - 1;
             }
-
             //_delete_huffman_tree(tree);
             free(leafs);
             leafs = NULL;
@@ -347,11 +346,6 @@ void huffman_code_file_to_file(FILE *src, FILE *des)
         HuffmanData *hd = code_into_huffmanData(buffer, elements_read);
         unsigned char *write_bytes = NULL;
         size_t to_write_bytes = serialize_huffmandata(hd, &write_bytes);
-
-        //TODO bytes not the same?!
-        unsigned char c[] = {write_bytes[to_write_bytes], write_bytes[to_write_bytes - 1], write_bytes[to_write_bytes - 2]};
-        printf("%c", c[0]);
-
         fwrite(write_bytes, 1, to_write_bytes, des);
         delete_huffman_data(hd);
         read_offset += elements_read;
@@ -373,6 +367,7 @@ void huffman_decode_file_to_file(FILE *src, FILE *des)
         }
         elements_read = fread(buffer, 1, BUFFSIZE_FILE, src);
         printf("read\n");
+        //TODO #3 last 3 chars are not getting deserialized
         HuffmanData *hd = deserialize_huffmandata(buffer, &byte_needed_for_data);
         unsigned char **decoded = malloc(sizeof(unsigned char **));
         size_t outputSize = 0U;
@@ -382,7 +377,7 @@ void huffman_decode_file_to_file(FILE *src, FILE *des)
         //delete_huffman_data(hd);
         //TODO #2 read offset not working corretly
         read_offset += byte_needed_for_data + 2;
-    } while (elements_read >= byte_needed_for_data);
+    } while (elements_read > byte_needed_for_data);
     printf("read done\n");
 }
 
@@ -420,11 +415,6 @@ size_t serialize_huffmandata(HuffmanData *huffmandata, unsigned char **dest)
         for (size_t i = 0U; i < bytes_for_coded_string; ++i)
         {
             output[i + offset] = huffmandata->coded_array[i];
-            if (i == bytes_for_coded_string - 1)
-            {
-                unsigned char c[] = {huffmandata->coded_array[i], huffmandata->coded_array[i - 1], huffmandata->coded_array[i - 2]};
-                printf("%c", c[0]);
-            }
         }
 
         *dest = output;
