@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "../../huffman.h"
+#include "../../utility/huffman_utility.h"
 
 int main(void)
 {
@@ -18,24 +19,13 @@ int main(void)
    }
    size_t bytes_for_data = 0U;
    HuffmanData* hd_de_serial = deserialize_huffman_data(*serialization, &bytes_for_data);
+
    if (hd_de_serial == NULL)
    {
       return 1;
    }
-   if (hd->bits != hd_de_serial->bits)
-   {
-      printf("bits not same!\n");
-      return 1;
-   }
-   for (int i = 0; i < hd->sort_items->size; ++i)
-   {
-      printf("%i %i\n", hd->sort_items->items[i].freq, hd->sort_items->items[i].value);
-      if (hd->sort_items->items[i].freq != hd->sort_items->items[i].value)
-      {
-         //not same value!
-         return 1;
-      }
-   }
+
+   const int ret_value = !is_huffman_data_equal(hd, hd_de_serial);
 
    free(serialization);
    serialization = NULL;
@@ -43,5 +33,5 @@ int main(void)
    hd = NULL;
    delete_huffman_data(hd_de_serial);
    hd_de_serial = NULL;
-   return 0;
+   return ret_value;
 }
