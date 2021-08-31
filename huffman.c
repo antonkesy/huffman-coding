@@ -316,7 +316,7 @@ long int _node_comparator(const void* first, const void* second)
    return (long int)(*(const size_t*)first) - (long int)(*(const size_t*)second);
 }
 
-size_t _fill_bytes_for_bits(size_t bits)
+size_t _fill_bytes_for_bits(const size_t bits)
 {
    return (bits / 8U) + ((bits % 8U) ? 1U : 0U);
 }
