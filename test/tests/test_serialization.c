@@ -8,7 +8,7 @@ int main(void)
    //check diffrent endian
 
    //should be
-   //0000 0100 (sort item size)
+   //0000 0100 0000 0000(sort item size)
    //0000 0100 sizeof(size_t)
    //(0001 1100) (0000 0000) (0000 0000) (0000 0000) bits
    // 4 * SortItems(8) (4x freq) + (1x value)
@@ -21,12 +21,18 @@ int main(void)
    char* exampleString = "BCAADDDCCACACAC";
    HuffmanData* hd = code_into_huffman_data((unsigned char*)exampleString, strlen(exampleString));
    unsigned char** serialization = (unsigned char**)malloc(sizeof(unsigned char**));
-   size_t bytes = serialize_huffmandata(hd, serialization);
-   for (int i = 0; i < bytes; ++i)
+   if (serialization != NULL)
    {
-      print_char_as_binary((*serialization)[i]);
-      if (i == 0 || i == 1 || i == 5 || i == 13 || ((i > 13) && ((i - 13) % (8) == 0)))
-         printf("\n");
+      const size_t bytes = serialize_huffman_data(hd, serialization);
+      if (*serialization != NULL)
+      {
+         for (size_t i = 0; i < bytes; ++i)
+         {
+            print_char_as_binary((*serialization)[i]);
+            if (i == 0 || i == 1 || i == 5 || i == 13 || ((i > 13) && ((i - 13) % (8) == 0)))
+               printf("\n");
+         }
+      }
    }
    return 0;
 }
