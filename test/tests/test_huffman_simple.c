@@ -4,11 +4,18 @@
 
 int main()
 {
-   char* testString = "Were you able to open it before, on the computer you're using now? XYC23423";
-   HuffmanData* hd = code_into_huffman_data((unsigned char*)testString, strlen(testString));
+   char* test_string = "Were you able to open it before, on the computer you're using now? XYC23423";
+   HuffmanData* hd = code_into_huffman_data((unsigned char*)test_string, strlen(test_string));
    unsigned char** dest = (unsigned char**)malloc(sizeof(unsigned char**));
-   size_t outputSize = 0;
-   decode_huffman_data(hd, dest, &outputSize);
-   size_t compareValue = strcmp(testString, (char*)*dest);
-   return compareValue;
+   if (dest == NULL)
+   {
+      return 1;
+   }
+   size_t output_size = 0;
+   decode_huffman_data(hd, dest, &output_size);
+   if (*dest == NULL)
+   {
+      return 1;
+   }
+   return strcmp(test_string, (char*)*dest);
 }
