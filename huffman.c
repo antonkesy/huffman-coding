@@ -62,7 +62,7 @@ HuffmanData* code_into_huffman_data(unsigned char* items, const size_t size)
 
 HuffmanTree* build_huffman_tree(SortedItems* sorted_items)
 {
-   if (sorted_items != NULL)
+   if (sorted_items != NULL && sorted_items->size > 0)
    {
       minheap* min_heap = create_min_heap_minheap(sorted_items->size);
       HuffmanNode* nodes = (HuffmanNode*)calloc(sizeof(HuffmanNode), sorted_items->size);
