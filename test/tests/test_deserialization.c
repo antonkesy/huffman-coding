@@ -42,6 +42,6 @@ int main(void)
    delete_huffman_data(hd);
    hd = NULL;
    delete_huffman_data(hd_de_serial);
-   hd_deserial = NULL;
+   hd_de_serial = NULL;
    return 0;
 }
