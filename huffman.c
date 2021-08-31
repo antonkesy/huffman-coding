@@ -311,9 +311,9 @@ void _delete_sorted_items(SortedItems* sort_items)
    sort_items = NULL;
 }
 
-int _node_comparator(const void* first, const void* second)
+long int _node_comparator(const void* first, const void* second)
 {
-   return (*(size_t*)first) - (*(size_t*)second);
+   return (long int)(*(const size_t*)first) - (long int)(*(const size_t*)second);
 }
 
 size_t _fill_bytes_for_bits(size_t bits)
