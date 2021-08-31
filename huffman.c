@@ -228,7 +228,7 @@ void _set_bit_at_pos(unsigned char* dest, const size_t pos, const unsigned char 
 
 int decode_huffman_data(HuffmanData* hd, unsigned char** dest, size_t* out_size)
 {
-   size_t char_count = _get_amount_of_character(hd->sort_items);
+   const size_t char_count = _get_amount_of_character(hd->sort_items);
 
    HuffmanTree* tree = build_huffman_tree(hd->sort_items);
    if (tree != NULL)
@@ -251,7 +251,7 @@ int decode_huffman_data(HuffmanData* hd, unsigned char** dest, size_t* out_size)
             HuffmanNode* current_node = tree->root;
             while (current_node->left != NULL)
             {
-               unsigned char read = hd->coded_array[bit / 8];
+               const unsigned char read = hd->coded_array[bit / 8];
                if (((read >> (7 - (bit % 8))) & 1) == 0)
                {
                   current_node = current_node->left;
