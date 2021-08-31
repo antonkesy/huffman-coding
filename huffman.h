@@ -73,7 +73,7 @@ size_t serialize_huffmandata(HuffmanData* huffmandata, unsigned char** dest);
 HuffmanData* deserialize_huffmandata(unsigned char* src, size_t* out_byte_read);
 
 //utility
-int _sort_item_comparator(const void* first, const void* second);
+long int _sort_item_comparator(const void* first, const void* second);
 int _node_comparator(const void* first, const void* second);
 void _set_bit_at_pos(unsigned char* dest, size_t pos, unsigned char value);
 size_t _get_items_sum(SortedItems* sort_items);
