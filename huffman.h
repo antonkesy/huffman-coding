@@ -69,8 +69,8 @@ int _get_leaf_height(HuffmanNode* leaf);
 void _set_leaf_nodes(HuffmanNode** leafs, HuffmanNode* node);
 size_t _set_codes_size(HuffmanNode** leafs, int* code_size, SortedItems* sorted_items);
 size_t _add_huffman_code(unsigned char** dest, HuffmanNode* leaf, const size_t bit_pos, size_t steps);
-size_t serialize_huffmandata(HuffmanData* huffmandata, unsigned char** dest);
-HuffmanData* deserialize_huffmandata(unsigned char* src, size_t* out_byte_read);
+size_t serialize_huffman_data(HuffmanData* hd, unsigned char** dest);
+HuffmanData* deserialize_huffman_data(const unsigned char* src, size_t* out_byte_read);
 
 //utility
 long int _sort_item_comparator(const void* first, const void* second);
@@ -79,8 +79,8 @@ void _set_bit_at_pos(unsigned char* dest, const size_t pos, const unsigned char 
 size_t _get_items_sum(SortedItems* sort_items);
 size_t _fill_bytes_for_bits(const size_t bits);
 size_t _get_amount_of_character(SortedItems* sorted_items);
-size_t _get_huffmandata_needed_bytes(HuffmanData* hd);
-size_t _get_huffmandata_needed_bytes_add_coded_string(HuffmanData* hd, size_t coded_string_bytes);
+size_t _get_huffman_data_needed_bytes(HuffmanData* hd);
+size_t _get_huffman_data_needed_bytes_add_coded_string(HuffmanData* hd, const size_t coded_string_bytes);
 
 //delete
 void delete_huffman_data(HuffmanData* data);
