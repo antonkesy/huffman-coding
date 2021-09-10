@@ -47,6 +47,7 @@ typedef struct
    SortedItems* sort_items;
 } HuffmanData;
 
+
 //TODO return value is int and output is parameter
 
 //code unsigned char array into hd and reverse
@@ -69,8 +70,7 @@ int _get_leaf_height(HuffmanNode* leaf);
 void _set_leaf_nodes(HuffmanNode** leafs, HuffmanNode* node);
 size_t _set_codes_size(HuffmanNode** leafs, int* code_size, SortedItems* sorted_items);
 size_t _add_huffman_code(unsigned char** dest, HuffmanNode* leaf, const size_t bit_pos, size_t steps);
-size_t serialize_huffman_data(HuffmanData* hd, unsigned char** dest);
-HuffmanData* deserialize_huffman_data(const unsigned char* src, size_t* out_byte_read);
+
 
 //utility
 int _sort_item_comparator(const void* first, const void* second);

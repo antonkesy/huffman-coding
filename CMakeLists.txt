@@ -10,4 +10,4 @@ if(CMAKE_COMPILER_IS_GNUCC)
     add_compile_options(-std=c11 -Wall -Werror -fsanitize=leak)
 endif()
 
-add_executable(huffman_example example_usage.c huffman.c minheap/minheap.c utility/huffman_utility.c test/test_utility.c)
+add_executable(huffman_example example_usage.c huffman.c minheap/minheap.c utility/huffman_utility.c test/test_utility.c utility/huffman_serialization.c utility/huffman_serialization.h)
