@@ -272,10 +272,10 @@ size_t _get_amount_of_character(SortedItems *sorted_items) {
 void huffman_code_file_to_file(FILE *src, FILE *des) {
     unsigned char *buffer = malloc(BUFFSIZE_FILE);
     if (buffer != NULL) {
-        int elements_read = 0;
-        size_t read_offset = 0U;
+        unsigned long read_offset = 0U;
+        size_t elements_read;
         do {
-            if (fseek(src, read_offset, SEEK_SET) != 0) {
+            if (fseek(src, (long) read_offset, SEEK_SET) != 0) {
                 printf("fseek error\n");
             } //trivial
             elements_read = fread(buffer, 1, BUFFSIZE_FILE, src);
@@ -294,12 +294,12 @@ void huffman_code_file_to_file(FILE *src, FILE *des) {
 void huffman_decode_file_to_file(FILE *src, FILE *des) {
     unsigned char *buffer = malloc(BUFFSIZE_FILE);
     if (buffer != NULL) {
-        size_t read_offset = 0;
+        unsigned long read_offset = 0;
         size_t elements_read;
         size_t byte_needed_for_data = 0U;
 
         do {
-            if (fseek(src, read_offset, SEEK_SET) != 0) {
+            if (fseek(src, (long) read_offset, SEEK_SET) != 0) {
                 printf("fseek erro\n");
             }
             elements_read = fread(buffer, 1, BUFFSIZE_FILE, src);
