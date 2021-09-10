@@ -9,9 +9,8 @@
 #endif
 #ifndef _STDIO_H
 #include <stdio.h>
-#include <stdint.h>
-
 #endif
+#include <stdint.h>
 
 #define BUFFSIZE_FILE 16384
 
