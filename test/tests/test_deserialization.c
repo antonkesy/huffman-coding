@@ -11,7 +11,7 @@ int main(void) {
     if (serialization == NULL) {
         return 1;
     }
-    serialize_huffman_data(hd, serialization);
+    serialize_huffman_data(hd, serialization, NULL);
     if (*serialization == NULL) {
         return 1;
     }

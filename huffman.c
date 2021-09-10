@@ -283,7 +283,8 @@ void huffman_code_file_to_file(FILE *src, FILE *des) {
             printf("write\n");
             HuffmanData *hd = code_into_huffman_data(buffer, elements_read);
             unsigned char *write_bytes = NULL;
-            const size_t to_write_bytes = serialize_huffman_data(hd, &write_bytes);
+            size_t to_write_bytes = 0U;
+            serialize_huffman_data(hd, &write_bytes, &to_write_bytes);
             fwrite(write_bytes, 1, to_write_bytes, des);
             delete_huffman_data(hd);
             read_offset += elements_read;
