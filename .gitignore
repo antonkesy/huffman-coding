@@ -67,4 +67,8 @@ _deps
 build
 **/.vs/**
 
+# JetBrains
 **/.idea/**
+
+# CMake
+cmake-build-*/
