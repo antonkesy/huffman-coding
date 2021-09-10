@@ -31,7 +31,7 @@ typedef struct
 
 typedef struct
 {
-   unsigned long freq;
+   uint64_t freq;
    unsigned char value;
 } SortItem;
 
