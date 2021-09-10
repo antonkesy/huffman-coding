@@ -33,9 +33,7 @@ int files_equal(FILE *fp1, FILE *fp2)
 
 void create_test_input_file(const char *file_name)
 {
-   FILE *fp = malloc(sizeof(FILE *));
-
-   fp = fopen(file_name, "w+");
+    FILE* fp = fopen(file_name, "w+");
    if (fp != NULL)
    {
       fprintf(fp, "Hello,\tI'm a testing file :)\n");
