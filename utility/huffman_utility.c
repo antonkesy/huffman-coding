@@ -72,75 +72,68 @@ void print_huffman_node(void* node)
    }
 }
 
-int is_huffman_data_equal(HuffmanData* hd1, HuffmanData* hd2)
+bool is_huffman_data_equal(HuffmanData* hd1, HuffmanData* hd2)
 {
    //same huffman data
    if (hd1 == hd2)
    {
-      printf("same pointer!\n");
-      return 1;
+      return true;
    }
 
    int ret_value = 1;
 
    if (hd1->bits != hd2->bits)
    {
-      printf("huffman data bits not same!\n");
-      ret_value = 0;
+      ret_value = false;
    }
    if (!is_coded_string_equal(hd1->coded_array, hd2->coded_array, _fill_bytes_for_bits(hd1->bits)))
    {
-      printf("huffman data coded string not same!\n");
-      ret_value = 0;
+      ret_value = false;
    }
    if (!is_sorted_items_equal(hd1->sort_items, hd2->sort_items))
    {
-      printf("huffman data sorted items not same!\n");
-      ret_value = 0;
+      ret_value = false;
    }
 
    return ret_value;
 }
 
-int is_coded_string_equal(unsigned char* coded_string_1, unsigned char* coded_string_2, size_t size)
+bool is_coded_string_equal(unsigned char* coded_string_1, unsigned char* coded_string_2, size_t size)
 {
    for (size_t i = 1U; i < size; ++i)
    {
       if (coded_string_1[i] != coded_string_2[i])
       {
-         unsigned char c1 = coded_string_1[i];
-         unsigned char c2 = coded_string_2[i];
-         printf("coded char at pos %i not same! %c %c", i, c1, c2);
-         return 0;
+         return false;
       }
    }
-   return 1;
+   return true;
 }
 
-int is_sorted_items_equal(SortedItems* items1, SortedItems* items2)
+bool is_sorted_items_equal(SortedItems* items1, SortedItems* items2)
 {
    if (items1 == items2)
    {
-      return 1;
+      return true;
    }
 
    if (items1->size != items2->size)
    {
-      return 0;
+      return false;
    }
 
-   for (register short int i = 0; i < items1->size; ++i)
+   for (uint16_t i = 0; i < items1->size; ++i)
    {
       if (!is_sort_item_equal(&(items1->items[i]), &(items2->items[i])))
       {
-         return 0;
+         return false;
       }
    }
 
    return 1;
 }
 
-int is_sort_item_equal(SortItem* item1, SortItem* item2)
+bool is_sort_item_equal(SortItem* item1, SortItem* item2)
 {
    return (item1->freq == item2->freq) && (item1->value == item2->value);
 }
