@@ -2,7 +2,7 @@
 
 typedef struct
 {
-    int key;
+    unsigned long key;
     void *data;
 } heapdata;
 
@@ -14,13 +14,13 @@ typedef struct
 } minheap;
 
 minheap *create_min_heap_minheap(size_t maxcap);
-heapdata *create_heap_data_minheap(int key, void *data);
-int get_key_minheap(minheap *minheap, size_t index);
+heapdata *create_heap_data_minheap(unsigned long key, void *data);
+unsigned long get_key_minheap(minheap *minheap, size_t index);
 void *get_data_minheap(minheap *minheap, size_t index);
-int _index_parent_minheap(size_t index);
-int _index_left_minheap(size_t index);
-int _index_right_minheap(size_t index);
-int insert_minheap(minheap *minheap, heapdata *data);
+size_t _index_parent_minheap(size_t index);
+size_t _index_left_minheap(size_t index);
+size_t _index_right_minheap(size_t index);
+size_t insert_minheap(minheap *minheap, heapdata *data);
 heapdata *extract_min(minheap *minheap);
 void min_heapify(minheap *minheap, size_t index);
 

@@ -15,7 +15,7 @@
 
 struct Node
 {
-   size_t freq;
+   unsigned long freq;
    unsigned char value;
    struct Node* left, * right, * parent;
 };
@@ -30,7 +30,7 @@ typedef struct
 
 typedef struct
 {
-   size_t freq;
+   unsigned long freq;
    unsigned char value;
 } SortItem;
 
