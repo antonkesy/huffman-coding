@@ -1,12 +1,34 @@
 #include "huffman_serialization.h"
 #include <stdlib.h>
 
+HuffmanSerializeData *huffman_data_to_serialize_data(HuffmanData *hd) {
+    HuffmanSerializeData *serialize_data = malloc(sizeof(HuffmanSerializeData));
+    if (serialize_data != NULL && hd != NULL) {
+        serialize_data->sort_item_count = *fill_iuint_16(&hd->sort_items->size);
+        serialize_data->bits = *fill_iuint_32(&hd->bits);
+        serialize_data->sort_items = hd->sort_items->items;
+        serialize_data->code = hd->coded_array;
+    }
+    return serialize_data;
+}
+
+HuffmanData *serialize_data_to_huffman_data(HuffmanSerializeData *hsd) {
+    HuffmanData *hd = malloc(sizeof(HuffmanData));
+    if (hd != NULL && hsd != NULL) {
+        hd->sort_items->size = *get_iuint_16_value(&hsd->sort_item_count);
+        hd->bits = *get_iuint_32_value(&hsd->bits);
+        hd->sort_items->items = hsd->sort_items;
+        hd->coded_array = hsd->code;
+    }
+    return hd;
+}
+
 
 size_t serialize_huffman_data(HuffmanData *hd, unsigned char **dest) {
-    //first 2 bytes = sortItems count
+    //first 2 bytes = sort_items count
     //sizeof size_t
     // sizeof(size_t) = bits of code
-    // bytes 1 to sizeof(SortItem) * count = filled with sortItems
+    // bytes 1 to sizeof(SortItem) * count = filled with sort_items
     //rest is code
     const size_t bytes_for_coded_string = _fill_bytes_for_bits(hd->bits);
     const size_t total_bytes = _get_huffman_data_needed_bytes_add_coded_string(hd, bytes_for_coded_string);
