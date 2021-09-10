@@ -45,3 +45,11 @@ iuint_32_t *fill_iuint_32(const uint32_t *in) {
 uint32_t *get_iuint_32_value(const iuint_32_t *in) {
     return get_iunit_x_value(in, sizeof(iuint_32_t));
 }
+
+iuint_64_t *fill_iuint_64(const uint64_t *in) {
+    return fill_iuint_x(in, sizeof(iuint_64_t));
+}
+
+uint64_t *get_iuint_64_value(const iuint_64_t *in) {
+    return get_iunit_x_value(in, sizeof(iuint_64_t));
+}
