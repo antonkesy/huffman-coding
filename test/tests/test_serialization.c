@@ -5,7 +5,7 @@
 #include "../../utility/huffman_serialization.h"
 
 int main(void) {
-    //check diffrent endian
+    //check different endian
 
     //should be
     //0000 0100 0000 0000(sort item size)
