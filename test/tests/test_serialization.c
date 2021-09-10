@@ -30,7 +30,11 @@ int main(void) {
                 if (i == 0 || i == 1 || i == 5 || i == 13 || ((i > 13) && ((i - 13) % (8) == 0)))
                     printf("\n");
             }
+        } else {
+            return 1;
         }
+    } else {
+        return 1;
     }
     return 0;
 }
