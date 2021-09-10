@@ -11,18 +11,14 @@
 void example_usage_files(void)
 {
    create_test_input_file(TEST_INPUT_FILE_NAME);
-   FILE *src = malloc(sizeof(FILE *));
-
-   src = fopen(TEST_INPUT_FILE_NAME, "r");
+   FILE *src = fopen(TEST_INPUT_FILE_NAME, "r");
    if (src == NULL)
    {
       printf("Unable to open file.\n");
       return;
    }
 
-   FILE *coded_file = malloc(sizeof(FILE *));
-
-   coded_file = fopen(TEST_CODED_FILE_NAME, "w");
+   FILE * coded_file = fopen(TEST_CODED_FILE_NAME, "w");
    if (coded_file == NULL)
    {
       printf("Unable to create file.\n");
@@ -41,9 +37,7 @@ void example_usage_files(void)
       return;
    }
 
-   FILE *dest = malloc(sizeof(FILE *));
-
-   dest = fopen(TEST_OUTPUT_FILE_NAME, "w");
+   FILE *dest = fopen(TEST_OUTPUT_FILE_NAME, "w");
    if (dest == NULL)
    {
       printf("Unable to create file.\n");
