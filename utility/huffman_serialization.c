@@ -24,7 +24,7 @@ HuffmanData *serialize_data_to_huffman_data(HuffmanSerializeData *hsd) {
 }
 
 
-size_t serialize_huffman_data(HuffmanData *hd, unsigned char **dest) {
+int serialize_huffman_data(HuffmanData *hd, unsigned char **dest, size_t *out_total_byte) {
     //first 2 bytes = sort_items count
     //sizeof size_t
     // sizeof(size_t) = bits of code
@@ -33,6 +33,9 @@ size_t serialize_huffman_data(HuffmanData *hd, unsigned char **dest) {
     const size_t bytes_for_coded_string = _fill_bytes_for_bits(hd->bits);
     const size_t total_bytes = _get_huffman_data_needed_bytes_add_coded_string(hd, bytes_for_coded_string);
     unsigned char *output = malloc(total_bytes);
+    if (out_total_byte != NULL) {
+        *out_total_byte = total_bytes;
+    }
     if (output != NULL) {
         output[0] = (hd->sort_items->size & 0xFF00) >> 8;
         output[1] = hd->sort_items->size & 0xFF;
@@ -57,7 +60,6 @@ size_t serialize_huffman_data(HuffmanData *hd, unsigned char **dest) {
         }
 
         *dest = output;
-        return total_bytes;
     }
     return 0;
 }
