@@ -9,6 +9,8 @@
 #endif
 #ifndef _STDIO_H
 #include <stdio.h>
+#include <stdint.h>
+
 #endif
 
 #define BUFFSIZE_FILE 16384
@@ -36,7 +38,7 @@ typedef struct
 
 typedef struct
 {
-   unsigned short size; //max 256
+   uint16_t size; //max 256
    SortItem* items;
 } SortedItems;
 
