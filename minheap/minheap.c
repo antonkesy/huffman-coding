@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-heapdata *create_heap_data_minheap(unsigned long key, void *data)
+heapdata *create_heap_data_minheap(uint32_t key, void *data)
 {
     heapdata *hd = malloc(sizeof(heapdata));
     hd->data = data;
@@ -10,7 +10,7 @@ heapdata *create_heap_data_minheap(unsigned long key, void *data)
     return hd;
 }
 
-minheap *create_min_heap_minheap(size_t maxcap)
+minheap *create_min_heap_minheap(uint32_t maxcap)
 {
     minheap *mh = malloc(sizeof(minheap));
     mh->capacity = maxcap;
@@ -19,27 +19,27 @@ minheap *create_min_heap_minheap(size_t maxcap)
     return mh;
 }
 
-size_t _index_parent_minheap(size_t index)
+uint32_t _index_parent_minheap(uint32_t index)
 {
     return (index - 1) / 2;
 }
 
-size_t _index_left_minheap(size_t index)
+uint32_t _index_left_minheap(uint32_t index)
 {
     return (2 * index + 1);
 }
 
-size_t _index_right_minheap(size_t index)
+uint32_t _index_right_minheap(uint32_t index)
 {
     return (2 * index + 2);
 }
 
-unsigned long get_key_minheap(minheap *minheap, size_t index)
+uint32_t get_key_minheap(minheap *minheap, uint32_t index)
 {
     return (*(minheap->elements[index])).key;
 }
 
-void *get_data_minheap(minheap *minheap, size_t index)
+void *get_data_minheap(minheap *minheap, uint32_t index)
 {
     return (*(minheap->elements[index])).data;
 }
@@ -62,11 +62,11 @@ heapdata *extract_min(minheap *minheap)
 
     return root;
 }
-void min_heapify(minheap *minheap, size_t index)
+void min_heapify(minheap *minheap, uint32_t index)
 {
-    unsigned long l = _index_left_minheap(index);
-    unsigned long r = _index_right_minheap(index);
-    size_t smallest = index;
+    uint32_t l = _index_left_minheap(index);
+    uint32_t r = _index_right_minheap(index);
+    uint32_t smallest = index;
 
     if (l < minheap->size && get_key_minheap(minheap, l) < get_key_minheap(minheap, index))
     {
