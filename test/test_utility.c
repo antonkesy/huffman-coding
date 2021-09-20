@@ -2,10 +2,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int files_equal(FILE *fp1, FILE *fp2) {
+bool files_equal(FILE *fp1, FILE *fp2) {
     //same files
     if (fp1 == fp2) {
-        return 1;
+        return true;
     }
 
     char f1_buffer = 0;
@@ -21,10 +21,10 @@ int files_equal(FILE *fp1, FILE *fp2) {
         f1_read_bytes = fread(&f1_buffer, 1, 1, fp1);
         f2_read_bytes = fread(&f2_buffer, 1, 1, fp2);
         if (f1_buffer != f2_buffer || (f1_read_bytes ^ f2_read_bytes) != 0) {
-            return 0;
+            return false;
         }
     }
-    return 1;
+    return true;
 }
 
 void create_test_input_file(const char *file_name) {
