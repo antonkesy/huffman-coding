@@ -26,7 +26,7 @@ int main(void) {
         serialize_huffman_data(hd, serialization, &bytes);
         if (*serialization != NULL) {
             for (size_t i = 0; i < bytes; ++i) {
-                print_char_as_binary((*serialization)[i]);
+                print_8bit_as_binary((*serialization)[i]);
                 if (i == 0 || i == 1 || i == 5 || i == 13 || ((i > 13) && ((i - 13) % (8) == 0)))
                     printf("\n");
             }

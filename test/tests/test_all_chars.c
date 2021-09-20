@@ -12,7 +12,7 @@ int main(void)
       for (register int i = 0; i < 0x100; ++i)
       {
          all_chars[i] = (unsigned char)i;
-         //print_char_as_binary(allChars[i]);
+         //print_8bit_as_binary(allChars[i]);
          //printf("\n");
       }
 
@@ -30,7 +30,7 @@ int main(void)
             printf("was = ");
             print_char_as_binary(allChars[i]);
             printf("\tshould = ");
-            print_char_as_binary(allCharsDecode[i]);
+            print_8bit_as_binary(allCharsDecode[i]);
             printf("\n");*/
             if (all_chars[i] != allCharsDecode[i])
             {

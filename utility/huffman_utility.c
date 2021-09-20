@@ -35,11 +35,11 @@ void print_huffman_nodes(HuffmanNode* node)
    }
 }
 
-void print_char_as_binary(unsigned char c)
+void print_8bit_as_binary(uint8_t c)
 {
 
    size_t flag = 0x80;
-   for (register char i = 0; i < 8; ++i)
+   for (register uint8_t i = 0; i < 8; ++i)
    {
       printf("%c", (flag & c) == flag ? '1' : '0');
       if (((i + 1) % 4) == 0 && i != 31)
@@ -52,9 +52,9 @@ void print_char_as_binary(unsigned char c)
 
 void print_coded_string(HuffmanData* hd)
 {
-   for (register size_t i = 0; i < _fill_bytes_for_bits(hd->bits); ++i)
+   for (register uint32_t i = 0; i < _fill_bytes_for_bits(hd->bits); ++i)
    {
-      print_char_as_binary(hd->coded_array[i]);
+       print_8bit_as_binary(hd->coded_array[i]);
       printf(" ");
    }
 }
@@ -98,9 +98,9 @@ bool is_huffman_data_equal(HuffmanData* hd1, HuffmanData* hd2)
    return ret_value;
 }
 
-bool is_coded_string_equal(unsigned char* coded_string_1, unsigned char* coded_string_2, size_t size)
+bool is_coded_string_equal(uint8_t* coded_string_1, uint8_t* coded_string_2, uint32_t size)
 {
-   for (size_t i = 1U; i < size; ++i)
+   for (uint32_t i = 1U; i < size; ++i)
    {
       if (coded_string_1[i] != coded_string_2[i])
       {
