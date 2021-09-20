@@ -1,14 +1,14 @@
 #include "../test_utility.h"
 
-#define FILE_1_NAME "test1.txt"
-#define FILE_2_NAME "test2.txt"
-
 bool is_files_equal_working_un_equal(void) {
-    create_test_input_file(FILE_1_NAME, 10);
-    create_test_input_file(FILE_2_NAME, 100);
+    const char *file_1_name = "test1unequal.txt";
+    const char *file_2_name = "test2unequal.txt";
 
-    FILE *fp1 = fopen(FILE_1_NAME, "r");
-    FILE *fp2 = fopen(FILE_2_NAME, "r");
+    create_test_input_file(file_1_name, 10);
+    create_test_input_file(file_2_name, 100);
+
+    FILE *fp1 = fopen(file_1_name, "r");
+    FILE *fp2 = fopen(file_2_name, "r");
 
     bool is_un_equal = false;
 
@@ -23,11 +23,14 @@ bool is_files_equal_working_un_equal(void) {
 }
 
 bool is_files_equal_working_equals(void) {
-    create_test_input_file(FILE_1_NAME, 0xFFF);
-    create_test_input_file(FILE_2_NAME, 0xFFF);
+    const char *file_1_name = "test1equal.txt";
+    const char *file_2_name = "test2equal.txt";
 
-    FILE *fp1 = fopen(FILE_1_NAME, "r");
-    FILE *fp2 = fopen(FILE_2_NAME, "r");
+    create_test_input_file(file_1_name, 0xFFF);
+    create_test_input_file(file_2_name, 0xFFF);
+
+    FILE *fp1 = fopen(file_1_name, "r");
+    FILE *fp2 = fopen(file_2_name, "r");
 
     bool is_equal = true;
 
