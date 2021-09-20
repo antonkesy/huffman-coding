@@ -1,6 +1,6 @@
 #include <stdio.h>
-#include "../../huffman.h"
 #include "../test_utility.h"
+#include "../../utility/huffman_file_to_file.h"
 
 
 #define TEST_INPUT_FILE_NAME "input.txt"

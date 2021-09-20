@@ -49,10 +49,6 @@ typedef struct
 HuffmanData* code_into_huffman_data(uint8_t * items, const uint32_t size);
 int decode_huffman_data(HuffmanData* hd, uint8_t ** dest, uint32_t* out_size);
 
-//code file into new file
-void huffman_code_file_to_file(FILE* src, FILE* des);
-void huffman_decode_file_to_file(FILE* src, FILE* des);
-
 SortedItems* sort_by_frequency(const uint8_t * items, const uint32_t size);
 HuffmanData* _code_huffman_string(const uint8_t input[], const uint32_t input_size, SortedItems* sorted_items);
 

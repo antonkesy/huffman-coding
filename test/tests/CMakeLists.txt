@@ -5,7 +5,7 @@ add_executable(test_serialization test/tests/test_serialization.c huffman.c minh
 add_executable(test_deserialization test/tests/test_deserialization.c huffman.c minheap/minheap.c utility/huffman_utility.c test/test_utility.c utility/huffman_serialization.c utility/independent_int.c)
 add_executable(test_huffman_simple test/tests/test_huffman_simple.c huffman.c minheap/minheap.c utility/huffman_utility.c test/test_utility.c utility/huffman_serialization.c utility/independent_int.c)
 add_executable(test_huffman_all_chars test/tests/test_all_chars.c huffman.c minheap/minheap.c utility/huffman_utility.c test/test_utility.c utility/huffman_serialization.c utility/independent_int.c)
-add_executable(test_huffman_files test/tests/test_huffman_files.c huffman.c minheap/minheap.c utility/huffman_utility.c test/test_utility.c utility/huffman_serialization.c utility/independent_int.c)
+add_executable(test_huffman_files test/tests/test_huffman_files.c huffman.c minheap/minheap.c utility/huffman_utility.c test/test_utility.c utility/huffman_serialization.c utility/independent_int.c utility/huffman_file_to_file.c)
 add_executable(test_iunit test/tests/test_iunit.c utility/independent_int.c)
 add_executable(test_huffman_utility test/tests/huffman_utility_test.c huffman.c minheap/minheap.c utility/huffman_utility.c test/test_utility.c utility/huffman_serialization.c utility/independent_int.c)
 

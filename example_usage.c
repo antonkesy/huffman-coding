@@ -3,6 +3,7 @@
 #include <string.h>
 #include "huffman.h"
 #include "test/test_utility.h"
+#include "utility/huffman_file_to_file.h"
 
 #define TEST_INPUT_FILE_NAME "input.txt"
 #define TEST_CODED_FILE_NAME "coded.txt"
