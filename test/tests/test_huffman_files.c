@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdbool.h>
 #include "../test_utility.h"
 #include "../../utility/huffman_file_to_file.h"
 
@@ -8,7 +9,7 @@
 #define TEST_OUTPUT_FILE_NAME "output.txt"
 
 
-int test_file_coding(void) {
+bool test_file_coding(void) {
     create_test_input_file(TEST_INPUT_FILE_NAME);
     FILE *src = fopen(TEST_INPUT_FILE_NAME, "r");
 
@@ -42,7 +43,7 @@ int test_file_coding(void) {
 
     huffman_decode_file_to_file(coded_file, dest);
 
-    const int ret_val = files_equal(coded_file, dest);
+    const bool ret_val = files_equal(coded_file, dest);
 
     fclose(coded_file);
     fclose(dest);
@@ -51,5 +52,5 @@ int test_file_coding(void) {
 }
 
 int main(void) {
-    return test_file_coding();
+    return !test_file_coding();
 }
