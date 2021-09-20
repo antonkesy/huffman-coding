@@ -10,7 +10,7 @@
 #define TEST_OUTPUT_FILE_NAME "output.txt"
 
 void example_usage_files(void) {
-    create_test_input_file(TEST_INPUT_FILE_NAME);
+    create_test_input_file(TEST_INPUT_FILE_NAME,0xFFF);
     FILE *src = fopen(TEST_INPUT_FILE_NAME, "r");
     if (src == NULL) {
         printf("Unable to open file.\n");

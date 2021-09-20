@@ -27,11 +27,11 @@ bool files_equal(FILE *fp1, FILE *fp2) {
     return true;
 }
 
-void create_test_input_file(const char *file_name) {
+void create_test_input_file(const char *file_name, unsigned int lines) {
     FILE *fp = fopen(file_name, "w+");
     if (fp != NULL) {
         fprintf(fp, "Hello,\tI'm a testing file :)\n");
-        for (register int i = 0; i < 100; ++i) {
+        for (register unsigned int i = 0; i < lines; ++i) {
             fprintf(fp, "number iteration = %i\n", i);
         }
     }

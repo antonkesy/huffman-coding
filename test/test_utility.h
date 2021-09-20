@@ -4,7 +4,8 @@
 #include <stdio.h>
 #include <stdbool.h>
 
-bool files_equal(FILE* fp1, FILE* fp2);
-void create_test_input_file(const char* file_name);
+bool files_equal(FILE *fp1, FILE *fp2);
+
+void create_test_input_file(const char *file_name, unsigned int lines);
 
 #endif
