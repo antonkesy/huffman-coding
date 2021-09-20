@@ -1,23 +1,17 @@
 #ifndef _HUFFMAN_H
 #define _HUFFMAN_H
 
-#ifndef _STDDEF_H
 #include <stddef.h>
-#endif
-#ifndef _STDBOOL_H
 #include <stdbool.h>
-#endif
-#ifndef _STDIO_H
 #include <stdio.h>
-#endif
 #include <stdint.h>
 
 #define BUFFSIZE_FILE 16384
 
 struct Node
 {
-   unsigned long freq;
-   unsigned char value;
+   uint32_t freq;
+   uint8_t value;
    struct Node* left, * right, * parent;
 };
 
@@ -25,14 +19,14 @@ typedef struct Node HuffmanNode;
 
 typedef struct
 {
-   size_t size;
+   uint32_t size;
    HuffmanNode* root;
 } HuffmanTree;
 
 typedef struct
 {
    uint64_t freq;
-   unsigned char value;
+   uint8_t value;
 } SortItem;
 
 typedef struct
@@ -43,24 +37,24 @@ typedef struct
 
 typedef struct
 {
-   size_t bits;
-   unsigned char* coded_array;
+   uint32_t bits;
+   uint8_t * coded_array;
    SortedItems* sort_items;
 } HuffmanData;
 
 
 //TODO return value is int and output is parameter
 
-//code unsigned char array into hd and reverse
-HuffmanData* code_into_huffman_data(unsigned char* items, const size_t size);
-int decode_huffman_data(HuffmanData* hd, unsigned char** dest, size_t* out_size);
+//code uint8_t array into hd and reverse
+HuffmanData* code_into_huffman_data(uint8_t * items, const uint32_t size);
+int decode_huffman_data(HuffmanData* hd, uint8_t ** dest, uint32_t* out_size);
 
 //code file into new file
 void huffman_code_file_to_file(FILE* src, FILE* des);
 void huffman_decode_file_to_file(FILE* src, FILE* des);
 
-SortedItems* sort_by_frequency(const unsigned char* items, const size_t size);
-HuffmanData* _code_huffman_string(const unsigned char input[], const size_t input_size, SortedItems* sorted_items);
+SortedItems* sort_by_frequency(const uint8_t * items, const uint32_t size);
+HuffmanData* _code_huffman_string(const uint8_t input[], const uint32_t input_size, SortedItems* sorted_items);
 
 //tree
 HuffmanTree* build_huffman_tree(SortedItems* sorted_items);
@@ -69,19 +63,19 @@ HuffmanNode* _create_parent_huffman_node(HuffmanNode* left_child, HuffmanNode* r
 //coding
 int _get_leaf_height(HuffmanNode* leaf);
 void _set_leaf_nodes(HuffmanNode** leafs, HuffmanNode* node);
-size_t _set_codes_size(HuffmanNode** leafs, int* code_size, SortedItems* sorted_items);
-size_t _add_huffman_code(unsigned char** dest, HuffmanNode* leaf, const size_t bit_pos, size_t steps);
+uint32_t _set_codes_size(HuffmanNode** leafs, int* code_size, SortedItems* sorted_items);
+uint32_t _add_huffman_code(uint8_t ** dest, HuffmanNode* leaf, const uint32_t bit_pos, uint32_t steps);
 
 
 //utility
 int _sort_item_comparator(const void* first, const void* second);
 int _node_comparator(const void* first, const void* second);
-void _set_bit_at_pos(unsigned char* dest, const size_t pos, const unsigned char value);
-size_t _get_items_sum(SortedItems* sort_items);
-size_t _fill_bytes_for_bits(const size_t bits);
-size_t _get_amount_of_character(SortedItems* sorted_items);
-size_t _get_huffman_data_needed_bytes(HuffmanData* hd);
-size_t _get_huffman_data_needed_bytes_add_coded_string(HuffmanData* hd, const size_t coded_string_bytes);
+void _set_bit_at_pos(uint8_t * dest, const uint32_t pos, const uint8_t value);
+uint32_t _get_items_sum(SortedItems* sort_items);
+uint32_t _fill_bytes_for_bits(const uint32_t bits);
+uint32_t _get_amount_of_character(SortedItems* sorted_items);
+uint32_t _get_huffman_data_needed_bytes(HuffmanData* hd);
+uint32_t _get_huffman_data_needed_bytes_add_coded_string(HuffmanData* hd, const uint32_t coded_string_bytes);
 
 //delete
 void delete_huffman_data(HuffmanData* data);

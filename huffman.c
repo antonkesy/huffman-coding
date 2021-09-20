@@ -5,17 +5,17 @@
 #include "utility/huffman_serialization.h"
 
 int _sort_item_comparator(const void *first, const void *second) {
-    return (int) (*(const size_t *) first) - (long int) (*(const size_t *) second);
+    return (int) (*(const uint32_t *) first) - (long int) (*(const uint32_t *) second);
 }
 
-SortedItems *sort_by_frequency(const unsigned char *items, const size_t size) {
+SortedItems *sort_by_frequency(const uint8_t *items, const uint32_t size) {
     SortedItems *sorted_items = malloc(sizeof(SortedItems));
-    size_t *freq_of_position = calloc(sizeof(size_t), 0x100);
+    uint32_t *freq_of_position = calloc(sizeof(uint32_t), 0x100);
 
     if (freq_of_position != NULL && sorted_items != NULL) {
         register unsigned int unique_chars_count = 0U;
 
-        for (register size_t i = 0U; i < size; ++i) {
+        for (register uint32_t i = 0U; i < size; ++i) {
             if (freq_of_position[items[i]]++ == 0) {
                 ++unique_chars_count;
             }
@@ -23,10 +23,10 @@ SortedItems *sort_by_frequency(const unsigned char *items, const size_t size) {
 
         SortItem *sort_items_array = calloc(sizeof(SortItem), unique_chars_count);
         if (sort_items_array != NULL) {
-            register size_t i = 0U;
+            register uint32_t i = 0U;
             for (register unsigned short j = 0U; j < 0x100; ++j) {
                 if (freq_of_position[j] != 0) {
-                    sort_items_array[i].value = (unsigned char) j;
+                    sort_items_array[i].value = (uint8_t) j;
                     sort_items_array[i].freq = freq_of_position[j];
                     ++i;
                 }
@@ -44,7 +44,7 @@ SortedItems *sort_by_frequency(const unsigned char *items, const size_t size) {
     return sorted_items;
 }
 
-HuffmanData *code_into_huffman_data(unsigned char *items, const size_t size) {
+HuffmanData *code_into_huffman_data(uint8_t *items, const uint32_t size) {
     if (size == 0) {
         printf("no items to code");
         return NULL;
@@ -58,7 +58,7 @@ HuffmanTree *build_huffman_tree(SortedItems *sorted_items) {
         HuffmanNode *nodes = (HuffmanNode *) calloc(sizeof(HuffmanNode), sorted_items->size);
 
         if (min_heap != NULL && nodes != NULL) {
-            for (register size_t i = 0U; i < sorted_items->size; ++i) {
+            for (register uint32_t i = 0U; i < sorted_items->size; ++i) {
                 nodes[i].freq = sorted_items->items[sorted_items->size - i - 1].freq;
                 nodes[i].value = sorted_items->items[sorted_items->size - i - 1].value;
                 insert_minheap(min_heap, create_heap_data_minheap(nodes[i].freq, &nodes[i]));
@@ -107,25 +107,25 @@ void _delete_huffman_nodes(HuffmanNode *node) {
     }
 }
 
-HuffmanData *_code_huffman_string(const unsigned char input[], const size_t input_size, SortedItems *sorted_items) {
+HuffmanData *_code_huffman_string(const uint8_t input[], const uint32_t input_size, SortedItems *sorted_items) {
     HuffmanData *data = malloc(sizeof(HuffmanData));
     HuffmanTree *tree = build_huffman_tree(sorted_items);
     HuffmanNode **leaves = (malloc(sizeof(HuffmanNode *) * 0x100));
     int *code_size = malloc(sizeof(int) * 0x100);
     if (leaves != NULL && code_size != NULL && tree != NULL && data != NULL) {
         _set_leaf_nodes(leaves, tree->root);
-        const size_t bits_needed = _set_codes_size(leaves, code_size, sorted_items);
+        const uint32_t bits_needed = _set_codes_size(leaves, code_size, sorted_items);
 
         free(code_size);
         code_size = NULL;
 
-        unsigned char *output_buffer = calloc(1, _fill_bytes_for_bits(bits_needed));
-        unsigned char **output = &output_buffer;
+        uint8_t *output_buffer = calloc(1, _fill_bytes_for_bits(bits_needed));
+        uint8_t **output = &output_buffer;
 
         if (output_buffer != NULL) {
-            size_t bit_pos = 0U;
+            uint32_t bit_pos = 0U;
 
-            for (register size_t i = 0U; i < input_size; ++i) {
+            for (register uint32_t i = 0U; i < input_size; ++i) {
                 bit_pos += _add_huffman_code(output, leaves[input[i]], bit_pos, 0) - 1;
             }
             //_delete_huffman_tree(tree);
@@ -146,8 +146,8 @@ HuffmanData *_code_huffman_string(const unsigned char input[], const size_t inpu
     return data;
 }
 
-size_t _set_codes_size(HuffmanNode **leafs, int *code_size, SortedItems *sorted_items) {
-    size_t bits = 0U;
+uint32_t _set_codes_size(HuffmanNode **leafs, int *code_size, SortedItems *sorted_items) {
+    uint32_t bits = 0U;
     for (register int i = 0; i < sorted_items->size; ++i) {
         code_size[sorted_items->items[i].value] = _get_leaf_height(leafs[sorted_items->items[i].value]);
         bits += code_size[sorted_items->items[i].value] * sorted_items->items[i].freq;
@@ -162,7 +162,7 @@ int _get_leaf_height(HuffmanNode *leaf) {
     return 0;
 }
 
-size_t _add_huffman_code(unsigned char **dest, HuffmanNode *leaf, const size_t bit_pos, size_t steps) {
+uint32_t _add_huffman_code(uint8_t **dest, HuffmanNode *leaf, const uint32_t bit_pos, uint32_t steps) {
     HuffmanNode *parent = leaf->parent;
     if (parent != NULL) {
         steps = _add_huffman_code(dest, parent, bit_pos, steps);
@@ -181,14 +181,14 @@ void _set_leaf_nodes(HuffmanNode **leafs, HuffmanNode *node) {
     }
 }
 
-void _set_bit_at_pos(unsigned char *dest, const size_t pos, const unsigned char value) {
-    unsigned char write_value = value;
+void _set_bit_at_pos(uint8_t *dest, const uint32_t pos, const uint8_t value) {
+    uint8_t write_value = value;
     write_value <<= 7 - (pos % 8);
     dest[pos / 8] |= write_value;
 }
 
-int decode_huffman_data(HuffmanData *hd, unsigned char **dest, size_t *out_size) {
-    const size_t char_count = _get_amount_of_character(hd->sort_items);
+int decode_huffman_data(HuffmanData *hd, uint8_t **dest, uint32_t *out_size) {
+    const uint32_t char_count = _get_amount_of_character(hd->sort_items);
 
     HuffmanTree *tree = build_huffman_tree(hd->sort_items);
     if (tree != NULL) {
@@ -200,13 +200,13 @@ int decode_huffman_data(HuffmanData *hd, unsigned char **dest, size_t *out_size)
 
         //todo malloc error check
         if (*dest != NULL) {
-            register size_t bit = 0U;
-            register size_t dest_pos = 0U;
+            register uint32_t bit = 0U;
+            register uint32_t dest_pos = 0U;
 
             while (dest_pos < char_count) {
                 HuffmanNode *current_node = tree->root;
                 while (current_node->left != NULL) {
-                    const unsigned char read = hd->coded_array[bit / 8];
+                    const uint8_t read = hd->coded_array[bit / 8];
                     if (((read >> (7 - (bit % 8))) & 1) == 0) {
                         current_node = current_node->left;
                     } else {
@@ -233,9 +233,9 @@ void _delete_huffman_tree(HuffmanTree *tree) {
     tree = NULL;
 }
 
-size_t _get_items_sum(SortedItems *sort_items) {
-    size_t sum = 0U;
-    for (register size_t i = 0; i < sort_items->size; ++i) {
+uint32_t _get_items_sum(SortedItems *sort_items) {
+    uint32_t sum = 0U;
+    for (register uint32_t i = 0; i < sort_items->size; ++i) {
         sum += sort_items->items[i].freq;
     }
     return sum;
@@ -255,15 +255,15 @@ void _delete_sorted_items(SortedItems *sort_items) {
 }
 
 int _node_comparator(const void *first, const void *second) {
-    return (long int) (*(const size_t *) first) - (long int) (*(const size_t *) second);
+    return (long int) (*(const uint32_t *) first) - (long int) (*(const uint32_t *) second);
 }
 
-size_t _fill_bytes_for_bits(const size_t bits) {
+uint32_t _fill_bytes_for_bits(const uint32_t bits) {
     return (bits / 8U) + ((bits % 8U) ? 1U : 0U);
 }
 
-size_t _get_amount_of_character(SortedItems *sorted_items) {
-    size_t amount = 0U;
+uint32_t _get_amount_of_character(SortedItems *sorted_items) {
+    uint32_t amount = 0U;
     for (register int i = 0; i < sorted_items->size; ++i) {
         amount += sorted_items->items[i].freq;
     }
@@ -271,10 +271,10 @@ size_t _get_amount_of_character(SortedItems *sorted_items) {
 }
 
 void huffman_code_file_to_file(FILE *src, FILE *des) {
-    unsigned char *buffer = malloc(BUFFSIZE_FILE);
+    uint8_t *buffer = malloc(BUFFSIZE_FILE);
     if (buffer != NULL) {
         unsigned long read_offset = 0U;
-        size_t elements_read;
+        uint32_t elements_read;
         do {
             if (fseek(src, (long) read_offset, SEEK_SET) != 0) {
                 printf("fseek error\n");
@@ -282,8 +282,8 @@ void huffman_code_file_to_file(FILE *src, FILE *des) {
             elements_read = fread(buffer, 1, BUFFSIZE_FILE, src);
             printf("write\n");
             HuffmanData *hd = code_into_huffman_data(buffer, elements_read);
-            unsigned char *write_bytes = NULL;
-            size_t to_write_bytes = 0U;
+            uint8_t *write_bytes = NULL;
+            uint32_t to_write_bytes = 0U;
             serialize_huffman_data(hd, &write_bytes, &to_write_bytes);
             fwrite(write_bytes, 1, to_write_bytes, des);
             delete_huffman_data(hd);
@@ -294,11 +294,11 @@ void huffman_code_file_to_file(FILE *src, FILE *des) {
 }
 
 void huffman_decode_file_to_file(FILE *src, FILE *des) {
-    unsigned char *buffer = malloc(BUFFSIZE_FILE);
+    uint8_t *buffer = malloc(BUFFSIZE_FILE);
     if (buffer != NULL) {
         unsigned long read_offset = 0;
-        size_t elements_read;
-        size_t byte_needed_for_data = 0U;
+        uint32_t elements_read;
+        uint32_t byte_needed_for_data = 0U;
 
         do {
             if (fseek(src, (long) read_offset, SEEK_SET) != 0) {
@@ -308,9 +308,9 @@ void huffman_decode_file_to_file(FILE *src, FILE *des) {
             printf("read\n");
             //TODO #3 last 3 chars are not getting deserialized
             HuffmanData *hd = deserialize_huffman_data(buffer, &byte_needed_for_data);
-            unsigned char **decoded = malloc(sizeof(unsigned char **));
+            uint8_t **decoded = malloc(sizeof(uint8_t **));
             if (decoded != NULL) {
-                size_t output_size = 0U;
+                uint32_t output_size = 0U;
                 decode_huffman_data(hd, decoded, &output_size);
                 if (*decoded != NULL) {
                     fwrite(*decoded, 1, output_size, des);
@@ -326,11 +326,11 @@ void huffman_decode_file_to_file(FILE *src, FILE *des) {
 }
 
 
-size_t _get_huffman_data_needed_bytes(HuffmanData *hd) {
+uint32_t _get_huffman_data_needed_bytes(HuffmanData *hd) {
     return _get_huffman_data_needed_bytes_add_coded_string(hd, _fill_bytes_for_bits(hd->bits));
 }
 
-size_t _get_huffman_data_needed_bytes_add_coded_string(HuffmanData *hd, const size_t coded_string_bytes) {
-    //sort count + size of size_t + bits + sorteditems + coded_string size
-    return 3 + sizeof(size_t) + sizeof(SortItem) * hd->sort_items->size + coded_string_bytes;
+uint32_t _get_huffman_data_needed_bytes_add_coded_string(HuffmanData *hd, const uint32_t coded_string_bytes) {
+    //sort count + size of uint32_t + bits + sorteditems + coded_string size
+    return 3 + sizeof(uint32_t) + sizeof(SortItem) * hd->sort_items->size + coded_string_bytes;
 }
