@@ -90,7 +90,7 @@ void swap_heapdata(heapdata **i1, heapdata **i2)
     *i2 = tmp;
 }
 
-size_t insert_minheap(minheap *minheap, heapdata *data)
+uint32_t insert_minheap(minheap *minheap, heapdata *data)
 {
     if (minheap->size == minheap->capacity)
     {

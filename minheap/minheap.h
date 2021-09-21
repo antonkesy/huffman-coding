@@ -17,7 +17,7 @@ typedef struct
 minheap *create_min_heap_minheap(uint32_t maxcap);
 heapdata *create_heap_data_minheap(uint32_t key, void *data);
 uint32_t get_key_minheap(minheap *minheap, uint32_t  index);
-void *get_data_minheap(minheap *minheap, size_t index);
+void *get_data_minheap(minheap *minheap, uint32_t index);
 uint32_t _index_parent_minheap(uint32_t index);
 uint32_t _index_left_minheap(uint32_t index);
 uint32_t _index_right_minheap(uint32_t index);
