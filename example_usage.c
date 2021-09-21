@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdint.h>
 #include "huffman.h"
 #include "test/test_utility.h"
 #include "utility/huffman_file_to_file.h"
@@ -58,7 +59,7 @@ void example_usage(void) {
     unsigned char **decoded = (unsigned char **) malloc(sizeof(unsigned char **));
     if (decoded != NULL) {
         //if you need size of the original unsigend char arrays
-        size_t output_size;
+        uint32_t output_size;
         //decodes huffman data into decoded
         decode_huffman_data(hd, decoded, &output_size);
         if (*decoded != NULL) {
