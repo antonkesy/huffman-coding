@@ -6,7 +6,7 @@ void *fill_iuint_x(const void *in, const size_t size_of_iuint) {
     void *return_value = calloc(size_of_iuint, 1);
     if (return_value != NULL) {
         for (size_t i = 0U; i < size_of_iuint; ++i) {
-#ifdef BIG_ENDIAN
+#ifdef BIG_ENDIAN_II_H
             ((uint8_t *) return_value)[i] = ((uint8_t *) in)[size_of_iuint - i - 1];
 #else
             ((uint8_t *) return_value)[i] = ((uint8_t *) in)[i];
@@ -21,7 +21,7 @@ void *get_iuint_x_value(const void *iuint_in, const size_t size_of_iuint) {
     if (return_value != NULL) {
         for (size_t i = 0U; i < size_of_iuint; ++i) {
 #ifdef BIG_ENDIAN
-            ((uint8_t *) return_value)[i] = ((uint8_t *) iunit_in)[size_iuint - i - 1];
+            ((uint8_t *) return_value)[i] = ((uint8_t *) iuint_in)[size_of_iuint - i - 1];
 #else
             ((uint8_t *) return_value)[i] = ((uint8_t *) iuint_in)[i];
 #endif

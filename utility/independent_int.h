@@ -5,9 +5,9 @@
 #include <stddef.h>
 
 #if 43981 == 0xABCD
-#define LITTLE_ENDIAN
+#define LITTLE_ENDIAN_II_H
 #else
-#define BIG_ENDIAN
+#define BIG_ENDIAN_II_H
 #endif
 
 typedef struct {
