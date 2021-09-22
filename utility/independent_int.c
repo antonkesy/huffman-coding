@@ -20,11 +20,13 @@ void *get_iuint_x_value(const void *iuint_in, const size_t size_of_iuint) {
     void *return_value = calloc(size_of_iuint, 1);
     if (return_value != NULL) {
         for (size_t i = 0U; i < size_of_iuint; ++i) {
+            ((uint8_t *) return_value)[i] = ((uint8_t *) iuint_in)[
 #ifdef BIG_ENDIAN
-            ((uint8_t *) return_value)[i] = ((uint8_t *) iuint_in)[size_of_iuint - i - 1];
+                    size_of_iuint - i - 1
 #else
-            ((uint8_t *) return_value)[i] = ((uint8_t *) iuint_in)[i];
+                    i
 #endif
+            ];
         }
     }
     return return_value;
