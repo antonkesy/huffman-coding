@@ -4,9 +4,7 @@
 #include <stdint.h>
 #include <stddef.h>
 
-#if 43981 == 0xABCD
-#define LITTLE_ENDIAN_II_H
-#else
+#if 43981 != 0xABCD
 #define BIG_ENDIAN_II_H
 #endif
 
