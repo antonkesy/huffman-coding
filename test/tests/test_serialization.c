@@ -42,6 +42,9 @@ int test_print_serialization() {
 int test_de_serialization() {
     char *example_string = "BCAADDDCCACACAC";
     HuffmanData *hd = code_into_huffman_data((unsigned char *) example_string, strlen(example_string));
+    if (hd == NULL) {
+        return 1;
+    }
     unsigned char **serialization = (unsigned char **) malloc(sizeof(unsigned char **));
     if (serialization == NULL) {
         return 1;
@@ -68,6 +71,41 @@ int test_de_serialization() {
     return ret_value;
 }
 
+int test_mock_big_huffman_data() {
+    uint8_t *random_big_data = malloc(BUFFSIZE_FILE);
+    if (random_big_data == NULL) { return 1; }
+    HuffmanData *hd = code_into_huffman_data(random_big_data, BUFFSIZE_FILE);
+    if (hd == NULL) {
+        return 1;
+    }
+
+    uint8_t **serialization = (uint8_t **) malloc(sizeof(uint8_t **));
+    if (serialization == NULL) {
+        return 1;
+    }
+
+    serialize_huffman_data(hd, serialization, NULL);
+    if (*serialization == NULL) {
+        return 1;
+    }
+    uint32_t bytes_for_data = 0U;
+    HuffmanData *hd_de_serial = deserialize_huffman_data(*serialization, &bytes_for_data);
+
+    if (hd_de_serial == NULL) {
+        printf("\nerror: deserializing failed!");
+        return 1;
+    }
+    if (bytes_for_data != BUFFSIZE_FILE) {
+        printf("\nerror: data size not equal!");
+        return 1;
+    }
+    if (!is_huffman_data_equal(hd, hd_de_serial)) {
+        printf("\nerror: huffman data not equal!");
+        return 1;
+    }
+    return 0;
+}
+
 int main(void) {
-    return test_print_serialization() || test_de_serialization();
+    return test_print_serialization() || test_de_serialization() || test_mock_big_huffman_data();
 }
