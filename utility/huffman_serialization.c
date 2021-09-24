@@ -72,7 +72,7 @@ serialize_huffman_serialize_data(HuffmanSerializeData *hsd, const uint16_t sort_
         //sort items
         uint32_t serialize_sort_item_bytes = sort_item_count * sizeof(SerializeSortItem);
         for (int i = 0; i < serialize_sort_item_bytes; ++i) {
-            dest[offset + i] = ((uint8_t *) (hsd->sort_items))[i];
+            dest[offset + i] = ((uint8_t * )(hsd->sort_items))[i];
         }
         offset += serialize_sort_item_bytes;
 
@@ -101,44 +101,47 @@ int serialize_huffman_data(HuffmanData *hd, uint8_t **dest, uint32_t *out_total_
     return 0;
 }
 
-int
-deserialize_huffman_serialize_data(const uint8_t *src, HuffmanSerializeData **out_hsd, uint32_t *out_total_bytes) {
+int deserialize_huffman_serialize_data(const uint8_t *src, HuffmanSerializeData **out_hsd, uint32_t *out_total_bytes) {
     if (src != NULL && out_hsd != NULL) {
         *out_hsd = malloc(sizeof(HuffmanSerializeData));
-        //sort items count
-        for (int i = 0; i < SORT_ITEM_SIZE_OF; ++i) {
-            (*out_hsd)->sort_item_count.bytes[i] = src[i];
-        }
-        unsigned long long offset = SORT_ITEM_SIZE_OF;
+        if (*out_hsd != NULL) {
+            //sort items count
+            for (int i = 0; i < SORT_ITEM_SIZE_OF; ++i) {
+                (*out_hsd)->sort_item_count.bytes[i] = src[i];
+            }
+            unsigned long long offset = SORT_ITEM_SIZE_OF;
 
-        //bits
-        for (int i = 0; i < BITS_SIZE_OF; ++i) {
-            (*out_hsd)->bits.bytes[i] = src[offset + i];
-        }
-        offset += BITS_SIZE_OF;
+            //bits
+            for (int i = 0; i < BITS_SIZE_OF; ++i) {
+                (*out_hsd)->bits.bytes[i] = src[offset + i];
+            }
+            offset += BITS_SIZE_OF;
 
-        //sort items
-        uint32_t sort_items_count = *get_iuint_16_value(&((*out_hsd)->sort_item_count));
-        uint32_t serialize_sort_item_bytes = sort_items_count * sizeof(SerializeSortItem);
-        SerializeSortItem *serialize_sort_items = malloc(serialize_sort_item_bytes);
-        if (serialize_sort_items != NULL) {
-            (*out_hsd)->sort_items = serialize_sort_items;
-            for (int i = 0; i < serialize_sort_item_bytes; ++i) {
-                ((uint8_t *) ((*out_hsd)->sort_items))[i] = src[offset + i];
+            //sort items
+            //FIXME sort_items_count not correctly read
+            uint16_t sort_items_count = *get_iuint_16_value(&((*out_hsd)->sort_item_count));
+            uint32_t serialize_sort_item_bytes = sort_items_count * sizeof(SerializeSortItem);
+            SerializeSortItem *serialize_sort_items = malloc(serialize_sort_item_bytes);
+            if (serialize_sort_items != NULL) {
+                (*out_hsd)->sort_items = serialize_sort_items;
+                for (int i = 0; i < serialize_sort_item_bytes; ++i) {
+                    ((uint8_t * )((*out_hsd)->sort_items))[i] = src[offset + i];
+                }
+
+                offset += serialize_sort_item_bytes;
+
+                //coded string
+                uint32_t size_coded_string = _fill_bytes_for_bits(*get_iuint_32_value(&(*out_hsd)->bits));
+                uint8_t *coded_array = malloc(size_coded_string);
+                if (coded_array != NULL) {
+                    (*out_hsd)->code = coded_array;
+                    for (uint32_t i = 0U; i < size_coded_string; ++i) {
+                        (*out_hsd)->code[i] = src[i + offset];
+                    }
+                }
+                *out_total_bytes = offset + size_coded_string;
             }
         }
-        offset += serialize_sort_item_bytes;
-
-        //coded string
-        uint32_t size_coded_string = _fill_bytes_for_bits(*get_iuint_32_value(&(*out_hsd)->bits));
-        uint8_t *coded_array = malloc(size_coded_string);
-        if (coded_array != NULL) {
-            (*out_hsd)->code = coded_array;
-            for (uint32_t i = 0U; i < size_coded_string; ++i) {
-                (*out_hsd)->code[i] = src[i + offset];
-            }
-        }
-        *out_total_bytes = offset + size_coded_string;
     }
     return 0;
 }
