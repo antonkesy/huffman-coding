@@ -39,7 +39,7 @@ int test_print_serialization() {
     return 0;
 }
 
-int test_de_serialization(){
+int test_de_serialization() {
     char *example_string = "BCAADDDCCACACAC";
     HuffmanData *hd = code_into_huffman_data((unsigned char *) example_string, strlen(example_string));
     unsigned char **serialization = (unsigned char **) malloc(sizeof(unsigned char **));
