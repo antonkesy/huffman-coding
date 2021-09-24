@@ -95,7 +95,14 @@ int test_mock_big_huffman_data() {
         printf("\nerror: deserializing failed!");
         return 1;
     }
-    if (bytes_for_data != BUFFSIZE_FILE) {
+
+    uint32_t decoded_string_length = 0U;
+    uint8_t *decoded_string = malloc(_get_amount_of_character(hd_de_serial->sort_items));
+    if (decoded_string != NULL) {
+        decode_huffman_data(hd_de_serial, &decoded_string, &decoded_string_length);
+    }
+
+    if (decoded_string_length != BUFFSIZE_FILE) {
         printf("\nerror: data size not equal!");
         return 1;
     }
