@@ -16,10 +16,10 @@ void huffman_code_file_to_file(FILE *src, FILE *des) {
             elements_read = fread(buffer, 1, BUFFSIZE_FILE, src);
             printf("write\n");
             HuffmanData *hd = code_into_huffman_data(buffer, elements_read);
-            uint8_t *write_bytes = NULL;
-            uint32_t to_write_bytes = 0U;
-            serialize_huffman_data(hd, &write_bytes, &to_write_bytes);
-            fwrite(write_bytes, 1, to_write_bytes, des);
+            uint8_t *bytes_to_write = NULL;
+            uint32_t amount_write_bytes = 0U;
+            serialize_huffman_data(hd, &bytes_to_write, &amount_write_bytes);
+            fwrite(bytes_to_write, 1, amount_write_bytes, des);
             delete_huffman_data(hd);
             read_offset += elements_read;
         } while (elements_read == BUFFSIZE_FILE);
