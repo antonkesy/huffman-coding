@@ -58,21 +58,21 @@ serialize_huffman_serialize_data(HuffmanSerializeData *hsd, const uint16_t sort_
                                  const uint32_t size_coded_string, uint8_t *dest) {
     if (dest != NULL) {
         //sort items count
-        for (int i = 0; i < SORT_ITEM_SIZE_OF; ++i) {
+        for (int i = 0; i < sizeof(hsd->sort_item_count); ++i) {
             dest[i] = hsd->sort_item_count.bytes[i];
         }
-        unsigned long long offset = SORT_ITEM_SIZE_OF;
+        unsigned long long offset = sizeof(hsd->sort_item_count);
 
         //bits
-        for (int i = 0; i < BITS_SIZE_OF; ++i) {
+        for (int i = 0; i < sizeof(hsd->bits); ++i) {
             dest[offset + i] = hsd->bits.bytes[i];
         }
-        offset += BITS_SIZE_OF;
+        offset += sizeof(hsd->bits);
 
         //sort items
         uint32_t serialize_sort_item_bytes = sort_item_count * sizeof(SerializeSortItem);
         for (int i = 0; i < serialize_sort_item_bytes; ++i) {
-            dest[offset + i] = ((uint8_t * )(hsd->sort_items))[i];
+            dest[offset + i] = ((uint8_t *) (hsd->sort_items))[i];
         }
         offset += serialize_sort_item_bytes;
 
@@ -106,16 +106,12 @@ int deserialize_huffman_serialize_data(const uint8_t *src, HuffmanSerializeData 
         *out_hsd = malloc(sizeof(HuffmanSerializeData));
         if (*out_hsd != NULL) {
             //sort items count
-            for (int i = 0; i < SORT_ITEM_SIZE_OF; ++i) {
-                (*out_hsd)->sort_item_count.bytes[i] = src[i];
-            }
-            unsigned long long offset = SORT_ITEM_SIZE_OF;
+            (*out_hsd)->sort_item_count = *(iuint_16_t *) src;
+            unsigned long long offset = sizeof((*out_hsd)->sort_item_count);
 
             //bits
-            for (int i = 0; i < BITS_SIZE_OF; ++i) {
-                (*out_hsd)->bits.bytes[i] = src[offset + i];
-            }
-            offset += BITS_SIZE_OF;
+            (*out_hsd)->bits = *(iuint_32_t *) (src + offset);
+            offset += sizeof((*out_hsd)->bits);
 
             //sort items
             //FIXME sort_items_count not correctly read
@@ -125,7 +121,7 @@ int deserialize_huffman_serialize_data(const uint8_t *src, HuffmanSerializeData 
             if (serialize_sort_items != NULL) {
                 (*out_hsd)->sort_items = serialize_sort_items;
                 for (int i = 0; i < serialize_sort_item_bytes; ++i) {
-                    ((uint8_t * )((*out_hsd)->sort_items))[i] = src[offset + i];
+                    ((uint8_t *) ((*out_hsd)->sort_items))[i] = src[offset + i];
                 }
 
                 offset += serialize_sort_item_bytes;
@@ -139,6 +135,7 @@ int deserialize_huffman_serialize_data(const uint8_t *src, HuffmanSerializeData 
                         (*out_hsd)->code[i] = src[i + offset];
                     }
                 }
+                //FIXME out_total_bytes not correct!!
                 *out_total_bytes = offset + size_coded_string;
             }
         }
