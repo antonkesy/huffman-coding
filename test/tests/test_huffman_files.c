@@ -43,12 +43,12 @@ bool test_file_coding(void) {
 
     huffman_decode_file_to_file(coded_file, dest);
 
-    const bool ret_val = files_equal(coded_file, dest);
+    const bool are_files_equal = files_equal(coded_file, dest);
 
     fclose(coded_file);
     fclose(dest);
 
-    return ret_val;
+    return are_files_equal;
 }
 
 int main(void) {
