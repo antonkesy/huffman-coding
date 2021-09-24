@@ -135,7 +135,7 @@ int deserialize_huffman_serialize_data(const uint8_t *src, HuffmanSerializeData 
                         (*out_hsd)->code[i] = src[i + offset];
                     }
                 }
-                //FIXME out_total_bytes not correct!!
+                //FIXME out_total_bytes not correct because sort items count ^^!!
                 *out_total_bytes = offset + size_coded_string;
             }
         }
