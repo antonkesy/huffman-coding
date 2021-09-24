@@ -52,8 +52,7 @@ void huffman_decode_file_to_file(FILE *src, FILE *des) {
             }
             free(decoded);
             //delete_huffman_data(hd);
-            //TODO #2 read offset not working corretly
-            read_offset += byte_needed_for_data + 2;
+            read_offset += byte_needed_for_data;
         } while (elements_read > byte_needed_for_data);
         printf("read done\n");
     }
