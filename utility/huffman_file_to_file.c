@@ -4,13 +4,17 @@
 #include "../huffman.h"
 #include "huffman_serialization.h"
 
-void huffman_code_file_to_file(FILE *src, FILE *des) {
+void huffman_code_file_to_file(FILE *src, FILE *des)
+{
     uint8_t *buffer = malloc(BUFFSIZE_FILE);
-    if (buffer != NULL) {
+    if (buffer != NULL)
+    {
         unsigned long read_offset = 0U;
         uint32_t elements_read;
-        do {
-            if (fseek(src, (long) read_offset, SEEK_SET) != 0) {
+        do
+        {
+            if (fseek(src, (long)read_offset, SEEK_SET) != 0)
+            {
                 printf("fseek error\n");
             } //trivial
             elements_read = fread(buffer, 1, BUFFSIZE_FILE, src);
@@ -27,15 +31,19 @@ void huffman_code_file_to_file(FILE *src, FILE *des) {
     }
 }
 
-void huffman_decode_file_to_file(FILE *src, FILE *des) {
+void huffman_decode_file_to_file(FILE *src, FILE *des)
+{
     uint8_t *buffer = malloc(BUFFSIZE_FILE);
-    if (buffer != NULL) {
+    if (buffer != NULL)
+    {
         unsigned long read_offset = 0;
         uint32_t elements_read;
         uint32_t byte_needed_for_data = 0U;
 
-        do {
-            if (fseek(src, (long) read_offset, SEEK_SET) != 0) {
+        do
+        {
+            if (fseek(src, (long)read_offset, SEEK_SET) != 0)
+            {
                 printf("fseek erro\n");
             }
             elements_read = fread(buffer, 1, BUFFSIZE_FILE, src);
@@ -43,10 +51,12 @@ void huffman_decode_file_to_file(FILE *src, FILE *des) {
             //TODO #3 last 3 chars are not getting deserialized
             HuffmanData *hd = deserialize_huffman_data(buffer, &byte_needed_for_data);
             uint8_t **decoded = malloc(sizeof(uint8_t **));
-            if (decoded != NULL) {
+            if (decoded != NULL)
+            {
                 uint32_t output_size = 0U;
                 decode_huffman_data(hd, decoded, &output_size);
-                if (*decoded != NULL) {
+                if (*decoded != NULL)
+                {
                     fwrite(*decoded, 1, output_size, des);
                 }
             }
