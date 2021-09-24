@@ -217,11 +217,11 @@ int decode_huffman_data(HuffmanData *hd, uint8_t **dest, uint32_t *out_size) {
                 (*dest)[dest_pos++] = current_node->value;
             }
         } else {
-            printf("dest malloc error\n");
+            printf("decode dest malloc error\n");
         }
         //_delete_huffman_tree(tree);
     } else {
-        printf("tree malloc error\n");
+        printf("decode tree malloc error\n");
     }
 
     return 0;
