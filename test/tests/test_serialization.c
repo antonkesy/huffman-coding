@@ -4,7 +4,7 @@
 #include "../../utility/huffman_utility.h"
 #include "../../utility/huffman_serialization.h"
 
-int main(void) {
+int test_print_serialization() {
     //check different endian
 
     //should be
@@ -37,4 +37,37 @@ int main(void) {
         return 1;
     }
     return 0;
+}
+
+int test_de_serialization(){
+    char *example_string = "BCAADDDCCACACAC";
+    HuffmanData *hd = code_into_huffman_data((unsigned char *) example_string, strlen(example_string));
+    unsigned char **serialization = (unsigned char **) malloc(sizeof(unsigned char **));
+    if (serialization == NULL) {
+        return 1;
+    }
+    serialize_huffman_data(hd, serialization, NULL);
+    if (*serialization == NULL) {
+        return 1;
+    }
+    size_t bytes_for_data = 0U;
+    HuffmanData *hd_de_serial = deserialize_huffman_data(*serialization, &bytes_for_data);
+
+    if (hd_de_serial == NULL) {
+        return 1;
+    }
+
+    const int ret_value = !is_huffman_data_equal(hd, hd_de_serial);
+
+    free(serialization);
+    serialization = NULL;
+    delete_huffman_data(hd);
+    hd = NULL;
+    delete_huffman_data(hd_de_serial);
+    hd_de_serial = NULL;
+    return ret_value;
+}
+
+int main(void) {
+    return test_print_serialization() || test_de_serialization();
 }
