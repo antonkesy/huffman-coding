@@ -150,8 +150,10 @@ HuffmanData *deserialize_huffman_data(const uint8_t *src, uint32_t *out_byte_rea
     HuffmanData *ret_data = NULL;
     if (src != NULL) {
         HuffmanSerializeData **hsd = malloc(sizeof(HuffmanSerializeData *));
-        deserialize_huffman_serialize_data(src, hsd, out_byte_read);
-        ret_data = serialize_data_to_huffman_data(*hsd);
+        if (hsd != NULL) {
+            deserialize_huffman_serialize_data(src, hsd, out_byte_read);
+            ret_data = serialize_data_to_huffman_data(*hsd);
+        }
     }
     return ret_data;
 }
