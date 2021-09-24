@@ -6,9 +6,6 @@
 #include "../huffman.h"
 #include "independent_int.h"
 
-#define SORT_ITEM_SIZE_OF 2
-#define BITS_SIZE_OF 4
-
 typedef struct {
     iuint_64_t freq;
     uint8_t value;
