@@ -6,8 +6,6 @@
 #include <stdio.h>
 #include <stdint.h>
 
-#define BUFFSIZE_FILE 16384
-
 struct Node
 {
    uint32_t freq;
