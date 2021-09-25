@@ -57,7 +57,7 @@ void _huffman_code_file_to_file(FILE *src, FILE *des)
         {
             if (fseek(src, (long) read_offset, SEEK_SET) != 0)
             {
-                printf("fseek error\n");
+                perror("code fseek error\n");
             } //trivial
             elements_read = fread(buffer, 1, BUFF_SIZE_FILE, src);
             HuffmanData *hd = code_into_huffman_data(buffer, elements_read);
@@ -87,7 +87,7 @@ void _huffman_decode_file_to_file(FILE *src, FILE *des)
         {
             if (fseek(src, (long) read_offset, SEEK_SET) != 0)
             {
-                printf("fseek erro\n");
+                perror("decode fseek erro\n");
             }
             elements_read = fread(buffer, 1, BUFF_SIZE_FILE, src);
             if (elements_read == 0 || ferror(src))
