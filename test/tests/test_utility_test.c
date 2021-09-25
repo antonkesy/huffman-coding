@@ -13,7 +13,7 @@ bool is_files_equal_working_un_equal(void) {
     bool is_un_equal = false;
 
     if (fp1 != NULL && fp2 != NULL) {
-        if (!files_equal(fp1, fp2)) {
+        if (!_files_equal(fp1, fp2)) {
             is_un_equal = true;
         }
     }
@@ -35,7 +35,7 @@ bool is_files_equal_working_equals(void) {
     bool is_equal = true;
 
     if (fp1 != NULL && fp2 != NULL) {
-        if (!files_equal(fp1, fp2)) {
+        if (!_files_equal(fp1, fp2)) {
             is_equal = false;
         }
     }
