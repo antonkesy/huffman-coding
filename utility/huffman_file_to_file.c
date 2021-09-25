@@ -48,7 +48,6 @@ void huffman_decode_file_to_file(FILE *src, FILE *des)
             {
                 printf("fseek erro\n");
             }
-            //FIXME elements read not correct amount!
             elements_read = fread(buffer, 1, BUFF_SIZE_FILE, src);
             if (elements_read == 0 || ferror(src))
             {
