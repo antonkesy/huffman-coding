@@ -4,7 +4,49 @@
 #include "../huffman.h"
 #include "huffman_serialization.h"
 
-void huffman_code_file_to_file(FILE *src, FILE *des)
+void huffman_code_file_to_file(const char *src_file_name, const char *des_coded_file_name)
+{
+    //open src file
+    FILE *src_file = open_file_to_read(src_file_name);
+    if (is_file_open_correctly(src_file))
+    {
+        perror("Unable to open src file!");
+    }
+
+    //open des file
+    FILE *coded_file = open_file_to_write(des_coded_file_name);
+    if (is_file_open_correctly(coded_file))
+    {
+        perror("Unable to create file.\n");
+    }
+
+    _huffman_code_file_to_file(src_file, coded_file);
+
+    fclose(src_file);
+    fclose(coded_file);
+}
+
+void huffman_decode_file_to_file(const char *src_coded_file_name, const char *des_file_name)
+{
+    FILE *coded_file = open_file_to_read(src_coded_file_name);
+    if (is_file_open_correctly(coded_file))
+    {
+        perror("Unable to open file.\n");
+    }
+
+    FILE *dest = open_file_to_write(des_file_name);
+    if (is_file_open_correctly(dest))
+    {
+        perror("Unable to create file.\n");
+    }
+
+    _huffman_decode_file_to_file(coded_file, dest);
+
+    fclose(coded_file);
+    fclose(dest);
+}
+
+void _huffman_code_file_to_file(FILE *src, FILE *des)
 {
     uint8_t *buffer = malloc(BUFF_SIZE_FILE);
     if (buffer != NULL)
@@ -32,7 +74,7 @@ void huffman_code_file_to_file(FILE *src, FILE *des)
     }
 }
 
-void huffman_decode_file_to_file(FILE *src, FILE *des)
+void _huffman_decode_file_to_file(FILE *src, FILE *des)
 {
     uint8_t *buffer = malloc(BUFF_SIZE_FILE);
     if (buffer != NULL)
@@ -71,4 +113,19 @@ void huffman_decode_file_to_file(FILE *src, FILE *des)
         printf("read done\n");
         free(buffer);
     }
+}
+
+FILE *open_file_to_write(const char *file_name)
+{
+    return fopen(file_name, "wb");
+}
+
+FILE *open_file_to_read(const char *file_name)
+{
+    return fopen(file_name, "rb");
+}
+
+bool is_file_open_correctly(FILE *file)
+{
+    return (file != NULL && ferror(file));
 }
