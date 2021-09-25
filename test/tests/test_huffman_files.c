@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdbool.h>
+#include <malloc.h>
 #include "../test_utility.h"
 #include "../../utility/huffman_file_to_file.h"
 
@@ -9,17 +10,20 @@
 #define TEST_OUTPUT_FILE_NAME "output.txt"
 
 
-bool test_file_coding(void) {
+bool test_file_coding(void)
+{
     create_test_input_file(TEST_INPUT_FILE_NAME, 0xFFF);
     FILE *src = fopen(TEST_INPUT_FILE_NAME, "r");
 
-    if (src == NULL) {
+    if (src == NULL || ferror(src))
+    {
         printf("Unable to open file.\n");
         return 1;
     }
 
     FILE *coded_file = fopen(TEST_CODED_FILE_NAME, "w");
-    if (coded_file == NULL) {
+    if (coded_file == NULL || ferror(coded_file))
+    {
         printf("Unable to create file.\n");
         return 1;
     }
@@ -30,13 +34,15 @@ bool test_file_coding(void) {
     fclose(coded_file);
 
     coded_file = fopen(TEST_CODED_FILE_NAME, "r");
-    if (coded_file == NULL) {
+    if (coded_file == NULL || ferror(coded_file))
+    {
         printf("Unable to open file.\n");
         return 1;
     }
 
     FILE *dest = fopen(TEST_OUTPUT_FILE_NAME, "w");
-    if (dest == NULL) {
+    if (dest == NULL || ferror(dest))
+    {
         printf("Unable to create file.\n");
         return 1;
     }
@@ -51,6 +57,7 @@ bool test_file_coding(void) {
     return are_files_equal;
 }
 
-int main(void) {
+int main(void)
+{
     return !test_file_coding();
 }
