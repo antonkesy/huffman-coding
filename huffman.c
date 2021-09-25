@@ -269,13 +269,3 @@ uint32_t _get_amount_of_character(SortedItems *sorted_items) {
     }
     return amount;
 }
-
-
-uint32_t _get_huffman_data_needed_bytes(HuffmanData *hd) {
-    return _get_huffman_data_needed_bytes_add_coded_string(hd, _fill_bytes_for_bits(hd->bits));
-}
-
-uint32_t _get_huffman_data_needed_bytes_add_coded_string(HuffmanData *hd, const uint32_t coded_string_bytes) {
-    //sort count + size of uint32_t + bits + sorteditems + coded_string size
-    return 3 + sizeof(uint32_t) + sizeof(SortItem) * hd->sort_items->size + coded_string_bytes;
-}

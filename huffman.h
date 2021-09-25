@@ -70,8 +70,6 @@ void _set_bit_at_pos(uint8_t * dest, const uint32_t pos, const uint8_t value);
 uint32_t _get_items_sum(SortedItems* sort_items);
 uint32_t _fill_bytes_for_bits(const uint32_t bits);
 uint32_t _get_amount_of_character(SortedItems* sorted_items);
-uint32_t _get_huffman_data_needed_bytes(HuffmanData* hd);
-uint32_t _get_huffman_data_needed_bytes_add_coded_string(HuffmanData* hd, const uint32_t coded_string_bytes);
 
 //delete
 void delete_huffman_data(HuffmanData* data);
