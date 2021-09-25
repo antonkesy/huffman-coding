@@ -12,7 +12,7 @@
 bool test_file_coding(void)
 {
     create_test_input_file(TEST_INPUT_FILE_NAME, 0xFFF);
-    FILE *src = fopen("300_2.mp4", "rb");
+    FILE *src = fopen(TEST_INPUT_FILE_NAME, "rb");
     if (src == NULL || ferror(src))
     {
         printf("Unable to open file.\n");
