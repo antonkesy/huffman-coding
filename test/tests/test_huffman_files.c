@@ -33,7 +33,7 @@ bool test_file_coding(void)
     fclose(src);
     fclose(coded_file);
 
-    coded_file = fopen(TEST_CODED_FILE_NAME, "r");
+    coded_file = fopen(TEST_CODED_FILE_NAME, "rb");
     if (coded_file == NULL || ferror(coded_file))
     {
         printf("Unable to open file.\n");
