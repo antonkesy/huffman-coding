@@ -18,7 +18,6 @@ void huffman_code_file_to_file(FILE *src, FILE *des)
                 printf("fseek error\n");
             } //trivial
             elements_read = fread(buffer, 1, BUFF_SIZE_FILE, src);
-            printf("write\n");
             HuffmanData *hd = code_into_huffman_data(buffer, elements_read);
             uint8_t *bytes_to_write = NULL;
             uint32_t amount_write_bytes = 0U;
@@ -53,7 +52,6 @@ void huffman_decode_file_to_file(FILE *src, FILE *des)
             {
                 break;
             }
-            printf("read\n");
             //TODO #3 last 3 chars are not getting deserialized
             HuffmanData *hd = deserialize_huffman_data(buffer, &byte_needed_for_data);
             uint8_t **decoded = malloc(sizeof(uint8_t **));
