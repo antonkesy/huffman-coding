@@ -52,7 +52,6 @@ void huffman_decode_file_to_file(FILE *src, FILE *des)
             {
                 break;
             }
-            //TODO #3 last 3 chars are not getting deserialized
             HuffmanData *hd = deserialize_huffman_data(buffer, &byte_needed_for_data);
             uint8_t **decoded = malloc(sizeof(uint8_t **));
             if (decoded != NULL)

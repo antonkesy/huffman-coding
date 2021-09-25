@@ -72,17 +72,11 @@ int serialize_huffman_serialize_data(HuffmanSerializeData *hsd, const uint16_t s
     if (*dest != NULL)
     {
         //sort items count
-        for (int i = 0; i < sizeof(hsd->sort_item_count); ++i)
-        {
-            (*dest)[i] = hsd->sort_item_count.bytes[i];
-        }
+        *((iuint_16_t *) (*dest)) = hsd->sort_item_count;
         unsigned long long offset = sizeof(hsd->sort_item_count);
 
         //bits
-        for (int i = 0; i < sizeof(hsd->bits); ++i)
-        {
-            (*dest)[offset + i] = hsd->bits.bytes[i];
-        }
+        *((iuint_32_t *) (*dest + offset)) = hsd->bits;
         offset += sizeof(hsd->bits);
 
         //sort items
@@ -128,15 +122,14 @@ int deserialize_huffman_serialize_data(const uint8_t *src, HuffmanSerializeData 
         if (*out_hsd != NULL)
         {
             //sort items count
-            (*out_hsd)->sort_item_count = *(iuint_16_t *) src;
+            (*out_hsd)->sort_item_count = *((iuint_16_t *) src);
             unsigned long long offset = sizeof((*out_hsd)->sort_item_count);
 
             //bits
-            (*out_hsd)->bits = *(iuint_32_t *) (src + offset);
+            (*out_hsd)->bits = *((iuint_32_t *) (src + offset));
             offset += sizeof((*out_hsd)->bits);
 
             //sort items
-            //FIXME sort_items_count not correctly read
             uint16_t sort_items_count = *get_iuint_16_value(&((*out_hsd)->sort_item_count));
             uint32_t serialize_sort_item_bytes = sort_items_count * sizeof(SerializeSortItem);
             SerializeSortItem *serialize_sort_items = malloc(serialize_sort_item_bytes);
@@ -161,8 +154,6 @@ int deserialize_huffman_serialize_data(const uint8_t *src, HuffmanSerializeData 
                         (*out_hsd)->code[i] = src[i + offset];
                     }
                 }
-                //FIXME out_total_bytes not correct because sort items count ^^!!
-                //FIXME should be more (239 missing test_files first it)
                 *out_total_bytes = offset + size_coded_string;
             }
         }
