@@ -3,8 +3,10 @@
 #include "../../huffman.h"
 #include "../../utility/huffman_utility.h"
 #include "../../utility/huffman_serialization.h"
+#include "../../utility/huffman_file_to_file.h"
 
-int test_print_serialization() {
+int test_print_serialization()
+{
     //check different endian
 
     //should be
@@ -21,42 +23,52 @@ int test_print_serialization() {
     char *exampleString = "BCAADDDCCACACAC";
     HuffmanData *hd = code_into_huffman_data((unsigned char *) exampleString, strlen(exampleString));
     unsigned char **serialization = (unsigned char **) malloc(sizeof(unsigned char **));
-    if (serialization != NULL) {
+    if (serialization != NULL)
+    {
         size_t bytes = 0U;
         serialize_huffman_data(hd, serialization, &bytes);
-        if (*serialization != NULL) {
-            for (size_t i = 0; i < bytes; ++i) {
+        if (*serialization != NULL)
+        {
+            for (size_t i = 0; i < bytes; ++i)
+            {
                 print_8bit_as_binary((*serialization)[i]);
                 if (i == 0 || i == 1 || i == 5 || i == 13 || ((i > 13) && ((i - 13) % (8) == 0)))
                     printf("\n");
             }
-        } else {
+        } else
+        {
             return 1;
         }
-    } else {
+    } else
+    {
         return 1;
     }
     return 0;
 }
 
-int test_de_serialization() {
+int test_de_serialization()
+{
     char *example_string = "BCAADDDCCACACAC";
     HuffmanData *hd = code_into_huffman_data((unsigned char *) example_string, strlen(example_string));
-    if (hd == NULL) {
+    if (hd == NULL)
+    {
         return 1;
     }
     unsigned char **serialization = (unsigned char **) malloc(sizeof(unsigned char **));
-    if (serialization == NULL) {
+    if (serialization == NULL)
+    {
         return 1;
     }
     serialize_huffman_data(hd, serialization, NULL);
-    if (*serialization == NULL) {
+    if (*serialization == NULL)
+    {
         return 1;
     }
     size_t bytes_for_data = 0U;
     HuffmanData *hd_de_serial = deserialize_huffman_data(*serialization, &bytes_for_data);
 
-    if (hd_de_serial == NULL) {
+    if (hd_de_serial == NULL)
+    {
         return 1;
     }
 
@@ -71,49 +83,59 @@ int test_de_serialization() {
     return ret_value;
 }
 
-int test_mock_big_huffman_data() {
-    uint8_t *random_big_data = malloc(BUFFSIZE_FILE);
-    if (random_big_data == NULL) { return 1; }
-    HuffmanData *hd = code_into_huffman_data(random_big_data, BUFFSIZE_FILE);
-    if (hd == NULL) {
+int test_mock_big_huffman_data()
+{
+    uint8_t *random_big_data = malloc(BUFF_SIZE_FILE);
+    if (random_big_data == NULL)
+    { return 1; }
+    HuffmanData *hd = code_into_huffman_data(random_big_data, BUFF_SIZE_FILE);
+    if (hd == NULL)
+    {
         return 1;
     }
 
     uint8_t **serialization = (uint8_t **) malloc(sizeof(uint8_t **));
-    if (serialization == NULL) {
+    if (serialization == NULL)
+    {
         return 1;
     }
 
     serialize_huffman_data(hd, serialization, NULL);
-    if (*serialization == NULL) {
+    if (*serialization == NULL)
+    {
         return 1;
     }
     uint32_t bytes_for_data = 0U;
     HuffmanData *hd_de_serial = deserialize_huffman_data(*serialization, &bytes_for_data);
 
-    if (hd_de_serial == NULL) {
+    if (hd_de_serial == NULL)
+    {
         printf("\nerror: deserializing failed!");
         return 1;
     }
 
     uint32_t decoded_string_length = 0U;
     uint8_t *decoded_string = malloc(_get_amount_of_character(hd_de_serial->sort_items));
-    if (decoded_string == NULL) {
+    if (decoded_string == NULL)
+    {
         return 1;
     }
     decode_huffman_data(hd_de_serial, &decoded_string, &decoded_string_length);
 
-    if (decoded_string_length != BUFFSIZE_FILE) {
+    if (decoded_string_length != BUFF_SIZE_FILE)
+    {
         printf("\nerror: data size not equal!");
         return 1;
     }
-    if (!is_huffman_data_equal(hd, hd_de_serial)) {
+    if (!is_huffman_data_equal(hd, hd_de_serial))
+    {
         printf("\nerror: huffman data not equal!");
         return 1;
     }
     return 0;
 }
 
-int main(void) {
+int main(void)
+{
     return test_print_serialization() || test_de_serialization() || test_mock_big_huffman_data();
 }
