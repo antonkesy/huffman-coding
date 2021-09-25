@@ -1,7 +1,8 @@
 #include "test_utility.h"
-#include "../utility/huffman_file_to_file.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdint.h>
+#include "../utility/huffman_file_to_file.h"
 
 bool files_equal(const char *file_1_name, const char *file_2_name)
 {
@@ -57,11 +58,26 @@ bool _files_equal(FILE *fp1, FILE *fp2)
 
 void create_test_input_file(const char *file_name, unsigned int lines)
 {
-    FILE *fp = fopen(file_name, "w+");
+    FILE *fp = open_file_to_write(file_name);
     if (fp != NULL)
     {
         fprintf(fp, "Hello,\tI'm a testing file :)\n");
         for (register unsigned int i = 0; i < lines; ++i)
+        {
+            fprintf(fp, "number iteration = %i\n", i);
+        }
+    }
+    fclose(fp);
+}
+
+void create_test_big_input_file(const char *file_name)
+{
+    FILE *fp = open_file_to_write(file_name);
+    if (fp != NULL)
+    {
+        fprintf(fp, "Big testing file!\n");
+        //7GB
+        for (register uint_fast64_t i = 0; i < 0xFFFFFFF; ++i)
         {
             fprintf(fp, "number iteration = %i\n", i);
         }
