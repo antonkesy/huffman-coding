@@ -76,7 +76,7 @@ void create_test_big_input_file(const char *file_name)
     if (fp != NULL)
     {
         fprintf(fp, "Big testing file!\n");
-        //7GB
+        //7,4GB 0xFFFFFFF
         for (register uint_fast64_t i = 0; i < 0xFFFFFFF; ++i)
         {
             fprintf(fp, "number iteration = %i\n", i);
