@@ -6,7 +6,7 @@
 
 void huffman_code_file_to_file(FILE *src, FILE *des)
 {
-    uint8_t *buffer = malloc(BUFFSIZE_FILE);
+    uint8_t *buffer = malloc(BUFF_SIZE_FILE);
     if (buffer != NULL)
     {
         unsigned long read_offset = 0U;
@@ -17,7 +17,7 @@ void huffman_code_file_to_file(FILE *src, FILE *des)
             {
                 printf("fseek error\n");
             } //trivial
-            elements_read = fread(buffer, 1, BUFFSIZE_FILE, src);
+            elements_read = fread(buffer, 1, BUFF_SIZE_FILE, src);
             printf("write\n");
             HuffmanData *hd = code_into_huffman_data(buffer, elements_read);
             uint8_t *bytes_to_write = NULL;
@@ -26,14 +26,14 @@ void huffman_code_file_to_file(FILE *src, FILE *des)
             fwrite(bytes_to_write, 1, amount_write_bytes, des);
             delete_huffman_data(hd);
             read_offset += elements_read;
-        } while (elements_read == BUFFSIZE_FILE);
+        } while (elements_read == BUFF_SIZE_FILE);
         printf("write done\n");
     }
 }
 
 void huffman_decode_file_to_file(FILE *src, FILE *des)
 {
-    uint8_t *buffer = malloc(BUFFSIZE_FILE);
+    uint8_t *buffer = malloc(BUFF_SIZE_FILE);
     if (buffer != NULL)
     {
         unsigned long read_offset = 0;
@@ -46,7 +46,7 @@ void huffman_decode_file_to_file(FILE *src, FILE *des)
             {
                 printf("fseek erro\n");
             }
-            elements_read = fread(buffer, 1, BUFFSIZE_FILE, src);
+            elements_read = fread(buffer, 1, BUFF_SIZE_FILE, src);
             printf("read\n");
             //TODO #3 last 3 chars are not getting deserialized
             HuffmanData *hd = deserialize_huffman_data(buffer, &byte_needed_for_data);
