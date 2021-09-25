@@ -33,4 +33,6 @@ SortItem *serialize_sort_items_to_sort_item(SerializeSortItem *serialize_sort_it
 
 SerializeSortItem *sort_items_to_serialize_sort_item(SortItem *sortItems, uint32_t count);
 
+size_t get_huffman_serialize_data_size(const uint16_t sort_item_count, const uint32_t size_coded_string);
+
 #endif //HUFFMAN_TEST_HUFFMAN_SERIALIZATION_H
