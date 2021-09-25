@@ -51,14 +51,9 @@ void _huffman_code_file_to_file(FILE *src, FILE *des)
     uint8_t *buffer = malloc(BUFF_SIZE_FILE);
     if (buffer != NULL)
     {
-        unsigned long read_offset = 0U;
         uint32_t elements_read;
         do
         {
-            if (fseek(src, (long) read_offset, SEEK_SET) != 0)
-            {
-                perror("code fseek error\n");
-            } //trivial
             elements_read = fread(buffer, 1, BUFF_SIZE_FILE, src);
             HuffmanData *hd = code_into_huffman_data(buffer, elements_read);
             uint8_t *bytes_to_write = NULL;
@@ -66,7 +61,6 @@ void _huffman_code_file_to_file(FILE *src, FILE *des)
             serialize_huffman_data(hd, &bytes_to_write, &amount_write_bytes);
             fwrite(bytes_to_write, 1, amount_write_bytes, des);
             delete_huffman_data(hd);
-            read_offset += elements_read;
         }
         while (elements_read == BUFF_SIZE_FILE);
         printf("write done\n");
@@ -107,6 +101,7 @@ void _huffman_decode_file_to_file(FILE *src, FILE *des)
             }
             free(decoded);
             //delete_huffman_data(hd);
+            //TODO move file pointer by subtracting read and needed and go back from current position
             read_offset += byte_needed_for_data;
         }
         while (elements_read > byte_needed_for_data);
