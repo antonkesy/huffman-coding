@@ -1,8 +1,33 @@
 #include "test_utility.h"
+#include "../utility/huffman_file_to_file.h"
 #include <stdio.h>
 #include <stdlib.h>
 
-bool files_equal(FILE *fp1, FILE *fp2)
+bool files_equal(const char *file_1_name, const char *file_2_name)
+{
+    FILE *fp1 = open_file_to_read(file_1_name);
+    if (is_file_open_correctly(fp1))
+    {
+        perror("Unable to open file 1.");
+        return false;
+    }
+
+    FILE *fp2 = open_file_to_read(file_2_name);
+    if (is_file_open_correctly(fp2))
+    {
+        perror("Unable to open file 2.");
+        return false;
+    }
+
+    bool are_files_equal = _files_equal(fp1, fp2);
+
+    fclose(fp1);
+    fclose(fp2);
+
+    return are_files_equal;
+}
+
+bool _files_equal(FILE *fp1, FILE *fp2)
 {
     //same files
     if (fp1 == fp2)
