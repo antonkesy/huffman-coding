@@ -43,11 +43,11 @@ SortedItems *sort_by_frequency(const uint8_t *items, const uint32_t size)
             sorted_items->size = (unsigned short) unique_chars_count;
         } else
         {
-            printf("malloc error");
+            printf("sort by freq malloc error sort array");
         }
     } else
     {
-        printf("malloc error");
+        printf("sort by freq malloc error input");
     }
     free(freq_of_position);
     return sorted_items;
@@ -95,7 +95,7 @@ HuffmanTree *build_huffman_tree(SortedItems *sorted_items)
                 return tree;
             } else
             {
-                printf("malloc error");
+                printf("build huffman tree malloc error tree");
             }
         }
     }
@@ -163,11 +163,11 @@ HuffmanData *_code_huffman_string(const uint8_t input[], const uint32_t input_si
             data->sort_items = sorted_items;
         } else
         {
-            printf("malloc error");
+            printf("code huffman string malloc error output buffer");
         }
     } else
     {
-        printf("malloc error");
+        printf("code huffman string malloc error input");
         return NULL;
     }
 
