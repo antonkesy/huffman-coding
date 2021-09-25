@@ -1,4 +1,3 @@
-#include <stdio.h>
 #include <stdbool.h>
 #include "../test_utility.h"
 #include "../../utility/huffman_file_to_file.h"
@@ -15,27 +14,7 @@ bool test_file_coding(void)
 
     huffman_decode_file_to_file(TEST_CODED_FILE_NAME, TEST_OUTPUT_FILE_NAME);
 
-
-    FILE *src = open_file_to_read(TEST_INPUT_FILE_NAME);
-    if (src == NULL || ferror(src))
-    {
-        printf("Unable to open file.\n");
-        return 1;
-    }
-
-    FILE *dest = open_file_to_read(TEST_OUTPUT_FILE_NAME);
-    if (dest == NULL || ferror(dest))
-    {
-        printf("Unable to create file.\n");
-        return 1;
-    }
-
-    const bool are_files_equal = files_equal(src, dest);
-
-    fclose(src);
-    fclose(dest);
-
-    return are_files_equal;
+    return files_equal(TEST_INPUT_FILE_NAME, TEST_OUTPUT_FILE_NAME);
 }
 
 int main(void)
