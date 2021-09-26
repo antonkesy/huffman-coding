@@ -12,7 +12,7 @@ int main()
     {
         return 1;
     }
-    size_t output_size = 0;
+    uint32_t output_size = 0;
     decode_huffman_data(hd, dest, &output_size);
     if (*dest == NULL)
     {

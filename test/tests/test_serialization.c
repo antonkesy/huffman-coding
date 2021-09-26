@@ -25,7 +25,7 @@ int test_print_serialization()
     unsigned char **serialization = (unsigned char **) malloc(sizeof(unsigned char **));
     if (serialization != NULL)
     {
-        size_t bytes = 0U;
+        uint32_t bytes = 0U;
         serialize_huffman_data(hd, serialization, &bytes);
         if (*serialization != NULL)
         {
@@ -64,7 +64,7 @@ int test_de_serialization()
     {
         return 1;
     }
-    size_t bytes_for_data = 0U;
+    uint32_t bytes_for_data = 0U;
     HuffmanData *hd_de_serial = deserialize_huffman_data(*serialization, &bytes_for_data);
 
     if (hd_de_serial == NULL)
