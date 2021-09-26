@@ -14,9 +14,12 @@ int main()
     }
     uint32_t output_size = 0;
     decode_huffman_data(hd, dest, &output_size);
+    delete_huffman_data(hd);
     if (*dest == NULL)
     {
         return 1;
     }
+    free(*dest);
+    free(dest);
     return !is_coded_string_equal((uint8_t *) test_string, (uint8_t *) *dest, strlen(test_string));
 }
