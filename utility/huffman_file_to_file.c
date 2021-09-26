@@ -67,10 +67,10 @@ void _huffman_code_file_to_file(FILE *src, FILE *des)
             }
             serialize_huffman_data(hd, &bytes_to_write, &amount_write_bytes);
             fwrite(bytes_to_write, 1, amount_write_bytes, des);
+            free(bytes_to_write);
             delete_huffman_data(hd);
         }
         while (elements_read == BUFF_SIZE_FILE);
-        free(bytes_to_write);
         printf("write done\n");
         free(buffer);
     }
