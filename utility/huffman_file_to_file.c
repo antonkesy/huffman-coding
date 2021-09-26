@@ -97,20 +97,22 @@ void _huffman_decode_file_to_file(FILE *src, FILE *des)
                 break;
             }
             HuffmanData *hd = deserialize_huffman_data(buffer, &byte_needed_for_data);
-            uint8_t **decoded = malloc(sizeof(uint8_t **));
-            if (decoded != NULL)
+            if (hd != NULL)
             {
-                uint32_t output_size = 0U;
-                decode_huffman_data(hd, decoded, &output_size);
-                if (*decoded != NULL)
+                uint8_t **decoded = malloc(sizeof(uint8_t **));
+                if (decoded != NULL)
                 {
-                    fwrite(*decoded, 1, output_size, des);
-                    free(*decoded);
+                    uint32_t output_size = 0U;
+                    decode_huffman_data(hd, decoded, &output_size);
+                    if (*decoded != NULL)
+                    {
+                        fwrite(*decoded, 1, output_size, des);
+                        free(*decoded);
+                    }
+                    free(decoded);
                 }
-                free(decoded);
+                delete_huffman_data(hd);
             }
-            delete_huffman_data(hd);
-            //TODO move file pointer by subtracting read and needed and go back from current position
             read_offset = (long) (elements_read - byte_needed_for_data);
         }
         while (elements_read > byte_needed_for_data);
