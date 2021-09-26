@@ -10,8 +10,9 @@ HuffmanSerializeData *huffman_data_to_serialize_data(HuffmanData *hd)
         serialize_data->bits = *fill_iuint_32(&hd->bits);
         serialize_data->sort_items = sort_items_to_serialize_sort_item(hd->sort_items->items, hd->sort_items->size);
         serialize_data->code = hd->coded_array;
+        return serialize_data;
     }
-    return serialize_data;
+    return NULL;
 }
 
 HuffmanData *serialize_data_to_huffman_data(HuffmanSerializeData *hsd)
@@ -105,8 +106,12 @@ int serialize_huffman_data(HuffmanData *hd, uint8_t **dest, uint32_t *out_total_
 {
     const uint32_t bytes_for_coded_string = _fill_bytes_for_bits(hd->bits);
     uint8_t *output = NULL;
-    serialize_huffman_serialize_data(huffman_data_to_serialize_data(hd), hd->sort_items->size, bytes_for_coded_string,
-                                     &output, out_total_byte);
+    HuffmanSerializeData *hsd = huffman_data_to_serialize_data(hd);
+    if (hsd != NULL)
+    {
+        serialize_huffman_serialize_data(hsd, hd->sort_items->size, bytes_for_coded_string, &output, out_total_byte);
+        free(hsd);
+    }
     if (dest != NULL)
     {
         *dest = output;
@@ -163,17 +168,19 @@ int deserialize_huffman_serialize_data(const uint8_t *src, HuffmanSerializeData 
 
 HuffmanData *deserialize_huffman_data(const uint8_t *src, uint32_t *out_byte_read)
 {
-    HuffmanData *ret_data = NULL;
+    HuffmanData *hd = NULL;
     if (src != NULL)
     {
         HuffmanSerializeData **hsd = malloc(sizeof(HuffmanSerializeData *));
         if (hsd != NULL)
         {
             deserialize_huffman_serialize_data(src, hsd, out_byte_read);
-            ret_data = serialize_data_to_huffman_data(*hsd);
+            hd = serialize_data_to_huffman_data(*hsd);
+            free(*hsd);
+            free(hsd);
         }
     }
-    return ret_data;
+    return hd;
 }
 
 size_t get_huffman_serialize_data_size(const uint16_t sort_item_count, const uint32_t size_coded_string)
