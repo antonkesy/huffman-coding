@@ -79,7 +79,7 @@ void create_test_big_input_file(const char *file_name)
         //7,4GB 0xFFFFFFF
         for (register uint_fast64_t i = 0; i < 0xFFFFFFF; ++i)
         {
-            fprintf(fp, "number iteration = %i\n", i);
+            fprintf(fp, "number iteration = %lu\n", i);
         }
     }
     fclose(fp);
