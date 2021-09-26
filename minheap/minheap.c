@@ -62,6 +62,7 @@ heapdata *extract_min(minheap *minheap)
 
     return root;
 }
+
 void min_heapify(minheap *minheap, uint32_t index)
 {
     uint32_t l = _index_left_minheap(index);
@@ -116,7 +117,11 @@ void print_min_heap(minheap *minheap)
     }
 }
 
-void delete_minheap(minheap* minheap){
-    free(minheap->elements);
-    free(minheap);
+void delete_minheap(minheap *minheap)
+{
+    if (minheap != NULL)
+    {
+        free(minheap->elements);
+        free(minheap);
+    }
 }
