@@ -41,6 +41,7 @@ SortedItems *sort_by_frequency(const uint8_t *items, const uint32_t size)
             qsort(sort_items_array, unique_chars_count, sizeof(SortItem), _sort_item_comparator);
             sorted_items->items = sort_items_array;
             sorted_items->size = (unsigned short) unique_chars_count;
+            free(freq_of_position);
             return sorted_items;
         } else
         {
@@ -119,7 +120,7 @@ HuffmanNode *_create_parent_huffman_node(HuffmanNode *left_child, HuffmanNode *r
 
 void _delete_huffman_nodes(HuffmanNode *node)
 {
-    //TODO fixme
+    //TODO fixme double free or corruption (out)
     //leaf is not there anymore ?! feeefeee
     if (node != NULL)
     {
@@ -158,7 +159,7 @@ HuffmanData *_code_huffman_string(const uint8_t input[], const uint32_t input_si
                     bit_pos += _add_huffman_code(output, leaves[input[i]], bit_pos, 0) - 1;
                 }
                 //_delete_huffman_tree(tree);
-                free(*leaves);
+                free(tree);
                 free(leaves);
                 leaves = NULL;
 
@@ -272,6 +273,7 @@ int decode_huffman_data(HuffmanData *hd, uint8_t **dest, uint32_t *out_size)
             printf("decode dest malloc error\n");
         }
         //_delete_huffman_tree(tree);
+        free(tree);
     } else
     {
         printf("decode tree malloc error\n");
