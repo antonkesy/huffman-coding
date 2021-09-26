@@ -6,12 +6,14 @@
 #include "../huffman.h"
 #include "independent_int.h"
 
-typedef struct {
+typedef struct
+{
     iuint_64_t freq;
     uint8_t value;
 } SerializeSortItem;
 
-typedef struct {
+typedef struct
+{
     iuint_16_t sort_item_count;
     iuint_32_t bits;
     SerializeSortItem *sort_items; //size is sort_item_count
@@ -24,8 +26,7 @@ HuffmanData *deserialize_huffman_data(const uint8_t *src, uint32_t *out_byte_rea
 
 HuffmanSerializeData *huffman_data_to_serialize_data(HuffmanData *hd);
 
-int
-deserialize_huffman_serialize_data(const uint8_t *src, HuffmanSerializeData **out_hsd, uint32_t *out_total_bytes);
+int deserialize_huffman_serialize_data(const uint8_t *src, HuffmanSerializeData **out_hsd, uint32_t *out_total_bytes);
 
 HuffmanData *serialize_data_to_huffman_data(HuffmanSerializeData *hsd);
 
