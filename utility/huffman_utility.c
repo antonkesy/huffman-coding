@@ -98,9 +98,9 @@ bool is_huffman_data_equal(HuffmanData* hd1, HuffmanData* hd2)
    return ret_value;
 }
 
-bool is_coded_string_equal(uint8_t* coded_string_1, uint8_t* coded_string_2, uint32_t size)
+bool is_coded_string_equal(const uint8_t* coded_string_1, const uint8_t* coded_string_2, uint32_t size)
 {
-   for (uint32_t i = 1U; i < size; ++i)
+   for (uint32_t i = 0U; i < size; ++i)
    {
       if (coded_string_1[i] != coded_string_2[i])
       {
