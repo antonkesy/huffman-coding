@@ -2,8 +2,8 @@
 #include <stdint.h>
 
 int test_iuint_16_value(uint16_t test_value) {
-    iuint_16_t test_iuint = *fill_iuint_16(&test_value);
-    uint16_t copy_test_value = *get_iuint_16_value(&test_iuint);
+    iuint_16_t test_iuint = fill_iuint_16(&test_value);
+    uint16_t copy_test_value = get_iuint_16_value(&test_iuint);
     return test_value != copy_test_value;
 }
 
@@ -18,8 +18,8 @@ int test_iuint_16(void) {
 }
 
 int test_iuint_32_value(uint32_t test_value) {
-    iuint_32_t test_iuint = *fill_iuint_32(&test_value);
-    uint32_t copy_test_value = *get_iuint_32_value(&test_iuint);
+    iuint_32_t test_iuint = fill_iuint_32(&test_value);
+    uint32_t copy_test_value = get_iuint_32_value(&test_iuint);
     return test_value != copy_test_value;
 }
 
@@ -36,8 +36,8 @@ int test_iuint_32(void) {
 }
 
 int test_iuint_64_value(uint64_t test_value) {
-    iuint_64_t test_iuint = *fill_iuint_64(&test_value);
-    uint64_t copy_test_value = *get_iuint_64_value(&test_iuint);
+    iuint_64_t test_iuint = fill_iuint_64(&test_value);
+    uint64_t copy_test_value = get_iuint_64_value(&test_iuint);
     return test_value != copy_test_value;
 }
 

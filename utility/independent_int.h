@@ -27,16 +27,16 @@ void *fill_iuint_x(const void *in, const size_t size_of_iuint);
 
 void *get_iuint_x_value(const void *iuint_in, const size_t size_of_iuint);
 
-iuint_16_t *fill_iuint_16(const uint16_t *in);
+iuint_16_t fill_iuint_16(const uint16_t *in);
 
-uint16_t *get_iuint_16_value(const iuint_16_t *in);
+uint16_t get_iuint_16_value(const iuint_16_t *in);
 
-iuint_32_t *fill_iuint_32(const uint32_t *in);
+iuint_32_t fill_iuint_32(const uint32_t *in);
 
-uint32_t *get_iuint_32_value(const iuint_32_t *in);
+uint32_t get_iuint_32_value(const iuint_32_t *in);
 
-iuint_64_t *fill_iuint_64(const uint64_t *in);
+iuint_64_t fill_iuint_64(const uint64_t *in);
 
-uint64_t *get_iuint_64_value(const iuint_64_t *in);
+uint64_t get_iuint_64_value(const iuint_64_t *in);
 
 #endif //HUFFMAN_TEST_INDEPENDENT_INT_H
