@@ -12,4 +12,6 @@ void create_test_input_file(const char *file_name, unsigned int lines);
 
 void create_test_big_input_file(const char *file_name);
 
+bool exists_file(const char *filename);
+
 #endif

@@ -84,3 +84,15 @@ void create_test_big_input_file(const char *file_name)
     }
     fclose(fp);
 }
+
+bool exists_file(const char *filename)
+{
+    FILE *file;
+    if ((file = fopen(filename, "r")))
+    {
+        fclose(file);
+        return true;
+    }
+
+    return false;
+}
