@@ -105,9 +105,10 @@ void _huffman_decode_file_to_file(FILE *src, FILE *des)
                 if (*decoded != NULL)
                 {
                     fwrite(*decoded, 1, output_size, des);
+                    free(*decoded);
                 }
+                free(decoded);
             }
-            free(decoded);
             delete_huffman_data(hd);
             //TODO move file pointer by subtracting read and needed and go back from current position
             read_offset = (long) (elements_read - byte_needed_for_data);
