@@ -73,13 +73,13 @@ void _huffman_decode_file_to_file(FILE *src, FILE *des)
     uint8_t *buffer = malloc(BUFF_SIZE_FILE);
     if (buffer != NULL)
     {
-        uint32_t read_offset = 0U;
+        long read_offset = 0U;
         uint32_t elements_read;
         uint32_t byte_needed_for_data = 0U;
 
         do
         {
-            if (fseek(src, (long) read_offset, SEEK_SET) != 0)
+            if (fseek(src, -read_offset, SEEK_CUR) != 0)
             {
                 perror("decode fseek erro\n");
             }
@@ -100,9 +100,9 @@ void _huffman_decode_file_to_file(FILE *src, FILE *des)
                 }
             }
             free(decoded);
-            //delete_huffman_data(hd);
+            delete_huffman_data(hd);
             //TODO move file pointer by subtracting read and needed and go back from current position
-            read_offset += byte_needed_for_data;
+            read_offset = (long) (elements_read - byte_needed_for_data);
         }
         while (elements_read > byte_needed_for_data);
         printf("read done\n");
