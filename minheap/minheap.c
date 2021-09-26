@@ -44,11 +44,11 @@ void *get_data_minheap(minheap *minheap, uint32_t index)
     return (*(minheap->elements[index])).data;
 }
 
-heapdata *extract_min(minheap *minheap)
+void extract_min_data(minheap *minheap, void **out_data)
 {
     if (minheap->size == 0)
     {
-        return NULL;
+        return;
     }
     --(minheap->size);
 
@@ -60,7 +60,8 @@ heapdata *extract_min(minheap *minheap)
         min_heapify(minheap, 0);
     }
 
-    return root;
+    *out_data = root->data;
+    free(root);
 }
 
 void min_heapify(minheap *minheap, uint32_t index)

@@ -22,7 +22,7 @@ uint32_t _index_parent_minheap(uint32_t index);
 uint32_t _index_left_minheap(uint32_t index);
 uint32_t _index_right_minheap(uint32_t index);
 uint32_t insert_minheap(minheap *minheap, heapdata *data);
-heapdata *extract_min(minheap *minheap);
+void extract_min_data(minheap *minheap, void** out_data);
 void min_heapify(minheap *minheap, uint32_t index);
 
 void swap_heapdata(heapdata **i1, heapdata **i2);

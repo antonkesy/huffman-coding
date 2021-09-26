@@ -83,15 +83,17 @@ HuffmanTree *build_huffman_tree(SortedItems *sorted_items)
 
             while (min_heap->size > 1)
             {
-                HuffmanNode *left = (HuffmanNode *) extract_min(min_heap)->data;
-                HuffmanNode *right = (HuffmanNode *) extract_min(min_heap)->data;
+                HuffmanNode *left = NULL;
+                extract_min_data(min_heap, (void *) &left);
+                HuffmanNode *right = NULL;
+                extract_min_data(min_heap, (void *) &right);
                 HuffmanNode *parent = _create_parent_huffman_node(left, right);
                 insert_minheap(min_heap, create_heap_data_minheap(parent->freq, parent));
             }
             HuffmanTree *tree = malloc(sizeof(HuffmanTree));
             if (tree != NULL)
             {
-                tree->root = (HuffmanNode *) extract_min(min_heap)->data;
+                extract_min_data(min_heap, (void *) (&tree->root));
                 tree->size = sorted_items->size;
                 delete_minheap(min_heap);
                 return tree;
