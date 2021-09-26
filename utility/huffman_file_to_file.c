@@ -52,22 +52,25 @@ void _huffman_code_file_to_file(FILE *src, FILE *des)
     if (buffer != NULL)
     {
         uint32_t elements_read;
+        uint8_t *bytes_to_write = NULL;
+        uint32_t amount_write_bytes = 0U;
+        HuffmanData *hd = NULL;
         do
         {
             elements_read = fread(buffer, 1, BUFF_SIZE_FILE, src);
-            HuffmanData *hd = code_into_huffman_data(buffer, elements_read);
+            //FIXME writing not correct!
+            hd = code_into_huffman_data(buffer, elements_read);
             if (hd == NULL)
             {
                 perror("file to file code into huffman data failed!");
                 break;
             }
-            uint8_t *bytes_to_write = NULL;
-            uint32_t amount_write_bytes = 0U;
             serialize_huffman_data(hd, &bytes_to_write, &amount_write_bytes);
             fwrite(bytes_to_write, 1, amount_write_bytes, des);
             delete_huffman_data(hd);
         }
         while (elements_read == BUFF_SIZE_FILE);
+        free(bytes_to_write);
         printf("write done\n");
         free(buffer);
     }
