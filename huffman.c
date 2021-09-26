@@ -41,6 +41,7 @@ SortedItems *sort_by_frequency(const uint8_t *items, const uint32_t size)
             qsort(sort_items_array, unique_chars_count, sizeof(SortItem), _sort_item_comparator);
             sorted_items->items = sort_items_array;
             sorted_items->size = (unsigned short) unique_chars_count;
+            return sorted_items;
         } else
         {
             printf("sort by freq malloc error sort array");
@@ -50,7 +51,7 @@ SortedItems *sort_by_frequency(const uint8_t *items, const uint32_t size)
         printf("sort by freq malloc error input");
     }
     free(freq_of_position);
-    return sorted_items;
+    return NULL;
 }
 
 HuffmanData *code_into_huffman_data(uint8_t *items, const uint32_t size)
@@ -131,48 +132,50 @@ void _delete_huffman_nodes(HuffmanNode *node)
 
 HuffmanData *_code_huffman_string(const uint8_t input[], const uint32_t input_size, SortedItems *sorted_items)
 {
-    HuffmanData *data = malloc(sizeof(HuffmanData));
-    HuffmanTree *tree = build_huffman_tree(sorted_items);
-    HuffmanNode **leaves = (malloc(sizeof(HuffmanNode *) * 0x100));
-    int *code_size = malloc(sizeof(int) * 0x100);
-    if (leaves != NULL && code_size != NULL && tree != NULL && data != NULL)
+    if (sorted_items != NULL)
     {
-        _set_leaf_nodes(leaves, tree->root);
-        const uint32_t bits_needed = _set_codes_size(leaves, code_size, sorted_items);
-
-        free(code_size);
-        code_size = NULL;
-
-        uint8_t *output_buffer = calloc(1, _fill_bytes_for_bits(bits_needed));
-        uint8_t **output = &output_buffer;
-
-        if (output_buffer != NULL)
+        HuffmanData *data = malloc(sizeof(HuffmanData));
+        HuffmanTree *tree = build_huffman_tree(sorted_items);
+        HuffmanNode **leaves = (malloc(sizeof(HuffmanNode *) * 0x100));
+        int *code_size = malloc(sizeof(int) * 0x100);
+        if (leaves != NULL && code_size != NULL && tree != NULL && data != NULL)
         {
-            uint32_t bit_pos = 0U;
+            _set_leaf_nodes(leaves, tree->root);
+            const uint32_t bits_needed = _set_codes_size(leaves, code_size, sorted_items);
 
-            for (register uint32_t i = 0U; i < input_size; ++i)
+            free(code_size);
+            code_size = NULL;
+
+            uint8_t *output_buffer = calloc(1, _fill_bytes_for_bits(bits_needed));
+            uint8_t **output = &output_buffer;
+
+            if (output_buffer != NULL)
             {
-                bit_pos += _add_huffman_code(output, leaves[input[i]], bit_pos, 0) - 1;
+                uint32_t bit_pos = 0U;
+
+                for (register uint32_t i = 0U; i < input_size; ++i)
+                {
+                    bit_pos += _add_huffman_code(output, leaves[input[i]], bit_pos, 0) - 1;
+                }
+                //_delete_huffman_tree(tree);
+                free(*leaves);
+                free(leaves);
+                leaves = NULL;
+
+                data->bits = bits_needed;
+                data->coded_array = *output;
+                data->sort_items = sorted_items;
+
+                return data;
+            } else
+            {
+                printf("code huffman string malloc error output buffer");
             }
-            //_delete_huffman_tree(tree);
-            free(*leaves);
-            free(leaves);
-            leaves = NULL;
-
-            data->bits = bits_needed;
-            data->coded_array = *output;
-            data->sort_items = sorted_items;
-
-            return data;
         } else
         {
-            printf("code huffman string malloc error output buffer");
+            printf("code huffman string malloc error input");
         }
-    } else
-    {
-        printf("code huffman string malloc error input");
     }
-
     return NULL;
 }
 
