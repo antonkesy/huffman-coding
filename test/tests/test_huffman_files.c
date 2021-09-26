@@ -21,7 +21,10 @@ bool test_big_file_coding(void)
     const char *coded_file = "big_coded_file.txt";
     const char *output_file = "big_output_file.txt";
 
-    create_test_big_input_file(input_file);
+    if (!exists_file(input_file))
+    {
+        create_test_big_input_file(input_file);
+    }
     huffman_code_file_to_file(input_file, coded_file);
     huffman_decode_file_to_file(coded_file, output_file);
 
