@@ -27,15 +27,15 @@ HuffmanData *serialize_data_to_huffman_data(HuffmanSerializeData *hsd)
             hd->sort_items->size = get_iuint_16_value((&hsd->sort_item_count));
         }
         hd->bits = get_iuint_32_value(&hsd->bits);
-        SortItem *sort_items = malloc(hd->sort_items->size);
-        if (sort_items != NULL)
-        {
-            hd->sort_items->items = sort_items;
-            hd->sort_items->items = serialize_sort_items_to_sort_item(hsd->sort_items, hd->sort_items->size);
-        }
         hd->coded_array = hsd->code;
+        hd->sort_items->items = serialize_sort_items_to_sort_item(hsd->sort_items, hd->sort_items->size);
+        if (hd->sort_items->items != NULL)
+        {
+            return hd;
+        }
+        _delete_serialize_data(hsd);
     }
-    return hd;
+    return NULL;
 }
 
 SerializeSortItem *sort_items_to_serialize_sort_item(SortItem *sort_items, uint32_t count)
