@@ -296,17 +296,24 @@ uint32_t _get_items_sum(SortedItems *sort_items)
 
 void delete_huffman_data(HuffmanData *data)
 {
-    free(data->coded_array);
-    data->coded_array = NULL;
-    _delete_sorted_items(data->sort_items);
-    free(data);
+    if (data != NULL)
+    {
+        free(data->coded_array);
+        data->coded_array = NULL;
+        _delete_sorted_items(data->sort_items);
+        free(data);
+    }
     data = NULL;
 }
 
 void _delete_sorted_items(SortedItems *sort_items)
 {
-    free(sort_items);
-    sort_items = NULL;
+    if (sort_items != NULL)
+    {
+        free(sort_items->items);
+        free(sort_items);
+        sort_items = NULL;
+    }
 }
 
 int _node_comparator(const void *first, const void *second)
