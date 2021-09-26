@@ -155,12 +155,15 @@ HuffmanData *_code_huffman_string(const uint8_t input[], const uint32_t input_si
                 bit_pos += _add_huffman_code(output, leaves[input[i]], bit_pos, 0) - 1;
             }
             //_delete_huffman_tree(tree);
+            free(*leaves);
             free(leaves);
             leaves = NULL;
 
             data->bits = bits_needed;
             data->coded_array = *output;
             data->sort_items = sorted_items;
+
+            return data;
         } else
         {
             printf("code huffman string malloc error output buffer");
@@ -168,10 +171,9 @@ HuffmanData *_code_huffman_string(const uint8_t input[], const uint32_t input_si
     } else
     {
         printf("code huffman string malloc error input");
-        return NULL;
     }
 
-    return data;
+    return NULL;
 }
 
 uint32_t _set_codes_size(HuffmanNode **leafs, int *code_size, SortedItems *sorted_items)
