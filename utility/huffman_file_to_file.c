@@ -56,6 +56,11 @@ void _huffman_code_file_to_file(FILE *src, FILE *des)
         {
             elements_read = fread(buffer, 1, BUFF_SIZE_FILE, src);
             HuffmanData *hd = code_into_huffman_data(buffer, elements_read);
+            if (hd == NULL)
+            {
+                perror("file to file code into huffman data failed!");
+                break;
+            }
             uint8_t *bytes_to_write = NULL;
             uint32_t amount_write_bytes = 0U;
             serialize_huffman_data(hd, &bytes_to_write, &amount_write_bytes);
