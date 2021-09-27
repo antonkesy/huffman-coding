@@ -3,55 +3,44 @@
 
 int main(void)
 {
-   printf("test all chars\n");
-   int is_error = 0;
+    bool is_test_correct = true;
 
-   unsigned char* all_chars = (unsigned char*)malloc(0x100);
-   if (all_chars != NULL)
-   {
-      for (register int i = 0; i < 0x100; ++i)
-      {
-         all_chars[i] = (unsigned char)i;
-         //print_8bit_as_binary(allChars[i]);
-         //printf("\n");
-      }
+    uint8_t *all_chars = (uint8_t *) malloc(0x100);
+    if (all_chars != NULL)
+    {
+        for (register uint32_t i = 0; i < 0x100; ++i)
+        {
+            all_chars[i] = (uint8_t) i;
+        }
 
-      //printf("\n\n");
-      HuffmanData* hd = code_into_huffman_data(all_chars, 0x100);
+        HuffmanData *hd = code_into_huffman_data(all_chars, 0x100);
 
-      unsigned char* allCharsDecode = (unsigned char*)malloc(0x100);
-      if (allCharsDecode != NULL && hd!=NULL)
-      {
-         size_t outputSize = 0;
-         decode_huffman_data(hd, &allCharsDecode, &outputSize);
-         for (register int i = 0; i < 0x100; ++i)
-         {
-            /*
-            printf("was = ");
-            print_char_as_binary(allChars[i]);
-            printf("\tshould = ");
-            print_8bit_as_binary(allCharsDecode[i]);
-            printf("\n");*/
-            if (all_chars[i] != allCharsDecode[i])
+        uint8_t *allCharsDecode = NULL;
+        if (hd != NULL)
+        {
+            uint32_t outputSize = 0;
+            decode_huffman_data(hd, &allCharsDecode, &outputSize);
+            for (register uint32_t i = 0; i < 0x100; ++i)
             {
-               is_error = 1;
+                if (all_chars[i] != allCharsDecode[i])
+                {
+                    perror("all char error");
+                    is_test_correct = false;
+                }
             }
-         }
-      }
-      else
-      {
-         is_error = 1;
-      }
-      free(allCharsDecode);
-      delete_huffman_data(hd);
-   }
-   else
-   {
-      //malloc error
-      is_error = 1;
-   }
+        } else
+        {
+            is_test_correct = false;
+        }
+        free(allCharsDecode);
+        delete_huffman_data(hd);
+    } else
+    {
+        perror("malloc error");
+        is_test_correct = false;
+    }
 
-   free(all_chars);
+    free(all_chars);
 
-   return is_error;
+    return !is_test_correct;
 }
