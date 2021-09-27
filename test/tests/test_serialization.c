@@ -22,23 +22,19 @@ int test_print_serialization()
     //(1000 1111) (1011 0110) (1001 1011) (0110 0000)
     char *exampleString = "BCAADDDCCACACAC";
     HuffmanData *hd = code_into_huffman_data((unsigned char *) exampleString, strlen(exampleString));
-    unsigned char **serialization = (unsigned char **) malloc(sizeof(unsigned char **));
+    unsigned char *serialization = NULL;
+
+    uint32_t bytes = 0U;
+    serialize_huffman_data(hd, &serialization, &bytes);
     if (serialization != NULL)
     {
-        uint32_t bytes = 0U;
-        serialize_huffman_data(hd, serialization, &bytes);
-        if (*serialization != NULL)
+        for (size_t i = 0; i < bytes; ++i)
         {
-            for (size_t i = 0; i < bytes; ++i)
-            {
-                print_8bit_as_binary((*serialization)[i]);
-                if (i == 0 || i == 1 || i == 5 || i == 13 || ((i > 13) && ((i - 13) % (8) == 0)))
-                    printf("\n");
-            }
-        } else
-        {
-            return 1;
+            print_8bit_as_binary(serialization[i]);
+            if (i == 0 || i == 1 || i == 5 || i == 13 || ((i > 13) && ((i - 13) % (8) == 0)))
+                printf("\n");
         }
+        delete_huffman_data(hd);
     } else
     {
         return 1;
