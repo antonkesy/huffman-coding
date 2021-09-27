@@ -48,12 +48,15 @@ void huffman_decode_file_to_file(const char *src_coded_file_name, const char *de
 
 void _huffman_code_file_to_file(FILE *src, FILE *des)
 {
+    if (src == NULL || des == NULL)
+    {
+        perror("file pointer null");
+        return;
+    }
     uint8_t *buffer = malloc(BUFF_SIZE_FILE);
     if (buffer != NULL)
     {
         uint32_t elements_read;
-        uint8_t *bytes_to_write = NULL;
-        uint32_t amount_write_bytes = 0U;
         HuffmanData *hd = NULL;
         do
         {
@@ -64,9 +67,14 @@ void _huffman_code_file_to_file(FILE *src, FILE *des)
                 perror("file to file code into huffman data failed!");
                 break;
             }
+            uint32_t amount_write_bytes = 0U;
+            uint8_t *bytes_to_write = NULL;
             serialize_huffman_data(hd, &bytes_to_write, &amount_write_bytes);
-            fwrite(bytes_to_write, 1, amount_write_bytes, des);
-            free(bytes_to_write);
+            if (bytes_to_write != NULL && amount_write_bytes > 0U)
+            {
+                fwrite(bytes_to_write, 1, amount_write_bytes, des);
+                free(bytes_to_write);
+            }
             delete_huffman_data(hd);
         }
         while (elements_read == BUFF_SIZE_FILE);
@@ -77,6 +85,11 @@ void _huffman_code_file_to_file(FILE *src, FILE *des)
 
 void _huffman_decode_file_to_file(FILE *src, FILE *des)
 {
+    if (src == NULL || des == NULL)
+    {
+        perror("file pointer null");
+        return;
+    }
     uint8_t *buffer = malloc(BUFF_SIZE_FILE);
     if (buffer != NULL)
     {
