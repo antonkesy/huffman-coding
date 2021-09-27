@@ -160,8 +160,7 @@ HuffmanData *_code_huffman_string(const uint8_t input[], const uint32_t input_si
                 {
                     bit_pos += _add_huffman_code(output, leaves[input[i]], bit_pos, 0) - 1;
                 }
-                //_delete_huffman_tree(tree);
-                free(tree);
+                _delete_huffman_tree(tree);
                 free(leaves);
                 leaves = NULL;
 
@@ -274,7 +273,7 @@ int decode_huffman_data(HuffmanData *hd, uint8_t **dest, uint32_t *out_size)
         {
             printf("decode dest malloc error\n");
         }
-        //_delete_huffman_tree(tree);
+        _delete_huffman_tree(tree);
         free(tree);
     } else
     {
