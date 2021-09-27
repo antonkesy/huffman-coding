@@ -126,13 +126,14 @@ int test_mock_big_huffman_data()
         perror("coded strings not equal");
         return 1;
     }
+    free(random_big_data);
     if (!is_huffman_data_equal(hd, hd_de_serial))
     {
         perror("huffman data not equal!");
         return 1;
     }
-
-
+    delete_huffman_data(hd);
+    delete_huffman_data(hd_de_serial);
     return 0;
 }
 
