@@ -10,7 +10,11 @@ HuffmanSerializeData *huffman_data_to_serialize_data(HuffmanData *hd)
         serialize_data->bits = fill_iuint_32(&hd->bits);
         serialize_data->sort_items = sort_items_to_serialize_sort_item(hd->sort_items->items, hd->sort_items->size);
         serialize_data->code = hd->coded_array;
-        return serialize_data;
+        //check if sort items are correct
+        if (serialize_data->sort_items != NULL)
+        {
+            return serialize_data;
+        }
     }
     return NULL;
 }
@@ -40,7 +44,7 @@ HuffmanData *serialize_data_to_huffman_data(HuffmanSerializeData *hsd)
 
 SerializeSortItem *sort_items_to_serialize_sort_item(SortItem *sort_items, uint32_t count)
 {
-    SerializeSortItem *ssi = malloc(sizeof(SerializeSortItem) * count);
+    SerializeSortItem *ssi = calloc(count, sizeof(SerializeSortItem));
     if (ssi != NULL)
     {
         for (uint32_t i = 0U; i < count; ++i)
@@ -48,8 +52,9 @@ SerializeSortItem *sort_items_to_serialize_sort_item(SortItem *sort_items, uint3
             ssi[i].freq = fill_iuint_64(&(sort_items[i].freq));
             ssi[i].value = sort_items[i].value;
         }
+        return ssi;
     }
-    return ssi;
+    return NULL;
 }
 
 SortItem *serialize_sort_items_to_sort_item(SerializeSortItem *serialize_sort_item, uint32_t count)
