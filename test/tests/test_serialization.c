@@ -80,6 +80,10 @@ int test_de_serialization()
 int test_mock_big_huffman_data()
 {
     uint8_t *random_big_data = malloc(BUFF_SIZE_FILE);
+    for (register size_t i = 0U; i < BUFF_SIZE_FILE; ++i)
+    {
+        random_big_data[i] = i;
+    }
     if (random_big_data == NULL)
     { return 1; }
     HuffmanData *hd = code_into_huffman_data(random_big_data, BUFF_SIZE_FILE);
@@ -110,6 +114,12 @@ int test_mock_big_huffman_data()
     uint8_t *decoded_string = NULL;
     decode_huffman_data(hd_de_serial, &decoded_string, &decoded_string_length);
 
+    if (decoded_string == NULL)
+    {
+        perror("decode failed!");
+        return 1;
+    }
+
     if (decoded_string_length != BUFF_SIZE_FILE)
     {
         perror("data size not equal!");
@@ -122,6 +132,7 @@ int test_mock_big_huffman_data()
         return 1;
     }
     free(random_big_data);
+    free(decoded_string);
     if (!is_huffman_data_equal(hd, hd_de_serial))
     {
         perror("huffman data not equal!");
