@@ -97,6 +97,8 @@ bool is_huffman_data_equal(HuffmanData *hd1, HuffmanData *hd2)
 
 bool strcmp_len(const uint8_t *string_1, const uint8_t *string_2, uint32_t size)
 {
+    if (string_1 == NULL || string_2 == NULL)
+    { return false; }
     for (uint32_t i = 0U; i < size; ++i)
     {
         if (string_1[i] != string_2[i])
