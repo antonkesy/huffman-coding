@@ -25,8 +25,11 @@ bool test_equal_sorted_items() {
     SortedItems si3 = {5, items1};
     SortedItems si11 = {3, items1};
 
-    return is_sorted_items_equal(&si1, &si11) & !is_sorted_items_equal(&si1, &si2) & !
+    bool test_result = is_sorted_items_equal(&si1, &si11) & !is_sorted_items_equal(&si1, &si2) & !
             is_sorted_items_equal(&si1, &si3);
+    free(items1);
+    free(items2);
+    return test_result;
 }
 
 bool test_is_huffman_data_equal() {
@@ -50,8 +53,11 @@ bool test_is_huffman_data_equal() {
     HuffmanData h3 = {3, ca2, &si1};
     HuffmanData h4 = {3, ca1, &si2};
 
-    return is_huffman_data_equal(&h1, &h11) & !is_huffman_data_equal(&h1, &h2) &
-           !is_huffman_data_equal(&h1, &h3) & !is_huffman_data_equal(&h1, &h4);
+    bool test_result = is_huffman_data_equal(&h1, &h11) & !is_huffman_data_equal(&h1, &h2) &
+                       !is_huffman_data_equal(&h1, &h3) & !is_huffman_data_equal(&h1, &h4);
+    free(items1);
+    free(items2);
+    return test_result;
 }
 
 bool test_coded_string_equal() {
