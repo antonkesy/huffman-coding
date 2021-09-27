@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 
-#define BUFF_SIZE_FILE 16384
+#define BUFF_SIZE_FILE 65536
 
 //code file into new file
 
@@ -23,6 +23,6 @@ FILE *open_file_to_write(const char *file_name);
 
 FILE *open_file_to_read(const char *file_name);
 
-bool is_file_open_correctly(FILE* file);
+bool is_file_open_correctly(FILE *file);
 
 #endif //HUFFMAN_TEST_HUFFMAN_FILE_TO_FILE_H
