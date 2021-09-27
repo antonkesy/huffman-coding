@@ -8,18 +8,21 @@
 #define BIG_ENDIAN_II_H
 #endif
 
-typedef struct
+typedef union
 {
+    uint16_t value;
     uint8_t bytes[2];
 } iuint_16_t;
 
-typedef struct
+typedef union
 {
+    uint32_t value;
     uint8_t bytes[4];
 } iuint_32_t;
 
-typedef struct
+typedef union
 {
+    uint64_t value;
     uint8_t bytes[8];
 } iuint_64_t;
 
