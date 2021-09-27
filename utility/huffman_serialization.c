@@ -115,6 +115,9 @@ int serialize_huffman_data(HuffmanData *hd, uint8_t **dest, uint32_t *out_total_
     if (dest != NULL)
     {
         *dest = output;
+    } else
+    {
+        free(output);
     }
     return 0;
 }
