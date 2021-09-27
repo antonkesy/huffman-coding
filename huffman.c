@@ -70,15 +70,23 @@ HuffmanTree *build_huffman_tree(SortedItems *sorted_items)
     if (sorted_items != NULL && sorted_items->size > 0)
     {
         minheap *min_heap = create_min_heap_minheap(sorted_items->size);
-        HuffmanNode *nodes = (HuffmanNode *) calloc(sizeof(HuffmanNode), sorted_items->size);
 
-        if (min_heap != NULL && nodes != NULL)
+        if (min_heap != NULL)
         {
             for (register uint32_t i = 0U; i < sorted_items->size; ++i)
             {
-                nodes[i].freq = sorted_items->items[sorted_items->size - i - 1].freq;
-                nodes[i].value = sorted_items->items[sorted_items->size - i - 1].value;
-                insert_minheap(min_heap, create_heap_data_minheap(nodes[i].freq, &nodes[i]));
+                HuffmanNode *node = (HuffmanNode *) calloc(sizeof(HuffmanNode), sorted_items->size);
+                if (node != NULL)
+                {
+
+                    node->freq = sorted_items->items[sorted_items->size - i - 1].freq;
+                    node->value = sorted_items->items[sorted_items->size - i - 1].value;
+                    insert_minheap(min_heap, create_heap_data_minheap(node->freq, node));
+                } else
+                {
+                    perror("nodes calloc error");
+                    return NULL;
+                }
             }
 
             while (min_heap->size > 1)
@@ -122,8 +130,6 @@ HuffmanNode *_create_parent_huffman_node(HuffmanNode *left_child, HuffmanNode *r
 
 void _delete_huffman_nodes(HuffmanNode *node)
 {
-    //TODO fixme double free or corruption (out)
-    //leaf is not there anymore ?! feeefeee
     if (node != NULL)
     {
         _delete_huffman_nodes(node->left);
@@ -139,12 +145,12 @@ HuffmanData *_code_huffman_string(const uint8_t input[], const uint32_t input_si
     {
         HuffmanData *data = malloc(sizeof(HuffmanData));
         HuffmanTree *tree = build_huffman_tree(sorted_items);
-        HuffmanNode *leaves = (malloc(sizeof(HuffmanNode *) * 0x100));
+        HuffmanNode **leaves = (malloc(sizeof(HuffmanNode *) * 0x100));
         int *code_size = malloc(sizeof(int) * 0x100);
         if (leaves != NULL && code_size != NULL && tree != NULL && data != NULL)
         {
-            _set_leaf_nodes(&leaves, tree->root);
-            const uint32_t bits_needed = _set_codes_size(&leaves, code_size, sorted_items);
+            _set_leaf_nodes(leaves, tree->root);
+            const uint32_t bits_needed = _set_codes_size(leaves, code_size, sorted_items);
 
             free(code_size);
             code_size = NULL;
@@ -158,7 +164,7 @@ HuffmanData *_code_huffman_string(const uint8_t input[], const uint32_t input_si
 
                 for (register uint32_t i = 0U; i < input_size; ++i)
                 {
-                    bit_pos += _add_huffman_code(output, &(leaves[input[i]]), bit_pos, 0) - 1;
+                    bit_pos += _add_huffman_code(output, (leaves[input[i]]), bit_pos, 0) - 1;
                 }
                 _delete_huffman_tree(tree);
                 free(leaves);
@@ -274,7 +280,6 @@ int decode_huffman_data(HuffmanData *hd, uint8_t **dest, uint32_t *out_size)
             printf("decode dest malloc error\n");
         }
         _delete_huffman_tree(tree);
-        free(tree);
     } else
     {
         printf("decode tree malloc error\n");
