@@ -94,44 +94,45 @@ int test_mock_big_huffman_data()
         return 1;
     }
 
-    uint8_t **serialization = (uint8_t **) malloc(sizeof(uint8_t **));
+    uint8_t *serialization = NULL;
+
+    serialize_huffman_data(hd, &serialization, NULL);
     if (serialization == NULL)
     {
-        return 1;
-    }
-
-    serialize_huffman_data(hd, serialization, NULL);
-    if (*serialization == NULL)
-    {
+        perror("serialization failed!");
         return 1;
     }
     uint32_t bytes_for_data = 0U;
-    HuffmanData *hd_de_serial = deserialize_huffman_data(*serialization, &bytes_for_data);
+    HuffmanData *hd_de_serial = deserialize_huffman_data(serialization, &bytes_for_data);
 
     if (hd_de_serial == NULL)
     {
-        printf("\nerror: deserializing failed!");
+        perror("deserializing failed!");
         return 1;
     }
 
     uint32_t decoded_string_length = 0U;
-    uint8_t *decoded_string = malloc(_get_amount_of_character(hd_de_serial->sort_items));
-    if (decoded_string == NULL)
-    {
-        return 1;
-    }
+    uint8_t *decoded_string = NULL;
     decode_huffman_data(hd_de_serial, &decoded_string, &decoded_string_length);
 
     if (decoded_string_length != BUFF_SIZE_FILE)
     {
-        printf("\nerror: data size not equal!");
+        perror("data size not equal!");
+        return 1;
+    }
+
+    if (!strcmp_len(random_big_data, decoded_string, decoded_string_length))
+    {
+        perror("coded strings not equal");
         return 1;
     }
     if (!is_huffman_data_equal(hd, hd_de_serial))
     {
-        printf("\nerror: huffman data not equal!");
+        perror("huffman data not equal!");
         return 1;
     }
+
+
     return 0;
 }
 
