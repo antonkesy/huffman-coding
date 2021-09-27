@@ -56,8 +56,8 @@ HuffmanNode* _create_parent_huffman_node(HuffmanNode* left_child, HuffmanNode* r
 
 //coding
 int _get_leaf_height(HuffmanNode* leaf);
-void _set_leaf_nodes(HuffmanNode** leafs, HuffmanNode* node);
-uint32_t _set_codes_size(HuffmanNode** leafs, int* code_size, SortedItems* sorted_items);
+void _set_leaf_nodes(HuffmanNode** leaves, HuffmanNode* node);
+uint32_t _set_codes_size(HuffmanNode** leaves, int* code_size, SortedItems* sorted_items);
 uint32_t _add_huffman_code(uint8_t ** dest, HuffmanNode* leaf, const uint32_t bit_pos, uint32_t steps);
 
 

@@ -139,12 +139,12 @@ HuffmanData *_code_huffman_string(const uint8_t input[], const uint32_t input_si
     {
         HuffmanData *data = malloc(sizeof(HuffmanData));
         HuffmanTree *tree = build_huffman_tree(sorted_items);
-        HuffmanNode **leaves = (malloc(sizeof(HuffmanNode *) * 0x100));
+        HuffmanNode *leaves = (malloc(sizeof(HuffmanNode *) * 0x100));
         int *code_size = malloc(sizeof(int) * 0x100);
         if (leaves != NULL && code_size != NULL && tree != NULL && data != NULL)
         {
-            _set_leaf_nodes(leaves, tree->root);
-            const uint32_t bits_needed = _set_codes_size(leaves, code_size, sorted_items);
+            _set_leaf_nodes(&leaves, tree->root);
+            const uint32_t bits_needed = _set_codes_size(&leaves, code_size, sorted_items);
 
             free(code_size);
             code_size = NULL;
@@ -158,7 +158,7 @@ HuffmanData *_code_huffman_string(const uint8_t input[], const uint32_t input_si
 
                 for (register uint32_t i = 0U; i < input_size; ++i)
                 {
-                    bit_pos += _add_huffman_code(output, leaves[input[i]], bit_pos, 0) - 1;
+                    bit_pos += _add_huffman_code(output, &(leaves[input[i]]), bit_pos, 0) - 1;
                 }
                 _delete_huffman_tree(tree);
                 free(leaves);
@@ -181,12 +181,12 @@ HuffmanData *_code_huffman_string(const uint8_t input[], const uint32_t input_si
     return NULL;
 }
 
-uint32_t _set_codes_size(HuffmanNode **leafs, int *code_size, SortedItems *sorted_items)
+uint32_t _set_codes_size(HuffmanNode **leaves, int *code_size, SortedItems *sorted_items)
 {
     uint32_t bits = 0U;
     for (register int i = 0; i < sorted_items->size; ++i)
     {
-        code_size[sorted_items->items[i].value] = _get_leaf_height(leafs[sorted_items->items[i].value]);
+        code_size[sorted_items->items[i].value] = _get_leaf_height(leaves[sorted_items->items[i].value]);
         bits += code_size[sorted_items->items[i].value] * sorted_items->items[i].freq;
     }
     return bits;
@@ -212,16 +212,16 @@ uint32_t _add_huffman_code(uint8_t **dest, HuffmanNode *leaf, const uint32_t bit
     return steps + 1;
 }
 
-void _set_leaf_nodes(HuffmanNode **leafs, HuffmanNode *node)
+void _set_leaf_nodes(HuffmanNode **leaves, HuffmanNode *node)
 {
     //only need to check one side because parent has always two
     if (node->left == NULL)
     {
-        leafs[node->value] = node;
+        leaves[node->value] = node;
     } else
     {
-        _set_leaf_nodes(leafs, node->left);
-        _set_leaf_nodes(leafs, node->right);
+        _set_leaf_nodes(leaves, node->left);
+        _set_leaf_nodes(leaves, node->right);
     }
 }
 
