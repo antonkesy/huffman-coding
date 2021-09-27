@@ -70,11 +70,7 @@ uint32_t _add_huffman_code(uint8_t **dest, HuffmanNode *leaf, const uint32_t bit
 //utility
 int _sort_item_comparator(const void *first, const void *second);
 
-int _node_comparator(const void *first, const void *second);
-
 void _set_bit_at_pos(uint8_t *dest, const uint32_t pos, const uint8_t value);
-
-uint32_t _get_items_sum(SortedItems *sort_items);
 
 uint32_t _fill_bytes_for_bits(const uint32_t bits);
 

@@ -295,16 +295,6 @@ void _delete_huffman_tree(HuffmanTree *tree)
     tree = NULL;
 }
 
-uint32_t _get_items_sum(SortedItems *sort_items)
-{
-    uint32_t sum = 0U;
-    for (register uint32_t i = 0; i < sort_items->size; ++i)
-    {
-        sum += sort_items->items[i].freq;
-    }
-    return sum;
-}
-
 void delete_huffman_data(HuffmanData *data)
 {
     if (data != NULL)
@@ -325,11 +315,6 @@ void _delete_sorted_items(SortedItems *sort_items)
         free(sort_items);
         sort_items = NULL;
     }
-}
-
-int _node_comparator(const void *first, const void *second)
-{
-    return (long int) (*(const uint32_t *) first) - (long int) (*(const uint32_t *) second);
 }
 
 uint32_t _fill_bytes_for_bits(const uint32_t bits)
