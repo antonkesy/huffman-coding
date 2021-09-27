@@ -5,7 +5,7 @@
 
 int _sort_item_comparator(const void *first, const void *second)
 {
-    return (int) (*(const uint32_t *) first) - (long int) (*(const uint32_t *) second);
+    return (int) ((*(const uint32_t *) first) - (long int) (*(const uint32_t *) second));
 }
 
 SortedItems *sort_by_frequency(const uint8_t *items, const uint32_t size)
