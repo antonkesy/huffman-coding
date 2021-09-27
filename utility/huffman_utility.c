@@ -83,7 +83,7 @@ bool is_huffman_data_equal(HuffmanData *hd1, HuffmanData *hd2)
     {
         ret_value = false;
     }
-    if (!strcmp_len(hd1->coded_array, hd2->coded_array, _fill_bytes_for_bits(hd1->bits)))
+    if (!uint8_cmp(hd1->coded_array, hd2->coded_array, _fill_bytes_for_bits(hd1->bits)))
     {
         ret_value = false;
     }
@@ -95,7 +95,7 @@ bool is_huffman_data_equal(HuffmanData *hd1, HuffmanData *hd2)
     return ret_value;
 }
 
-bool strcmp_len(const uint8_t *string_1, const uint8_t *string_2, uint32_t size)
+bool uint8_cmp(const uint8_t *string_1, const uint8_t *string_2, uint32_t size)
 {
     if (string_1 == NULL || string_2 == NULL)
     { return false; }

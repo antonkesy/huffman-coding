@@ -126,7 +126,7 @@ int test_mock_big_huffman_data()
         return 1;
     }
 
-    if (!strcmp_len(random_big_data, decoded_string, decoded_string_length))
+    if (!uint8_cmp(random_big_data, decoded_string, decoded_string_length))
     {
         perror("coded strings not equal");
         return 1;

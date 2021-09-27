@@ -13,7 +13,7 @@ void print_coded_string(HuffmanData *hd);
 
 //compare
 bool is_huffman_data_equal(HuffmanData *hd1, HuffmanData *hd2);
-bool strcmp_len(const uint8_t *string_1, const uint8_t *string_2, uint32_t size);
+bool uint8_cmp(const uint8_t *string_1, const uint8_t *string_2, uint32_t size);
 bool is_sorted_items_equal(SortedItems *items1, SortedItems *items2);
 bool is_sort_item_equal(SortItem *item1, SortItem *item2);
 

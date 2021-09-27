@@ -60,9 +60,9 @@ bool test_coded_string_equal() {
     unsigned char *coded_string_2 = (unsigned char *) "hello!";
     unsigned char *coded_string_3 = (unsigned char *) ":) i bims 1 test";
 
-    return strcmp_len(coded_string_1, coded_string_1_1, 5) &
-           !strcmp_len(coded_string_1, coded_string_2, 5) &
-           !strcmp_len(coded_string_1, coded_string_3, 5);
+    return uint8_cmp(coded_string_1, coded_string_1_1, 5) &
+           !uint8_cmp(coded_string_1, coded_string_2, 5) &
+           !uint8_cmp(coded_string_1, coded_string_3, 5);
 }
 
 int main(void) {

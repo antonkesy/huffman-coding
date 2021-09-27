@@ -19,7 +19,7 @@ int main()
     {
         return 1;
     }
-    int is_test_correct = !strcmp_len((uint8_t *) test_string, (uint8_t *) *dest, strlen(test_string));
+    int is_test_correct = !uint8_cmp((uint8_t *) test_string, (uint8_t *) *dest, strlen(test_string));
     free(*dest);
     free(dest);
     return is_test_correct;
