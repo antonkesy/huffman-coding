@@ -58,7 +58,6 @@ void _huffman_code_file_to_file(FILE *src, FILE *des)
         do
         {
             elements_read = fread(buffer, 1, BUFF_SIZE_FILE, src);
-            //FIXME writing not correct!
             hd = code_into_huffman_data(buffer, elements_read);
             if (hd == NULL)
             {
