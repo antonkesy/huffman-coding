@@ -22,18 +22,19 @@ int test_print_serialization()
     //(1000 1111) (1011 0110) (1001 1011) (0110 0000)
     char *exampleString = "BCAADDDCCACACAC";
     HuffmanData *hd = code_into_huffman_data((unsigned char *) exampleString, strlen(exampleString));
-    unsigned char *serialization = NULL;
+    unsigned char *serialization_string = NULL;
 
     uint32_t bytes = 0U;
-    serialize_huffman_data(hd, &serialization, &bytes);
-    if (serialization != NULL)
+    serialize_huffman_data(hd, &serialization_string, &bytes);
+    if (serialization_string != NULL)
     {
         for (size_t i = 0; i < bytes; ++i)
         {
-            print_8bit_as_binary(serialization[i]);
+            print_8bit_as_binary(serialization_string[i]);
             if (i == 0 || i == 1 || i == 5 || i == 13 || ((i > 13) && ((i - 13) % (8) == 0)))
                 printf("\n");
         }
+        free(serialization_string);
         delete_huffman_data(hd);
     } else
     {
@@ -50,18 +51,15 @@ int test_de_serialization()
     {
         return 1;
     }
-    unsigned char **serialization = (unsigned char **) malloc(sizeof(unsigned char **));
+    unsigned char *serialization = NULL;
+
+    serialize_huffman_data(hd, &serialization, NULL);
     if (serialization == NULL)
     {
         return 1;
     }
-    serialize_huffman_data(hd, serialization, NULL);
-    if (*serialization == NULL)
-    {
-        return 1;
-    }
     uint32_t bytes_for_data = 0U;
-    HuffmanData *hd_de_serial = deserialize_huffman_data(*serialization, &bytes_for_data);
+    HuffmanData *hd_de_serial = deserialize_huffman_data(serialization, &bytes_for_data);
 
     if (hd_de_serial == NULL)
     {
@@ -90,16 +88,17 @@ int test_mock_big_huffman_data()
         return 1;
     }
 
-    uint8_t *serialization = NULL;
+    uint8_t *de_serial_string = NULL;
 
-    serialize_huffman_data(hd, &serialization, NULL);
-    if (serialization == NULL)
+    serialize_huffman_data(hd, &de_serial_string, NULL);
+    if (de_serial_string == NULL)
     {
-        perror("serialization failed!");
+        perror("de_serial_string failed!");
         return 1;
     }
     uint32_t bytes_for_data = 0U;
-    HuffmanData *hd_de_serial = deserialize_huffman_data(serialization, &bytes_for_data);
+    HuffmanData *hd_de_serial = deserialize_huffman_data(de_serial_string, &bytes_for_data);
+    free(de_serial_string);
 
     if (hd_de_serial == NULL)
     {
