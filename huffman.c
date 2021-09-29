@@ -150,12 +150,12 @@ HuffmanData *_code_huffman_string(const uint8_t input[], const uint32_t input_si
         if (leaves != NULL && code_size != NULL && tree != NULL && data != NULL)
         {
             _set_leaf_nodes(leaves, tree->root);
-            const uint32_t bits_needed = _set_codes_size(leaves, code_size, sorted_items);
+            MemorySpace memory_needed = _set_codes_size(leaves, code_size, sorted_items);
 
             free(code_size);
             code_size = NULL;
 
-            uint8_t *output_buffer = calloc(1, _fill_bytes_for_bits(bits_needed));
+            uint8_t *output_buffer = calloc(1, get_fill_bytes(&memory_needed));
             uint8_t **output = &output_buffer;
 
             if (output_buffer != NULL)
@@ -170,7 +170,7 @@ HuffmanData *_code_huffman_string(const uint8_t input[], const uint32_t input_si
                 free(leaves);
                 leaves = NULL;
 
-                data->bits = bits_needed;
+                data->length = get_fill_bytes(&memory_needed);
                 data->coded_array = *output;
                 data->sort_items = sorted_items;
 
@@ -187,15 +187,15 @@ HuffmanData *_code_huffman_string(const uint8_t input[], const uint32_t input_si
     return NULL;
 }
 
-uint32_t _set_codes_size(HuffmanNode **leaves, int *code_size, SortedItems *sorted_items)
+MemorySpace _set_codes_size(HuffmanNode **leaves, int *code_size, SortedItems *sorted_items)
 {
-    uint32_t bits = 0U;
+    MemorySpace ms = {0, 0};
     for (register int i = 0; i < sorted_items->size; ++i)
     {
         code_size[sorted_items->items[i].value] = _get_leaf_height(leaves[sorted_items->items[i].value]);
-        bits += code_size[sorted_items->items[i].value] * sorted_items->items[i].freq;
+        add_bits_memory_space(&ms, code_size[sorted_items->items[i].value] * sorted_items->items[i].freq);
     }
-    return bits;
+    return ms;
 }
 
 int _get_leaf_height(HuffmanNode *leaf)
@@ -315,11 +315,6 @@ void _delete_sorted_items(SortedItems *sort_items)
         free(sort_items);
         sort_items = NULL;
     }
-}
-
-uint32_t _fill_bytes_for_bits(const uint32_t bits)
-{
-    return (bits / 8U) + ((bits % 8U) ? 1U : 0U);
 }
 
 uint32_t _get_amount_of_character(SortedItems *sorted_items)

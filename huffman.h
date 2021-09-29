@@ -63,7 +63,7 @@ int _get_leaf_height(HuffmanNode *leaf);
 
 void _set_leaf_nodes(HuffmanNode **leaves, HuffmanNode *node);
 
-uint32_t _set_codes_size(HuffmanNode **leaves, int *code_size, SortedItems *sorted_items);
+MemorySpace _set_codes_size(HuffmanNode **leaves, int *code_size, SortedItems *sorted_items);
 
 uint32_t _add_huffman_code(uint8_t **dest, HuffmanNode *leaf, const uint32_t bit_pos, uint32_t steps);
 
@@ -72,8 +72,6 @@ uint32_t _add_huffman_code(uint8_t **dest, HuffmanNode *leaf, const uint32_t bit
 int _sort_item_comparator(const void *first, const void *second);
 
 void _set_bit_at_pos(uint8_t *dest, const uint32_t pos, const uint8_t value);
-
-uint32_t _fill_bytes_for_bits(const uint32_t bits);
 
 uint32_t _get_amount_of_character(SortedItems *sorted_items);
 
