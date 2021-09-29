@@ -5,8 +5,8 @@ bool test_add_sub(void)
 {
     MemorySpace ms = {0, 0};
 
-    add_bits(&ms, 3);
-    add_bits(&ms, 13);
+    add_bits_memory_space(&ms, 3);
+    add_bits_memory_space(&ms, 13);
     if (ms.bytes != 2)
     {
         return false;
@@ -29,17 +29,17 @@ bool test_fill_bytes(void)
     {
         return false;
     }
-    add_bits(&ms, 2);
+    add_bits_memory_space(&ms, 2);
     if (get_fill_bytes(&ms) != 1)
     {
         return false;
     }
-    add_bits(&ms, 6);
+    add_bits_memory_space(&ms, 6);
     if (get_fill_bytes(&ms) != 1)
     {
         return false;
     }
-    add_bits(&ms, 6);
+    add_bits_memory_space(&ms, 6);
     if (get_fill_bytes(&ms) != 2)
     {
         return false;
@@ -55,7 +55,7 @@ bool test_empty(void)
     {
         return false;
     }
-    add_bits(&ms, 53);
+    add_bits_memory_space(&ms, 53);
     if (is_empty_memory_space(&ms))
     {
         return false;

@@ -1,6 +1,6 @@
 #include "memory_space.h"
 
-void add_bits(MemorySpace *ms, uint64_t bits)
+void add_bits_memory_space(MemorySpace *ms, uint64_t bits)
 {
     ms->bytes += bits / 8;
     uint8_t rest = (bits % 8) + ms->rest_bits;

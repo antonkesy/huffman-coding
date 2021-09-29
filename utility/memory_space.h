@@ -10,7 +10,7 @@ typedef struct
     uint8_t rest_bits;
 } MemorySpace;
 
-void add_bits(MemorySpace *ms, uint64_t bits);
+void add_bits_memory_space(MemorySpace *ms, uint64_t bits);
 
 void sub_bits(MemorySpace *ms, uint64_t bits);
 
