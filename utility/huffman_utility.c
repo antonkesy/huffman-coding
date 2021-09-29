@@ -50,7 +50,7 @@ void print_8bit_as_binary(uint8_t c)
 
 void print_coded_string(HuffmanData *hd)
 {
-    for (register uint32_t i = 0; i < _fill_bytes_for_bits(hd->bits); ++i)
+    for (register uint32_t i = 0; i < hd->length; ++i)
     {
         print_8bit_as_binary(hd->coded_array[i]);
         printf(" ");
@@ -79,11 +79,11 @@ bool is_huffman_data_equal(HuffmanData *hd1, HuffmanData *hd2)
 
     int ret_value = 1;
 
-    if (hd1->bits != hd2->bits)
+    if (hd1->length != hd2->length)
     {
         ret_value = false;
     }
-    if (!uint8_cmp(hd1->coded_array, hd2->coded_array, _fill_bytes_for_bits(hd1->bits)))
+    if (!uint8_cmp(hd1->coded_array, hd2->coded_array, hd1->length))
     {
         ret_value = false;
     }
