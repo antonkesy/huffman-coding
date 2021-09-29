@@ -56,7 +56,7 @@ void _huffman_code_file_to_file(FILE *src, FILE *des)
     uint8_t *buffer = malloc(BUFF_SIZE_FILE);
     if (buffer != NULL)
     {
-        uint32_t elements_read;
+        uint64_t elements_read;
         HuffmanData *hd = NULL;
         do
         {
@@ -67,7 +67,7 @@ void _huffman_code_file_to_file(FILE *src, FILE *des)
                 perror("file to file code into huffman data failed!");
                 break;
             }
-            uint32_t amount_write_bytes = 0U;
+            uint64_t amount_write_bytes = 0U;
             uint8_t *bytes_to_write = NULL;
             serialize_huffman_data(hd, &bytes_to_write, &amount_write_bytes);
             if (bytes_to_write != NULL && amount_write_bytes > 0U)
@@ -94,8 +94,8 @@ void _huffman_decode_file_to_file(FILE *src, FILE *des)
     if (buffer != NULL)
     {
         long read_offset = 0U;
-        uint32_t elements_read;
-        uint32_t byte_needed_for_data = 0U;
+        uint64_t elements_read;
+        uint64_t byte_needed_for_data = 0U;
 
         do
         {
