@@ -6,7 +6,7 @@
 
 typedef struct
 {
-    uint32_t bytes;
+    uint64_t bytes;
     uint8_t rest_bits;
 } MemorySpace;
 
@@ -15,5 +15,7 @@ void add_bits(MemorySpace *ms, uint64_t bits);
 void sub_bits(MemorySpace *ms, uint64_t bits);
 
 bool is_empty_memory_space(MemorySpace *ms);
+
+uint64_t get_fill_bytes(MemorySpace *ms);
 
 #endif //HUFFMAN_MEMORY_SPACE_H
