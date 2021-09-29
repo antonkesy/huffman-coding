@@ -102,6 +102,7 @@ void _huffman_decode_file_to_file(FILE *src, FILE *des)
             if (fseek(src, -read_offset, SEEK_CUR) != 0)
             {
                 perror("decode fseek erro\n");
+                break;
             }
             elements_read = fread(buffer, 1, BUFF_SIZE_FILE, src);
             if (elements_read == 0 || ferror(src))
