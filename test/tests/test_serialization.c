@@ -24,7 +24,7 @@ int test_print_serialization()
     HuffmanData *hd = code_into_huffman_data((unsigned char *) exampleString, strlen(exampleString));
     unsigned char *serialization_string = NULL;
 
-    uint32_t bytes = 0U;
+    uint64_t bytes = 0U;
     serialize_huffman_data(hd, &serialization_string, &bytes);
     if (serialization_string != NULL)
     {
@@ -58,7 +58,7 @@ int test_de_serialization()
     {
         return 1;
     }
-    uint32_t bytes_for_data = 0U;
+    uint64_t bytes_for_data = 0U;
     HuffmanData *hd_de_serial = deserialize_huffman_data(serialization, &bytes_for_data);
 
     if (hd_de_serial == NULL)
@@ -100,7 +100,7 @@ int test_mock_big_huffman_data()
         perror("de_serial_string failed!");
         return 1;
     }
-    uint32_t bytes_for_data = 0U;
+    uint64_t bytes_for_data = 0U;
     HuffmanData *hd_de_serial = deserialize_huffman_data(de_serial_string, &bytes_for_data);
     free(de_serial_string);
 
