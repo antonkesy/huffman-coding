@@ -10,6 +10,12 @@
 
 typedef union
 {
+    uint8_t value;
+    uint8_t bytes[1];
+} iuint_8_t;
+
+typedef union
+{
     uint16_t value;
     uint8_t bytes[2];
 } iuint_16_t;
@@ -29,6 +35,10 @@ typedef union
 void *fill_iuint_x(const void *in, const size_t size_of_iuint);
 
 void *get_iuint_x_value(const void *iuint_in, const size_t size_of_iuint);
+
+iuint_8_t fill_iuint_8(const uint8_t *in);
+
+uint8_t get_iuint_8_value(const iuint_8_t *in);
 
 iuint_16_t fill_iuint_16(const uint16_t *in);
 

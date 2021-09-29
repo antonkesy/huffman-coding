@@ -40,6 +40,23 @@ void *get_iuint_x_value(const void *iuint_in, const size_t size_of_iuint)
     return return_value;
 }
 
+iuint_8_t fill_iuint_8(const uint8_t *in)
+{
+    iuint_8_t *tmp = (iuint_8_t *) fill_iuint_x(in, sizeof(iuint_8_t));
+    iuint_8_t value = *tmp;
+    free(tmp);
+    return value;
+
+}
+
+uint8_t get_iuint_8_value(const iuint_8_t *in)
+{
+    uint8_t *tmp = (uint8_t *) get_iuint_x_value(in, sizeof(uint8_t));
+    uint8_t value = *tmp;
+    free(tmp);
+    return value;
+}
+
 iuint_16_t fill_iuint_16(const uint16_t *in)
 {
     iuint_16_t *tmp = (iuint_16_t *) fill_iuint_x(in, sizeof(iuint_16_t));
