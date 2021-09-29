@@ -1,5 +1,5 @@
-#ifndef _HUFFMAN_H
-#define _HUFFMAN_H
+#ifndef HUFFMAN_HUFFMAN_H
+#define HUFFMAN_HUFFMAN_H
 
 #include <stddef.h>
 #include <stdbool.h>
