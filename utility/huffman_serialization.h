@@ -15,7 +15,7 @@ typedef struct
 typedef struct
 {
     iuint_16_t sort_item_count;
-    iuint_32_t bits;
+    iuint_64_t length;
     SerializeSortItem *sort_items; //size is sort_item_count
     uint8_t *code; //length =  (bits/8+Rest)
 } HuffmanSerializeData;

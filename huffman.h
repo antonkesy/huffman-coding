@@ -5,6 +5,7 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdint.h>
+#include "utility/memory_space.h"
 
 struct Node
 {
@@ -17,7 +18,7 @@ typedef struct Node HuffmanNode;
 
 typedef struct
 {
-    uint32_t size;
+    uint64_t size;
     HuffmanNode *root;
 } HuffmanTree;
 
@@ -35,7 +36,7 @@ typedef struct
 
 typedef struct
 {
-    uint32_t bits;
+    uint64_t length;
     uint8_t *coded_array;
     SortedItems *sort_items;
 } HuffmanData;
