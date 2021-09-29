@@ -192,7 +192,7 @@ HuffmanData *deserialize_huffman_data(const uint8_t *src, uint64_t *out_byte_rea
 
 size_t get_huffman_serialize_data_size(const uint16_t sort_item_count, const uint64_t size_coded_string)
 {
-    return sizeof(iuint_16_t) + sizeof(iuint_32_t) + (sizeof(SerializeSortItem) * sort_item_count) + size_coded_string;
+    return sizeof(iuint_16_t) + sizeof(iuint_64_t) + (sizeof(SerializeSortItem) * sort_item_count) + size_coded_string;
 }
 
 void _delete_serialize_data(HuffmanSerializeData *hsd)
