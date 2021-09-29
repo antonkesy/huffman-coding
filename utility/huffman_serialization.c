@@ -156,7 +156,7 @@ int deserialize_huffman_serialize_data(const uint8_t *src, HuffmanSerializeData 
                 offset += serialize_sort_item_bytes;
 
                 //coded string
-                uint32_t size_coded_string = _fill_bytes_for_bits(get_iuint_64_value(&(*out_hsd)->length));
+                uint32_t size_coded_string = get_iuint_64_value(&(*out_hsd)->length);
                 uint8_t *coded_array = malloc(size_coded_string);
                 if (coded_array != NULL)
                 {
