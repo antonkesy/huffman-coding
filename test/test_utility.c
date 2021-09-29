@@ -4,6 +4,8 @@
 #include <stdint.h>
 #include "../utility/huffman_file_to_file.h"
 
+#define BIG_FILE_TEST_BUFFER_SIZE 0xFFFFFF
+
 bool files_equal(const char *file_1_name, const char *file_2_name)
 {
     FILE *fp1 = open_file_to_read(file_1_name);
@@ -75,11 +77,19 @@ void create_test_big_input_file(const char *file_name)
     FILE *fp = open_file_to_write(file_name);
     if (fp != NULL)
     {
-        fprintf(fp, "Big testing file!\n");
-        //7,4GB 0xFFFFFFF
-        for (register uint_fast64_t i = 0; i < 0xFFFFFFF; ++i)
+        uint8_t *data = malloc(BIG_FILE_TEST_BUFFER_SIZE);
+        if (data != NULL)
         {
-            fprintf(fp, "number iteration = %lu\n", i);
+            for (uint32_t i = 0U; i < (uint32_t) BIG_FILE_TEST_BUFFER_SIZE; ++i)
+            {
+                data[i] = (uint8_t) i;
+            }
+            fprintf(fp, "Big testing file!\n");
+            //7,4GB 0xFFFFFFF
+            for (register uint_fast64_t i = 0; i < 0xFF; ++i)
+            {
+                fwrite(data, BIG_FILE_TEST_BUFFER_SIZE, 1, fp);
+            }
         }
     }
     fclose(fp);
