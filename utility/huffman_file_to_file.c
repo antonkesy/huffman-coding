@@ -54,8 +54,11 @@ void _huffman_code_file_to_file(FILE *src, FILE *des)
         return;
     }
     uint8_t *buffer = malloc(BUFF_SIZE_FILE);
+
     if (buffer != NULL)
     {
+        set_placeholder_buffer_size_header(des);
+        uint64_t max_buffer_size = 0U;
         uint64_t elements_read;
         HuffmanData *hd = NULL;
         do
@@ -74,10 +77,15 @@ void _huffman_code_file_to_file(FILE *src, FILE *des)
             {
                 fwrite(bytes_to_write, 1, amount_write_bytes, des);
                 free(bytes_to_write);
+                if (amount_write_bytes > max_buffer_size)
+                {
+                    max_buffer_size = amount_write_bytes;
+                }
             }
             delete_huffman_data(hd);
         }
         while (elements_read == BUFF_SIZE_FILE);
+        set_buffer_size_header(max_buffer_size, des);
         printf("write done\n");
         free(buffer);
     }
@@ -90,7 +98,8 @@ void _huffman_decode_file_to_file(FILE *src, FILE *des)
         perror("file pointer null");
         return;
     }
-    uint8_t *buffer = malloc(BUFF_SIZE_FILE);
+    uint64_t min_buffer_size = get_buffer_size_from_header(src);
+    uint8_t *buffer = malloc(min_buffer_size);
     if (buffer != NULL)
     {
         long read_offset = 0U;
@@ -104,7 +113,7 @@ void _huffman_decode_file_to_file(FILE *src, FILE *des)
                 perror("decode fseek erro\n");
                 break;
             }
-            elements_read = fread(buffer, 1, BUFF_SIZE_FILE, src);
+            elements_read = fread(buffer, 1, min_buffer_size, src);
             if (elements_read == 0 || ferror(src))
             {
                 break;
@@ -128,11 +137,12 @@ void _huffman_decode_file_to_file(FILE *src, FILE *des)
             }
             read_offset = (long) (elements_read - byte_needed_for_data);
         }
-        while (elements_read > byte_needed_for_data);
+        while (elements_read >= byte_needed_for_data);
         printf("read done\n");
         free(buffer);
     }
 }
+
 
 FILE *open_file_to_write(const char *file_name)
 {
@@ -147,4 +157,25 @@ FILE *open_file_to_read(const char *file_name)
 bool is_file_open_correctly(FILE *file)
 {
     return (file != NULL && ferror(file));
+}
+
+uint64_t get_buffer_size_from_header(FILE *pFile)
+{
+    fseek(pFile, 0, SEEK_SET);
+    iuint_64_t buffer_size_header;
+    fread(&buffer_size_header, sizeof(iuint_64_t), 1, pFile);
+    return get_iuint_64_value(&buffer_size_header);
+}
+
+void set_buffer_size_header(uint64_t buffer_size, FILE *pFile)
+{
+    fseek(pFile, 0, SEEK_SET);
+    iuint_64_t i_buffer_size = fill_iuint_64(&buffer_size);
+    fwrite(&i_buffer_size, sizeof(iuint_64_t), 1, pFile);
+}
+
+void set_placeholder_buffer_size_header(FILE *pFile)
+{
+    uint64_t placeholder_value = 0U;
+    fwrite(&placeholder_value, sizeof(uint64_t), 1, pFile);
 }
