@@ -110,8 +110,7 @@ void _huffman_decode_file_to_file(FILE *src, FILE *des)
         {
             if (fseek64(src, -read_offset, SEEK_CUR) != 0)
             {
-                printf("read_offset = %l byte_needed_for_data = %ul", read_offset, byte_needed_for_data);
-                perror("decode fseek erro\n");
+                perror("decode fseek error");
                 break;
             }
             elements_read = fread(buffer, 1, min_buffer_size, src);
