@@ -5,6 +5,9 @@
 #include <stdbool.h>
 #include <stdint.h>
 
+#define BIG_FILE_TEST_BUFFER_SIZE 0xFFFFFF
+#define FILE_COMPARE_BUFFER_SIZE 0xFFFFFF
+
 bool _files_equal(FILE *fp1, FILE *fp2);
 
 bool files_equal(const char *file_1_name, const char *file_2_name);

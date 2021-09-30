@@ -4,8 +4,6 @@
 #include <stdint.h>
 #include "../utility/huffman_file_to_file.h"
 
-#define BIG_FILE_TEST_BUFFER_SIZE 0xFFFFFF
-#define FILE_COMPARE_BUFFER_SIZE 0xFFF
 
 bool files_equal(const char *file_1_name, const char *file_2_name)
 {
