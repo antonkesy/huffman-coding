@@ -1,4 +1,4 @@
-project(huffman_test)
+project(huffman_coding)
 cmake_minimum_required(VERSION 2.8.12)
 
 set(huffman_essentials huffman.c minheap/minheap.c utility/huffman_utility.c test/test_utility.c utility/huffman_serialization.c utility/independent_int.c utility/huffman_file_to_file.c utility/memory_space.c)
