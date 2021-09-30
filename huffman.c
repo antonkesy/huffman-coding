@@ -251,8 +251,6 @@ int decode_huffman_data(HuffmanData *hd, uint8_t **dest, uint32_t *out_size)
         {
             *out_size = char_count;
         }
-
-        //todo malloc error check
         if (*dest != NULL)
         {
             register uint32_t bit = 0U;
