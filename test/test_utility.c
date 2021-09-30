@@ -85,7 +85,6 @@ void create_test_big_input_file(const char *file_name)
                 data[i] = (uint8_t) i;
             }
             fprintf(fp, "Big testing file!\n");
-            //7,4GB 0xFFFFFFF
             for (register uint_fast64_t i = 0; i < 0xFF; ++i)
             {
                 fwrite(data, BIG_FILE_TEST_BUFFER_SIZE, 1, fp);
