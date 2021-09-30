@@ -5,6 +5,7 @@
 #include "../utility/huffman_file_to_file.h"
 
 #define BIG_FILE_TEST_BUFFER_SIZE 0xFFFFFF
+#define FILE_COMPARE_BUFFER_SIZE 0xFFF
 
 bool files_equal(const char *file_1_name, const char *file_2_name)
 {
@@ -38,19 +39,24 @@ bool _files_equal(FILE *fp1, FILE *fp2)
         return true;
     }
 
-    char f1_buffer = 0;
-    char f2_buffer = 0;
-    unsigned int f1_read_bytes = 1;
-    unsigned int f2_read_bytes = 1;
+    uint8_t *f1_buffer = malloc(FILE_COMPARE_BUFFER_SIZE);
+    uint8_t *f2_buffer = malloc(FILE_COMPARE_BUFFER_SIZE);
+    if (f1_buffer == NULL || f2_buffer == NULL)
+    {
+        perror("malloc compare buffer failed");
+        return false;
+    }
+    size_t f1_read_bytes = 1U;
+    size_t f2_read_bytes = 1U;
 
     fseek(fp1, 0, SEEK_SET);
     fseek(fp2, 0, SEEK_SET);
     //well ...
-    while (f1_read_bytes > 0 && f2_read_bytes > 0)
+    while (f1_read_bytes > 0U && f2_read_bytes > 0U)
     {
-        f1_read_bytes = fread(&f1_buffer, 1, 1, fp1);
-        f2_read_bytes = fread(&f2_buffer, 1, 1, fp2);
-        if (f1_buffer != f2_buffer || (f1_read_bytes ^ f2_read_bytes) != 0)
+        f1_read_bytes = fread(f1_buffer, FILE_COMPARE_BUFFER_SIZE, 1, fp1);
+        f2_read_bytes = fread(f2_buffer, FILE_COMPARE_BUFFER_SIZE, 1, fp2);
+        if (!are_buffer_equal(f1_buffer, f2_buffer, FILE_COMPARE_BUFFER_SIZE) || (f1_read_bytes ^ f2_read_bytes) != 0)
         {
             return false;
         }
@@ -104,4 +110,21 @@ bool exists_file(const char *filename)
     }
 
     return false;
+}
+
+bool are_buffer_equal(const uint8_t *buffer1, const uint8_t *buffer2, size_t length)
+{
+    if (buffer1 == buffer2)
+    {
+        return true;
+    }
+
+    for (uint64_t i = 0U; i < length; ++i)
+    {
+        if (buffer1[i] != buffer2[i])
+        {
+            return false;
+        }
+    }
+    return true;
 }
