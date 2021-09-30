@@ -5,7 +5,7 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-#define BUFF_SIZE_FILE 1048576
+#define BUFF_SIZE_FILE 268435456
 
 //code file into new file
 
@@ -30,6 +30,8 @@ uint64_t get_buffer_size_from_header(FILE *pFile);
 
 void set_buffer_size_header(uint64_t buffer_size, FILE *pFile);
 
-void set_placeholder_buffer_size_header(FILE* pFile);
+void set_placeholder_buffer_size_header(FILE *pFile);
+
+uint64_t fseek64(FILE *pFile, int64_t offset, int origin);
 
 #endif //HUFFMAN_TEST_HUFFMAN_FILE_TO_FILE_H

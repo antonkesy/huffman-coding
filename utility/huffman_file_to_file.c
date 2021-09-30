@@ -102,14 +102,15 @@ void _huffman_decode_file_to_file(FILE *src, FILE *des)
     uint8_t *buffer = malloc(min_buffer_size);
     if (buffer != NULL)
     {
-        long read_offset = 0U;
+        int64_t read_offset = 0U;
         uint64_t elements_read;
         uint64_t byte_needed_for_data = 0U;
 
         do
         {
-            if (fseek(src, -read_offset, SEEK_CUR) != 0)
+            if (fseek64(src, -read_offset, SEEK_CUR) != 0)
             {
+                printf("read_offset = %l byte_needed_for_data = %ul", read_offset, byte_needed_for_data);
                 perror("decode fseek erro\n");
                 break;
             }
@@ -178,4 +179,22 @@ void set_placeholder_buffer_size_header(FILE *pFile)
 {
     uint64_t placeholder_value = 0U;
     fwrite(&placeholder_value, sizeof(uint64_t), 1, pFile);
+}
+
+uint64_t fseek64(FILE *pFile, int64_t offset, int origin)
+{
+    uint64_t positions_moved = 0U;
+    if (pFile != NULL && (origin == SEEK_SET || origin == SEEK_CUR || origin == SEEK_END))
+    {
+        long long_offset;
+
+        while (offset != 0U)
+        {
+            long_offset = (long) offset;
+            offset -= long_offset;
+            fseek(pFile, long_offset, origin);
+        }
+    }
+
+    return positions_moved;
 }
