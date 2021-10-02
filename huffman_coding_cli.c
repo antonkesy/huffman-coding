@@ -21,7 +21,6 @@ int process_input_arguments(int argc, char **argv)
     }
     for (int i = 1; i < argc; ++i)
     {
-        printf("%s", argv[i]);
         switch (decode_argument(argv[i]))
         {
             case Error:
