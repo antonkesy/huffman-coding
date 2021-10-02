@@ -2,7 +2,7 @@
 
 int process_input_arguments(int argc, char **argv)
 {
-    if (argc <= 1)
+    if (argc < 1)
     {
         errno = EINVAL;
         perror("too few arguments");
