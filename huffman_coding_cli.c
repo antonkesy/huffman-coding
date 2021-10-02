@@ -37,7 +37,14 @@ int process_input_arguments(int argc, char **argv)
                 buffer_size = get_buffer_size_from_argument(argv[i]);
                 break;
             case OutputFileName:
-                *output_file_name = argv[i] + strlen(OutputFileNameArgument);
+                *output_file_name = malloc(strlen(argv[i] - strlen(OutputFileNameArgument)));
+                if (*output_file_name != NULL)
+                {
+                    *output_file_name = strcpy(*output_file_name, argv[i] + strlen(OutputFileNameArgument));
+                } else
+                {
+                    perror("output file error allocation failed!");
+                }
                 break;
         }
     }
