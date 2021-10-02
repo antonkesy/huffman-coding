@@ -11,11 +11,18 @@ int process_input_arguments(int argc, char **argv)
     {
         return 1;
     }
+    char *input_file_name = argv[0];
+
     long buffer_size = BUFF_SIZE_FILE;
-    char *input_file_name = NULL;
-    char *output_file_name = NULL;
-    for (int i = 0; i < argc; ++i)
+    char **output_file_name = calloc(1, sizeof(char *));
+    if (output_file_name == NULL)
     {
+        perror("output file name allocation failed!");
+        return 1;
+    }
+    for (int i = 1; i < argc; ++i)
+    {
+        printf("%s", argv[i]);
         switch (decode_argument(argv[i]))
         {
             case Error:
@@ -30,21 +37,36 @@ int process_input_arguments(int argc, char **argv)
             case BufferSize:
                 buffer_size = get_buffer_size_from_argument(argv[i]);
                 break;
-            case InputFileName:
-                input_file_name = argv[i] + strlen(InputFileNameArgument);
-                break;
             case OutputFileName:
-                output_file_name = argv[i] + strlen(OutputFileNameArgument);
+                *output_file_name = argv[i] + strlen(OutputFileNameArgument);
                 break;
         }
     }
-    huffman_code_file_to_file(input_file_name, output_file_name, buffer_size);
+
+    if (*output_file_name == NULL)
+    {
+        if (set_default_output_file_name(output_file_name, input_file_name) != 0)
+        {
+            return 1;
+        }
+    }
+
+    huffman_code_file_to_file(input_file_name, *output_file_name, buffer_size);
+    free(*output_file_name);
+    free(output_file_name);
     return 0;
 }
 
-enum ArgumentOptions decode_argument(char *arg)
+enum ArgumentOptions decode_argument(const char *arg)
 {
-    //perror and break if unknown
+    if (is_argument_x(remove_leading_whitespaces((char *) arg), BufferSizeArgument))
+    {
+        return BufferSize;
+    }
+    if (is_argument_x(remove_leading_whitespaces((char *) arg), OutputFileNameArgument))
+    {
+        return OutputFileName;
+    }
     return Error;
 }
 
@@ -84,4 +106,43 @@ long get_buffer_size_from_argument(char *argument)
         return BufferSize;
     }
     return parsed_value;
+}
+
+bool is_argument_x(const char *arg, const char *argument_def)
+{
+    return strncmp(arg, argument_def, strlen(argument_def)) == 0;
+}
+
+const char *remove_leading_whitespaces(char *in)
+{
+    if (in != NULL)
+    {
+        do
+        {
+            if (*in != ' ' || *in == 0)
+            {
+                return in;
+            }
+        }
+        while (++in);
+    }
+
+    return NULL;
+}
+
+int set_default_output_file_name(char **out_output_file_name, const char *input_file_name)
+{
+    unsigned int input_file_name_length = strlen(input_file_name);
+    unsigned int file_ending_length = strlen(FileEnding);
+    *out_output_file_name = calloc(1, input_file_name_length + file_ending_length + 1);
+    if (*out_output_file_name != NULL)
+    {
+        strncpy(*out_output_file_name, input_file_name, input_file_name_length);
+        strncpy(*out_output_file_name + input_file_name_length, FileEnding, file_ending_length);
+        return 0;
+    } else
+    {
+        perror("set default output file name failed");
+        return 1;
+    }
 }
