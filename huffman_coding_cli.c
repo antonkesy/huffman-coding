@@ -1,4 +1,6 @@
 #include <string.h>
+#include <stdlib.h>
+#include <errno.h>
 #include "huffman_coding_cli.h"
 #include "utility/huffman_file_to_file.h"
 
@@ -26,7 +28,7 @@ int process_input_arguments(int argc, char **argv)
                 print_info();
                 break;
             case BufferSize:
-                buffer_size = get_argument_long_value(argv[i], strlen(BufferSizeArgument));
+                buffer_size = get_buffer_size_from_argument(argv[i]);
                 break;
             case InputFileName:
                 input_file_name = get_argument_string(argv[i], strlen(InputFileNameArgument));
@@ -48,25 +50,43 @@ enum ArgumentOptions decode_argument(char *arg)
 
 void print_argument_error()
 {
-
+    printf("upsi dupsi something wrong :/");
 }
 
 void print_version()
 {
-
+    printf("Huffman coding version ");
+    printf(VERSION);
+    printf("\n");
 }
 
 void print_info()
 {
-
+    printf("huffman coding by Anton Kesy\n");
 }
 
 long get_argument_long_value(char *arg, int argument_title_length)
 {
-    return 0;
+    long int value;
+    return strtol(arg, NULL, 10);;
 }
 
 char *get_argument_string(char *arg, int argument_title_length)
 {
     return 0;
+}
+
+long get_buffer_size_from_argument(char *argument)
+{
+    long parsed_value = get_argument_long_value(argument, strlen(BufferSizeArgument));
+    if (errno == ERANGE)
+    {
+        perror("buffer size value couldn't be read!");
+    }
+    if (parsed_value <= 0)
+    {
+        perror("buffer size value invalid! Setting to default value");
+        return BufferSize;
+    }
+    return parsed_value;
 }

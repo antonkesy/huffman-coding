@@ -6,6 +6,7 @@
 #include <stdint.h>
 
 #define BUFF_SIZE_FILE 268435456
+#define VERSION "0.9"
 
 //code file into new file
 
