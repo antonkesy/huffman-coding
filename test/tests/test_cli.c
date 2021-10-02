@@ -17,8 +17,8 @@ int test_buffer_size()
     char *test_file_name = "testfilename.txt";
     create_test_input_file(test_file_name, 0xF);
     int process_return_value = 0;
-    char *bad_arguments[] = {test_file_name, "-buffSize=12345"};
-    process_return_value += process_input_arguments(2, bad_arguments);
+    char *buffer_arguments[] = {test_file_name, "-buffSize=12345"};
+    process_return_value += process_input_arguments(2, buffer_arguments);
 
     return process_return_value;
 }
