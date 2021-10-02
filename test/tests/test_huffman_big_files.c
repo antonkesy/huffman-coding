@@ -12,7 +12,7 @@ bool test_big_file_coding(void)
     {
         create_test_big_input_file(input_file);
     }
-    huffman_code_file_to_file(input_file, coded_file);
+    huffman_code_file_to_file(input_file, coded_file,BUFF_SIZE_FILE);
     huffman_decode_file_to_file(coded_file, output_file);
 
     return files_equal(input_file, output_file);

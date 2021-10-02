@@ -14,7 +14,7 @@ void example_usage_files(void)
 {
     create_test_input_file(TEST_INPUT_FILE_NAME, 0xFFF);
 
-    huffman_code_file_to_file(TEST_INPUT_FILE_NAME, TEST_CODED_FILE_NAME);
+    huffman_code_file_to_file(TEST_INPUT_FILE_NAME, TEST_CODED_FILE_NAME, BUFF_SIZE_FILE);
 
     huffman_decode_file_to_file(TEST_CODED_FILE_NAME, TEST_OUTPUT_FILE_NAME);
 }

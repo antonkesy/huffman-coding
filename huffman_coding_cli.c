@@ -9,7 +9,7 @@ int process_input_arguments(int argc, char **argv)
     {
         return 1;
     }
-    long huffman_buffer_size = BUFF_SIZE_FILE;
+    long buffer_size = BUFF_SIZE_FILE;
     char *input_file_name = NULL;
     char *output_file_name = NULL;
     for (int i = 0; i < argc; ++i)
@@ -26,7 +26,7 @@ int process_input_arguments(int argc, char **argv)
                 print_info();
                 break;
             case BufferSize:
-                huffman_buffer_size = get_argument_long_value(argv[i], strlen(BufferSizeArgument));
+                buffer_size = get_argument_long_value(argv[i], strlen(BufferSizeArgument));
                 break;
             case InputFileName:
                 input_file_name = get_argument_string(argv[i], strlen(InputFileNameArgument));
@@ -36,7 +36,7 @@ int process_input_arguments(int argc, char **argv)
                 break;
         }
     }
-    huffman_code_file_to_file(input_file_name, output_file_name);
+    huffman_code_file_to_file(input_file_name, output_file_name, buffer_size);
     return 0;
 }
 

@@ -4,7 +4,7 @@
 #include "../huffman.h"
 #include "huffman_serialization.h"
 
-void huffman_code_file_to_file(const char *src_file_name, const char *des_coded_file_name)
+void huffman_code_file_to_file(const char *src_file_name, const char *des_coded_file_name, long buffer_size)
 {
     //open src file
     FILE *src_file = open_file_to_read(src_file_name);
@@ -20,7 +20,7 @@ void huffman_code_file_to_file(const char *src_file_name, const char *des_coded_
         perror("Unable to create file.\n");
     }
 
-    _huffman_code_file_to_file(src_file, coded_file);
+    _huffman_code_file_to_file(src_file, coded_file, buffer_size);
 
     fclose(src_file);
     fclose(coded_file);
@@ -46,14 +46,14 @@ void huffman_decode_file_to_file(const char *src_coded_file_name, const char *de
     fclose(dest);
 }
 
-void _huffman_code_file_to_file(FILE *src, FILE *des)
+void _huffman_code_file_to_file(FILE *src, FILE *des, long buffer_size)
 {
     if (src == NULL || des == NULL)
     {
         perror("file pointer null");
         return;
     }
-    uint8_t *buffer = malloc(BUFF_SIZE_FILE);
+    uint8_t *buffer = malloc(buffer_size);
 
     if (buffer != NULL)
     {
@@ -63,7 +63,7 @@ void _huffman_code_file_to_file(FILE *src, FILE *des)
         HuffmanData *hd = NULL;
         do
         {
-            elements_read = fread(buffer, 1, BUFF_SIZE_FILE, src);
+            elements_read = fread(buffer, 1, buffer_size, src);
             hd = code_into_huffman_data(buffer, elements_read);
             if (hd == NULL)
             {
@@ -84,7 +84,7 @@ void _huffman_code_file_to_file(FILE *src, FILE *des)
             }
             delete_huffman_data(hd);
         }
-        while (elements_read == BUFF_SIZE_FILE);
+        while (elements_read == buffer_size);
         set_buffer_size_header(max_buffer_size, des);
         printf("write done\n");
         free(buffer);
