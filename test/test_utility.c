@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
+#include <mem.h>
 #include "../utility/huffman_file_to_file.h"
 
 
@@ -54,7 +55,7 @@ bool _files_equal(FILE *fp1, FILE *fp2)
     {
         f1_read_bytes = fread(f1_buffer, FILE_COMPARE_BUFFER_SIZE, 1, fp1);
         f2_read_bytes = fread(f2_buffer, FILE_COMPARE_BUFFER_SIZE, 1, fp2);
-        if (!are_buffer_equal(f1_buffer, f2_buffer, FILE_COMPARE_BUFFER_SIZE) || (f1_read_bytes ^ f2_read_bytes) != 0)
+        if (memcmp(f1_buffer, f2_buffer, f1_read_bytes) != 0 || (f1_read_bytes ^ f2_read_bytes) != 0)
         {
             return false;
         }
@@ -108,21 +109,4 @@ bool exists_file(const char *filename)
     }
 
     return false;
-}
-
-bool are_buffer_equal(const uint8_t *buffer1, const uint8_t *buffer2, size_t length)
-{
-    if (buffer1 == buffer2)
-    {
-        return true;
-    }
-
-    for (uint64_t i = 0U; i < length; ++i)
-    {
-        if (buffer1[i] != buffer2[i])
-        {
-            return false;
-        }
-    }
-    return true;
 }

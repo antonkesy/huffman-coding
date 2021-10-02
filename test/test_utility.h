@@ -18,6 +18,4 @@ void create_test_big_input_file(const char *file_name);
 
 bool exists_file(const char *filename);
 
-bool are_buffer_equal(const uint8_t *buffer1, const uint8_t *buffer2, size_t length);
-
 #endif
