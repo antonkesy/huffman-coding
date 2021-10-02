@@ -1,16 +1,16 @@
-#include <string.h>
-#include <stdlib.h>
-#include <errno.h>
 #include "huffman_coding_cli.h"
-#include "utility/huffman_file_to_file.h"
 
 int process_input_arguments(int argc, char **argv)
 {
     if (argc <= 1)
     {
+        errno = EINVAL;
+        perror("too few arguments");
         return 1;
     }
     char *input_file_name = argv[0];
+
+    bool is_code_mode = true;
 
     long buffer_size = BUFF_SIZE_FILE;
     char **output_file_name = calloc(1, sizeof(char *));
@@ -45,6 +45,12 @@ int process_input_arguments(int argc, char **argv)
                     perror("output file error allocation failed!");
                 }
                 break;
+            case CodeMode:
+                is_code_mode = true;
+                break;
+            case DecodeMode:
+                is_code_mode = false;
+                break;
         }
     }
 
@@ -56,7 +62,17 @@ int process_input_arguments(int argc, char **argv)
         }
     }
 
-    huffman_code_file_to_file(input_file_name, *output_file_name, buffer_size);
+    if (is_code_mode)
+    {
+        huffman_code_file_to_file(input_file_name, *output_file_name, buffer_size);
+    } else
+    {
+        if (buffer_size != BUFF_SIZE_FILE)
+        {
+            perror("buffer size can't be changed when decoding");
+        }
+        huffman_decode_file_to_file(input_file_name, *output_file_name);
+    }
     free(*output_file_name);
     free(output_file_name);
     return 0;
@@ -71,6 +87,14 @@ enum ArgumentOptions decode_argument(const char *arg)
     if (is_argument_x(remove_leading_whitespaces((char *) arg), OutputFileNameArgument))
     {
         return OutputFileName;
+    }
+    if (is_argument_x(remove_leading_whitespaces((char *) arg), DeCodeArgument))
+    {
+        return DecodeMode;
+    }
+    if (is_argument_x(remove_leading_whitespaces((char *) arg), CodeArgument))
+    {
+        return CodeMode;
     }
     return Error;
 }
