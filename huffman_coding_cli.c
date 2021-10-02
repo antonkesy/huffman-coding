@@ -1,25 +1,34 @@
 #include "huffman_coding_cli.h"
 
-int process_input_arguments(int argc, char **argv)
+int process_input_arguments(int argc, char** argv)
 {
-    if (argc < 1)
+    if (argc <= 1)
     {
         errno = EINVAL;
         perror("too few arguments");
         return 1;
     }
-    char *input_file_name = argv[0];
+    char* input_file_name;
+    if (decode_argument(argv[1]) == Error)
+    {
+        input_file_name = argv[1];
+    } else
+    {
+        errno = EINVAL;
+        perror("input file name need to be first parameter!");
+        return 1;
+    }
 
     bool is_code_mode = true;
 
     long buffer_size = BUFF_SIZE_FILE;
-    char **output_file_name = calloc(1, sizeof(char *));
+    char** output_file_name = calloc(1, sizeof(char*));
     if (output_file_name == NULL)
     {
         perror("output file name allocation failed!");
         return 1;
     }
-    for (int i = 1; i < argc; ++i)
+    for (int i = 2; i < argc; ++i)
     {
         switch (decode_argument(argv[i]))
         {
@@ -78,21 +87,22 @@ int process_input_arguments(int argc, char **argv)
     return 0;
 }
 
-enum ArgumentOptions decode_argument(const char *arg)
+enum ArgumentOptions decode_argument(const char* arg)
 {
-    if (is_argument_x(remove_leading_whitespaces((char *) arg), BufferSizeArgument))
+    //TODO add info/version
+    if (is_argument_x(remove_leading_whitespaces((char*) arg), BufferSizeArgument))
     {
         return BufferSize;
     }
-    if (is_argument_x(remove_leading_whitespaces((char *) arg), OutputFileNameArgument))
+    if (is_argument_x(remove_leading_whitespaces((char*) arg), OutputFileNameArgument))
     {
         return OutputFileName;
     }
-    if (is_argument_x(remove_leading_whitespaces((char *) arg), DeCodeArgument))
+    if (is_argument_x(remove_leading_whitespaces((char*) arg), DeCodeArgument))
     {
         return DecodeMode;
     }
-    if (is_argument_x(remove_leading_whitespaces((char *) arg), CodeArgument))
+    if (is_argument_x(remove_leading_whitespaces((char*) arg), CodeArgument))
     {
         return CodeMode;
     }
@@ -117,12 +127,12 @@ void print_info()
     printf("huffman coding by Anton Kesy\n");
 }
 
-long get_argument_long_value(char *arg, int argument_title_length)
+long get_argument_long_value(char* arg, int argument_title_length)
 {
     return strtol(arg + argument_title_length, NULL, 10);
 }
 
-long get_buffer_size_from_argument(char *argument)
+long get_buffer_size_from_argument(char* argument)
 {
     long parsed_value = get_argument_long_value(argument, strlen(BufferSizeArgument));
     if (errno == ERANGE)
@@ -137,12 +147,12 @@ long get_buffer_size_from_argument(char *argument)
     return parsed_value;
 }
 
-bool is_argument_x(const char *arg, const char *argument_def)
+bool is_argument_x(const char* arg, const char* argument_def)
 {
     return strncmp(arg, argument_def, strlen(argument_def)) == 0;
 }
 
-const char *remove_leading_whitespaces(char *in)
+const char* remove_leading_whitespaces(char* in)
 {
     if (in != NULL)
     {
@@ -159,7 +169,7 @@ const char *remove_leading_whitespaces(char *in)
     return NULL;
 }
 
-int set_default_output_file_name(char **out_output_file_name, const char *input_file_name)
+int set_default_output_file_name(char** out_output_file_name, const char* input_file_name)
 {
     unsigned int input_file_name_length = strlen(input_file_name);
     unsigned int file_ending_length = strlen(FileEnding);
