@@ -50,7 +50,8 @@ enum ArgumentOptions decode_argument(char *arg)
 
 void print_argument_error()
 {
-    printf("upsi dupsi something wrong :/");
+    errno = EINVAL;
+    perror("");
 }
 
 void print_version()
