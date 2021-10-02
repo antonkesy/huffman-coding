@@ -11,6 +11,7 @@ void huffman_code_file_to_file(const char *src_file_name, const char *des_coded_
     if (is_file_open_correctly(src_file))
     {
         perror("Unable to open src file!");
+        return;
     }
 
     //open des file
@@ -18,6 +19,7 @@ void huffman_code_file_to_file(const char *src_file_name, const char *des_coded_
     if (is_file_open_correctly(coded_file))
     {
         perror("Unable to create file.\n");
+        return;
     }
 
     _huffman_code_file_to_file(src_file, coded_file, buffer_size);
