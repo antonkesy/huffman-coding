@@ -22,8 +22,6 @@ void print_info();
 
 long get_argument_long_value(char *arg, int argument_title_length);
 
-char *get_argument_string(char *arg, int argument_title_length);
-
 long get_buffer_size_from_argument(char *argument);
 
 #endif //HUFFMAN_HUFFMAN_CODING_CLI_H

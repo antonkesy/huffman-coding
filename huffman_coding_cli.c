@@ -31,10 +31,10 @@ int process_input_arguments(int argc, char **argv)
                 buffer_size = get_buffer_size_from_argument(argv[i]);
                 break;
             case InputFileName:
-                input_file_name = get_argument_string(argv[i], strlen(InputFileNameArgument));
+                input_file_name = argv[i] + strlen(InputFileNameArgument);
                 break;
             case OutputFileName:
-                output_file_name = get_argument_string(argv[i], strlen(OutputFileNameArgument));
+                output_file_name = argv[i] + strlen(OutputFileNameArgument);
                 break;
         }
     }
@@ -67,13 +67,7 @@ void print_info()
 
 long get_argument_long_value(char *arg, int argument_title_length)
 {
-    long int value;
-    return strtol(arg, NULL, 10);;
-}
-
-char *get_argument_string(char *arg, int argument_title_length)
-{
-    return 0;
+    return strtol(arg + argument_title_length, NULL, 10);
 }
 
 long get_buffer_size_from_argument(char *argument)
