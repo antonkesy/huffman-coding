@@ -14,9 +14,10 @@ int test_error()
 
 int test_buffer_size()
 {
-    create_test_input_file("testfilename.txt", 0xF);
+    char *test_file_name = "testfilename.txt";
+    create_test_input_file(test_file_name, 0xF);
     int process_return_value = 0;
-    char *bad_arguments[] = {"testfilename.txt", "-buffSize=12345"};
+    char *bad_arguments[] = {test_file_name, "-buffSize=12345"};
     process_return_value += process_input_arguments(2, bad_arguments);
 
     return process_return_value;
