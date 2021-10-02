@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
-#include <mem.h>
+#include <memory.h>
 #include "../utility/huffman_file_to_file.h"
 
 
