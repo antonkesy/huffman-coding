@@ -3,7 +3,7 @@
 
 #define BufferSizeArgument "-buffSize="
 #define InputFileNameArgument ""
-#define OutputFileNameArgument ""
+#define OutputFileNameArgument "-out="
 
 enum ArgumentOptions
 {
