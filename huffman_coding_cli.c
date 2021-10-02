@@ -158,7 +158,7 @@ const char* remove_leading_whitespaces(char* in)
     {
         do
         {
-            if (*in != ' ' || *in == 0)
+            if (*in != ' ' || (char) *in == 0)
             {
                 return in;
             }
