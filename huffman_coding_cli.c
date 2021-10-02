@@ -4,7 +4,6 @@
 #include "huffman_coding_cli.h"
 #include "utility/huffman_file_to_file.h"
 
-
 int process_input_arguments(int argc, char **argv)
 {
     if (argc <= 1)
