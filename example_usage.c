@@ -23,17 +23,19 @@ void example_usage(void)
 {
     //get unsigned char array of data to convert
     uint8_t* example_string = (uint8_t*) "BCAADDDCCACACAC";
+    //get size of input data
+    const uint32_t size_string = strlen((char*) example_string);
     //create huffman data
-    HuffmanData* hd = code_into_huffman_data((uint8_t*) example_string, strlen((char*) example_string));
+    HuffmanData* hd = code_into_huffman_data(example_string, size_string);
     //need to transfer whole data to decode into original
 
     //create pointer to unsigned char arrays
     uint8_t** decoded = (uint8_t**) malloc(sizeof(uint8_t**));
     if (decoded != NULL)
     {
-        //if you need size of the original unsigend char arrays
+        //if you need size of the original uint8_t array
         uint32_t output_size;
-        //decodes huffman data into decoded
+        //decodes huffman data into into original uint8_t input
         decode_huffman_data(hd, decoded, &output_size);
         if (*decoded != NULL)
         {
