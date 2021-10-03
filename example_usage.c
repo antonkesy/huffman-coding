@@ -22,13 +22,13 @@ void example_usage_files(void)
 void example_usage(void)
 {
     //get unsigned char array of data to convert
-    char *example_string = "BCAADDDCCACACAC";
+    uint8_t* example_string = (uint8_t*) "BCAADDDCCACACAC";
     //create huffman data
-    HuffmanData *hd = code_into_huffman_data((unsigned char *) example_string, strlen(example_string));
+    HuffmanData* hd = code_into_huffman_data((uint8_t*) example_string, strlen((char*) example_string));
     //need to transfer whole data to decode into original
 
     //create pointer to unsigned char arrays
-    unsigned char **decoded = (unsigned char **) malloc(sizeof(unsigned char **));
+    uint8_t** decoded = (uint8_t**) malloc(sizeof(uint8_t**));
     if (decoded != NULL)
     {
         //if you need size of the original unsigend char arrays
