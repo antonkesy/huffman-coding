@@ -72,7 +72,7 @@ if (decoded != NULL)
 - command line interface not finished
 
 ## Disclaimer
-
+Just had a short introduction to C in university ... First time using C/CMake and other C related programs.
 This was a semester break project and my first C project (outside of university assignments).
 Code is a bit messy and not really optimized or finished ...
 Probably not going to visit it soon to rework :)
