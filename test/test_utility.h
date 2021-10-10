@@ -6,7 +6,7 @@
 #include <stdint.h>
 
 #define BIG_FILE_TEST_BUFFER_SIZE 0xFFFFFF
-#define FILE_COMPARE_BUFFER_SIZE 0xFFFFFF
+#define FILE_COMPARE_BUFFER_SIZE 0xFFFF
 
 bool _files_equal(FILE *fp1, FILE *fp2);
 
