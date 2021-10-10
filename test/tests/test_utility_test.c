@@ -14,8 +14,8 @@ bool is_files_equal_working_un_equal(void) {
     create_test_input_file(file_1_name, 10);
     create_test_input_file(file_2_name, 100);
 
-    FILE *fp1 = fopen(file_1_name, "r");
-    FILE *fp2 = fopen(file_2_name, "r");
+    FILE *fp1 = fopen(file_1_name, "rb");
+    FILE *fp2 = fopen(file_2_name, "rb");
 
     bool is_un_equal = false;
 
@@ -38,8 +38,8 @@ bool is_files_equal_working_equals(void) {
     create_test_input_file(file_1_name, 0xFFF);
     create_test_input_file(file_2_name, 0xFFF);
 
-    FILE *fp1 = fopen(file_1_name, "r");
-    FILE *fp2 = fopen(file_2_name, "r");
+    FILE *fp1 = fopen(file_1_name, "rb");
+    FILE *fp2 = fopen(file_2_name, "rb");
 
     bool is_equal = true;
 
@@ -54,5 +54,5 @@ bool is_files_equal_working_equals(void) {
 }
 
 int main(void) {
-    return (is_files_equal_working_equals() && is_files_equal_working_un_equal()) ? 0 : 1;
+    return (!is_files_equal_working_equals() && !is_files_equal_working_un_equal()) ? 0 : 1;
 }
