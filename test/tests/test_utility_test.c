@@ -1,8 +1,15 @@
 #include "../test_utility.h"
 
+void delete_files(const char* filePath1,const char* filePath2){
+    remove(filePath1);
+    remove(filePath2);
+}
+
 bool is_files_equal_working_un_equal(void) {
     const char *file_1_name = "test1unequal.txt";
     const char *file_2_name = "test2unequal.txt";
+
+    delete_files(file_1_name,file_2_name);
 
     create_test_input_file(file_1_name, 10);
     create_test_input_file(file_2_name, 100);
@@ -25,6 +32,8 @@ bool is_files_equal_working_un_equal(void) {
 bool is_files_equal_working_equals(void) {
     const char *file_1_name = "test1equal.txt";
     const char *file_2_name = "test2equal.txt";
+
+    delete_files(file_1_name,file_2_name);
 
     create_test_input_file(file_1_name, 0xFFF);
     create_test_input_file(file_2_name, 0xFFF);
