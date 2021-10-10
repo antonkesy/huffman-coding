@@ -50,6 +50,8 @@ void example_usage(void)
         }
         //done?
         delete_huffman_data(hd);
+        free(*decoded);
+        free(decoded);
     }
 }
 
