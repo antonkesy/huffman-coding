@@ -5,7 +5,7 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-#define BUFF_SIZE_FILE 268435456
+#define BUFF_SIZE_FILE (4096*8)
 #define VERSION "0.9"
 
 //code file into new file
