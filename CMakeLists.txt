@@ -13,4 +13,3 @@ endif ()
 set(huffman_essentials huffman.c minheap/minheap.c utility/huffman_utility.c test/test_utility.c utility/huffman_serialization.c utility/huffman_serialization.h utility/independent_int.c utility/independent_int.h utility/huffman_file_to_file.c utility/memory_space.c)
 
 add_executable(huffman_example example_usage.c ${huffman_essentials})
-add_executable(huffman_coding huffman_coding.c ${huffman_essentials} huffman_coding_cli.c)
