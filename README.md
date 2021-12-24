@@ -70,6 +70,7 @@ if (decoded != NULL)
 - really unoptimized file read/writes 
 - no analysis before choosing block size -> can result in coded file bigger than input
 - command line interface not finished
+- totally not working btw :)
 
 ## Disclaimer
 Just had a short introduction to C in university ... First time using C/CMake and other C related programs.
