@@ -9,7 +9,7 @@ add_subdirectory(test/tests)
 set(huffman_essentials
         huffman.c
         minheap/minheap.c
-        utility/huffman_utility.c)
+        )
 
 set(utility
         utility/huffman_serialization.c
@@ -18,6 +18,7 @@ set(utility
         utility/independent_int.h
         utility/huffman_file_to_file.c
         utility/memory_space.c
+        utility/huffman_utility.c
         )
 
 add_library(huffman_coding STATIC ${huffman_essentials} ${utility})
