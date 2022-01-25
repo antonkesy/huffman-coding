@@ -4,8 +4,8 @@ project(huffman_coding VERSION 0.1.0)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-include(${CMAKE_CURRENT_SOURCE_DIR}/test/tests/CMakeLists.txt)
+add_subdirectory(test/tests)
 
 set(huffman_essentials huffman.c minheap/minheap.c utility/huffman_utility.c test/test_utility.c utility/huffman_serialization.c utility/huffman_serialization.h utility/independent_int.c utility/independent_int.h utility/huffman_file_to_file.c utility/memory_space.c)
 
-add_executable(huffman_example example_usage.c ${huffman_essentials})
+add_library(huffman_coding STATIC ${huffman_essentials})
