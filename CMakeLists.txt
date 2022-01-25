@@ -18,6 +18,6 @@ set(utility
         utility/independent_int.h
         utility/huffman_file_to_file.c
         utility/memory_space.c
-        test/test_utility.c)
+        )
 
 add_library(huffman_coding STATIC ${huffman_essentials} ${utility})
