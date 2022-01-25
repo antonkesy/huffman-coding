@@ -6,6 +6,18 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 add_subdirectory(test/tests)
 
-set(huffman_essentials huffman.c minheap/minheap.c utility/huffman_utility.c test/test_utility.c utility/huffman_serialization.c utility/huffman_serialization.h utility/independent_int.c utility/independent_int.h utility/huffman_file_to_file.c utility/memory_space.c)
+set(huffman_essentials
+        huffman.c
+        minheap/minheap.c
+        utility/huffman_utility.c)
 
-add_library(huffman_coding STATIC ${huffman_essentials})
+set(utility
+        utility/huffman_serialization.c
+        utility/huffman_serialization.h
+        utility/independent_int.c
+        utility/independent_int.h
+        utility/huffman_file_to_file.c
+        utility/memory_space.c
+        test/test_utility.c)
+
+add_library(huffman_coding STATIC ${huffman_essentials} ${utility})
