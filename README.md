@@ -64,14 +64,6 @@ if (decoded != NULL)
 }
 ```
 
-## Todo & Issues
-
-- big file sometimes not reading/writing correctly causing segment faults
-- really unoptimized file read/writes 
-- no analysis before choosing block size -> can result in coded file bigger than input
-- command line interface not finished
-- totally not working btw :)
-
 ## Disclaimer
 Just had a short introduction to C in university ... First time using C/CMake and other C related programs.
 This was a semester break project and my first C project (outside of university assignments).
