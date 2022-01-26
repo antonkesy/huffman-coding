@@ -69,7 +69,7 @@ HuffmanTree *build_huffman_tree(SortedItems *sorted_items)
 {
     if (sorted_items != NULL && sorted_items->size > 0)
     {
-        minheap *min_heap = create_min_heap_minheap(sorted_items->size);
+        minheap_t *min_heap = create_min_heap_minheap(sorted_items->size);
 
         if (min_heap != NULL)
         {
