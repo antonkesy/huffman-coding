@@ -2,9 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdint.h>
-#include "src/huffman.h"
+#include "include/huffman.h"
 #include "test/test_utility.h"
-#include "src/utility/huffman_file_to_file.h"
 
 #define TEST_INPUT_FILE_NAME "input.txt"
 #define TEST_CODED_FILE_NAME "coded.txt"
@@ -14,7 +13,7 @@ void example_usage_files(void)
 {
     create_test_input_file(TEST_INPUT_FILE_NAME, 0xFFF);
 
-    huffman_code_file_to_file(TEST_INPUT_FILE_NAME, TEST_CODED_FILE_NAME, BUFF_SIZE_FILE);
+    huffman_code_file_to_file(TEST_INPUT_FILE_NAME, TEST_CODED_FILE_NAME, 0xFFFF);
 
     huffman_decode_file_to_file(TEST_CODED_FILE_NAME, TEST_OUTPUT_FILE_NAME);
 }

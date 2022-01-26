@@ -299,13 +299,13 @@ void delete_huffman_data(HuffmanData *data)
     {
         free(data->coded_array);
         data->coded_array = NULL;
-        _delete_sorted_items(data->sort_items);
+        delete_sorted_items(data->sort_items);
         free(data);
     }
     data = NULL;
 }
 
-void _delete_sorted_items(SortedItems *sort_items)
+void delete_sorted_items(SortedItems *sort_items)
 {
     if (sort_items != NULL)
     {

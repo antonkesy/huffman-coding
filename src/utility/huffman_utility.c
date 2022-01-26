@@ -1,4 +1,5 @@
 #include "huffman_utility.h"
+#include <stdio.h>
 
 void print_huffman_tree(HuffmanTree *tree)
 {

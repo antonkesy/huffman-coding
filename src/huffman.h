@@ -1,10 +1,7 @@
-#ifndef HUFFMAN_HUFFMAN_H
-#define HUFFMAN_HUFFMAN_H
+#ifndef HUFFMAN_HUFFMAN_P_H
+#define HUFFMAN_HUFFMAN_P_H
 
-#include <stddef.h>
-#include <stdbool.h>
-#include <stdio.h>
-#include <stdint.h>
+#include "../include/huffman.h"
 #include "utility/memory_space.h"
 
 struct Node
@@ -21,35 +18,6 @@ typedef struct
     uint64_t size;
     HuffmanNode *root;
 } HuffmanTree;
-
-typedef struct
-{
-    uint64_t freq;
-    uint8_t value;
-} SortItem;
-
-typedef struct
-{
-    uint16_t size; //max 256
-    SortItem *items;
-} SortedItems;
-
-typedef struct
-{
-    uint64_t length;
-    uint8_t *coded_array;
-    SortedItems *sort_items;
-} HuffmanData;
-
-
-//TODO return value is int and output is parameter
-
-//code uint8_t array into hd and reverse
-HuffmanData *code_into_huffman_data(uint8_t *items, const uint32_t size);
-
-int decode_huffman_data(HuffmanData *hd, uint8_t **dest, uint32_t *out_size);
-
-SortedItems *sort_by_frequency(const uint8_t *items, const uint32_t size);
 
 HuffmanData *_code_huffman_string(const uint8_t input[], const uint32_t input_size, SortedItems *sorted_items);
 
@@ -76,12 +44,9 @@ void _set_bit_at_pos(uint8_t *dest, const uint32_t pos, const uint8_t value);
 uint32_t _get_amount_of_character(SortedItems *sorted_items);
 
 //delete
-void delete_huffman_data(HuffmanData *data);
 
 void _delete_huffman_nodes(HuffmanNode *node);
 
 void _delete_huffman_tree(HuffmanTree *tree);
-
-void _delete_sorted_items(SortedItems *sort_items);
 
 #endif
