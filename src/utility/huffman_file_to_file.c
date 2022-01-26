@@ -1,4 +1,3 @@
-#include <stdint.h>
 #include <malloc.h>
 #include "huffman_file_to_file.h"
 #include "../huffman.h"
