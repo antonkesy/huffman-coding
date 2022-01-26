@@ -37,8 +37,8 @@ void delete_sorted_items(SortedItems *sort_items);
 
 //files
 
-void huffman_code_file_to_file(const char *src_file_name, const char *des_coded_file_name, long buffer_size);
+int huffman_code_file_to_file(const char *src_file_name, const char *des_coded_file_name, long buffer_size);
 
-void huffman_decode_file_to_file(const char *src_coded_file_name, const char *des_file_name);
+int huffman_decode_file_to_file(const char *src_coded_file_name, const char *des_file_name);
 
 #endif

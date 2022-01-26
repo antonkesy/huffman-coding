@@ -9,9 +9,9 @@
 #define BUFF_SIZE_FILE (4096*8)
 
 //files need to be opened in binary mode
-void _huffman_code_file_to_file(FILE *src, FILE *des, long buffer_size);
+int _huffman_code_file_to_file(FILE *src, FILE *des, long buffer_size);
 
-void _huffman_decode_file_to_file(FILE *src, FILE *des);
+int _huffman_decode_file_to_file(FILE *src, FILE *des);
 
 //utility
 
