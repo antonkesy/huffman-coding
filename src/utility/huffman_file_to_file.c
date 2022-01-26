@@ -26,7 +26,7 @@ int huffman_code_file_to_file(const char* src_file_name, const char* des_coded_f
         buffer_size = BUFF_SIZE_FILE;
     }
 
-    int result = _huffman_code_file_to_file(src_file, coded_file, buffer_size);
+    int result = huffman_code_file_to_file_p(src_file, coded_file, buffer_size);
 
     fclose(src_file);
     fclose(coded_file);
@@ -49,14 +49,14 @@ int huffman_decode_file_to_file(const char* src_coded_file_name, const char* des
         return -1;
     }
 
-    int result = _huffman_decode_file_to_file(coded_file, dest);
+    int result = huffman_decode_file_to_file_p(coded_file, dest);
 
     fclose(coded_file);
     fclose(dest);
     return result;
 }
 
-int _huffman_code_file_to_file(FILE* src, FILE* des, long buffer_size)
+int huffman_code_file_to_file_p(FILE* src, FILE* des, long buffer_size)
 {
     if (src == NULL || des == NULL)
     {
@@ -99,7 +99,7 @@ int _huffman_code_file_to_file(FILE* src, FILE* des, long buffer_size)
     return 0;
 }
 
-int _huffman_decode_file_to_file(FILE* src, FILE* des)
+int huffman_decode_file_to_file_p(FILE* src, FILE* des)
 {
     if (src == NULL || des == NULL)
     {

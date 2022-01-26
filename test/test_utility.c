@@ -6,7 +6,7 @@
 #include "../src/utility/huffman_file_to_file.h"
 
 
-bool files_equal(const char *file_1_name, const char *file_2_name)
+bool filesp_equal(const char *file_1_name, const char *file_2_name)
 {
     FILE *fp1 = open_file_to_read(file_1_name);
     if (!is_file_open_correctly(fp1))
@@ -22,7 +22,7 @@ bool files_equal(const char *file_1_name, const char *file_2_name)
         return false;
     }
 
-    bool are_files_equal = _files_equal(fp1, fp2);
+    bool are_files_equal = files_equal(fp1, fp2);
 
     fclose(fp1);
     fclose(fp2);
@@ -30,7 +30,7 @@ bool files_equal(const char *file_1_name, const char *file_2_name)
     return are_files_equal;
 }
 
-bool _files_equal(FILE *fp1, FILE *fp2)
+bool files_equal(FILE *fp1, FILE *fp2)
 {
     //same files
     if (fp1 == fp2)

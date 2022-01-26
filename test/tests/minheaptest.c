@@ -74,7 +74,7 @@ int heap_test_huffman_nodes() {
     HuffmanNode *right;
     extract_min_data(mh, (void *) &right);
 
-    HuffmanNode *parent = _create_parent_huffman_node(left, right);
+    HuffmanNode *parent = create_parent_huffman_node(left, right);
     assert(parent);
     data[2] = create_heap_data_minheap(parent->freq, parent);
     assert(data[2]);

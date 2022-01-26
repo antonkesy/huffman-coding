@@ -37,7 +37,7 @@ HuffmanData *serialize_data_to_huffman_data(HuffmanSerializeData *hsd)
         {
             return hd;
         }
-        _delete_serialize_data(hsd);
+        delete_serialize_data(hsd);
     }
     return NULL;
 }
@@ -114,7 +114,7 @@ int serialize_huffman_data(HuffmanData *hd, uint8_t **dest, uint64_t *out_total_
     if (hsd != NULL)
     {
         serialize_huffman_serialize_data(hsd, hd->sort_items->size, hd->length, &output, out_total_byte);
-        _delete_serialize_data(hsd);
+        delete_serialize_data(hsd);
     }
     if (dest != NULL)
     {
@@ -183,7 +183,7 @@ HuffmanData *deserialize_huffman_data(const uint8_t *src, uint64_t *out_byte_rea
         {
             deserialize_huffman_serialize_data(src, hsd, out_byte_read);
             hd = serialize_data_to_huffman_data(*hsd);
-            _delete_serialize_data(*hsd);
+            delete_serialize_data(*hsd);
             free(hsd);
         }
     }
@@ -195,7 +195,7 @@ size_t get_huffman_serialize_data_size(const uint16_t sort_item_count, const uin
     return sizeof(iuint_16_t) + sizeof(iuint_64_t) + (sizeof(SerializeSortItem) * sort_item_count) + size_coded_string;
 }
 
-void _delete_serialize_data(HuffmanSerializeData *hsd)
+void delete_serialize_data(HuffmanSerializeData *hsd)
 {
     free(hsd->sort_items);
     free(hsd);
