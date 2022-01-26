@@ -115,5 +115,6 @@ void delete_minheap(minheap_t *minheap)
     {
         free(minheap->elements);
         free(minheap);
+        minheap = NULL;
     }
 }
