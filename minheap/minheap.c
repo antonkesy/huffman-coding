@@ -1,6 +1,5 @@
 #include "minheap.h"
 #include <stdlib.h>
-#include <stdio.h>
 
 heapdata *create_heap_data_minheap(uint32_t key, void *data)
 {
@@ -108,14 +107,6 @@ uint32_t insert_minheap(minheap *minheap, heapdata *data)
         index = _index_parent_minheap(index);
     }
     return index;
-}
-
-void print_min_heap(minheap *minheap)
-{
-    for (int i = 0; i < minheap->size; ++i)
-    {
-        printf("%i\t", minheap->elements[i]->key);
-    }
 }
 
 void delete_minheap(minheap *minheap)
