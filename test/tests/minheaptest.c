@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <assert.h>
-#include "../../minheap/minheap.h"
-#include "../../huffman.h"
+#include "../../src/minheap/minheap.h"
+#include "../../src/huffman.h"
 
 #define RANGE 100
 

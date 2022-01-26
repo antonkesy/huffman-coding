@@ -2,9 +2,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdint.h>
-#include "huffman.h"
+#include "src/huffman.h"
 #include "test/test_utility.h"
-#include "utility/huffman_file_to_file.h"
+#include "src/utility/huffman_file_to_file.h"
 
 #define TEST_INPUT_FILE_NAME "input.txt"
 #define TEST_CODED_FILE_NAME "coded.txt"

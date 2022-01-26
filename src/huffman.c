@@ -1,7 +1,7 @@
 #include "huffman.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include "minheap/minheap.h"
+#include "../src/minheap/minheap.h"
 
 int _sort_item_comparator(const void *first, const void *second)
 {

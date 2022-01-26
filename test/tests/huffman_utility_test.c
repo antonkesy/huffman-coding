@@ -1,6 +1,6 @@
 #include <stdlib.h>
-#include "../../huffman.h"
-#include "../../utility/huffman_utility.h"
+#include "../../src/huffman.h"
+#include "../../src/utility/huffman_utility.h"
 
 bool test_equal_sort_item()
 {

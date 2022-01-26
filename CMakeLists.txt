@@ -7,18 +7,20 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 add_subdirectory(test/tests)
 
 set(huffman_essentials
-        huffman.c
-        minheap/minheap.c
+        src/huffman.c
+        src/minheap/minheap.c
         )
 
 set(utility
-        utility/huffman_serialization.c
-        utility/huffman_serialization.h
-        utility/independent_int.c
-        utility/independent_int.h
-        utility/huffman_file_to_file.c
-        utility/memory_space.c
-        utility/huffman_utility.c
+        src/utility/huffman_serialization.c
+        src/utility/independent_int.c
+        src/utility/huffman_file_to_file.c
+        src/utility/memory_space.c
+        src/utility/huffman_utility.c
         )
 
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY lib)
 add_library(huffman_coding STATIC ${huffman_essentials} ${utility})
+
+add_executable(example example_usage.c test/test_utility.c)
+target_link_libraries(example PRIVATE huffman_coding)

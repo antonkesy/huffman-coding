@@ -1,5 +1,5 @@
 #include <stdlib.h>
-#include "../../huffman.h"
+#include "../../src/huffman.h"
 
 int main(void)
 {

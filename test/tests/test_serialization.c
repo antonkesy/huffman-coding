@@ -1,9 +1,9 @@
 #include <stdlib.h>
 #include <string.h>
-#include "../../huffman.h"
-#include "../../utility/huffman_utility.h"
-#include "../../utility/huffman_serialization.h"
-#include "../../utility/huffman_file_to_file.h"
+#include "../../src/huffman.h"
+#include "../../src/utility/huffman_utility.h"
+#include "../../src/utility/huffman_serialization.h"
+#include "../../src/utility/huffman_file_to_file.h"
 
 int test_print_serialization()
 {
