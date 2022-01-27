@@ -1,4 +1,4 @@
-#include "../../src/utility/independent_int.h"
+#include "../../src/utility/independent_int/independent_int.h"
 #include <stdint.h>
 
 int test_iuint_8_value(uint8_t test_value)

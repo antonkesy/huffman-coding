@@ -4,7 +4,7 @@
 #include <stddef.h>
 #include <stdint.h>
 #include "../../huffman.h"
-#include "../independent_int.h"
+#include "../independent_int/independent_int.h"
 
 typedef struct
 {
