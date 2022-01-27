@@ -19,7 +19,7 @@ set(huffman_essentials
         )
 
 set(utility
-        src/utility/huffman_serialization.c
+        src/utility/serialization/huffman_serialization.c
         src/utility/independent_int.c
         src/utility/huffman_file_to_file.c
         src/utility/memory_space.c

@@ -3,8 +3,8 @@
 
 #include <stddef.h>
 #include <stdint.h>
-#include "../huffman.h"
-#include "independent_int.h"
+#include "../../huffman.h"
+#include "../independent_int.h"
 
 typedef struct
 {
