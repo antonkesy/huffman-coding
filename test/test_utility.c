@@ -55,7 +55,7 @@ bool files_equal(FILE *fp1, FILE *fp2)
     {
         f1_read_bytes = fread(f1_buffer, FILE_COMPARE_BUFFER_SIZE, 1, fp1);
         f2_read_bytes = fread(f2_buffer, FILE_COMPARE_BUFFER_SIZE, 1, fp2);
-        if ((f1_read_bytes | f2_read_bytes) != 0 || memcmp(f1_buffer, f2_buffer, f1_read_bytes) != 0)
+        if ((f1_read_bytes != f2_read_bytes) || memcmp(f1_buffer, f2_buffer, f1_read_bytes) != 0)
         {
             free(f1_buffer);
             free(f2_buffer);
