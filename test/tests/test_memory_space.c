@@ -1,4 +1,4 @@
-#include "../../src/utility/memory_space.h"
+#include "../../src/utility/memory_space/memory_space.h"
 //test == true == success
 
 bool test_add_sub(void)

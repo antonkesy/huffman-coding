@@ -2,7 +2,7 @@
 #define HUFFMAN_HUFFMAN_P_H
 
 #include "../include/huffman.h"
-#include "utility/memory_space.h"
+#include "utility/memory_space/memory_space.h"
 
 struct Node
 {

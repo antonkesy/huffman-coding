@@ -22,7 +22,7 @@ set(utility
         src/utility/serialization/huffman_serialization.c
         src/utility/independent_int/independent_int.c
         src/utility/file/huffman_file_to_file.c
-        src/utility/memory_space.c
+        src/utility/memory_space/memory_space.c
         src/utility/huffman_utility.c
         )
 
