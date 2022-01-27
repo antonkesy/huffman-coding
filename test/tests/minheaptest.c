@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include <assert.h>
-#include "../../src/minheap/minheap.h"
+#include "../../src/utility/minheap/minheap.h"
 #include "../../src/huffman.h"
 
 #define RANGE 100

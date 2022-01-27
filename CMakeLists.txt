@@ -15,7 +15,7 @@ add_subdirectory(test/tests)
 
 set(huffman_essentials
         src/huffman.c
-        src/minheap/minheap.c
+        src/utility/minheap/minheap.c
         )
 
 set(utility
