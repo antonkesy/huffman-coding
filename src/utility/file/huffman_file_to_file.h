@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdint.h>
-#include "../../include/huffman.h"
+#include "../../../include/huffman.h"
 
 #define BUFF_SIZE_FILE (4096*8)
 

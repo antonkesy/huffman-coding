@@ -1,6 +1,6 @@
 #include <stdbool.h>
 #include "../test_utility.h"
-#include "../../src/utility/huffman_file_to_file.h"
+#include "../../src/utility/file/huffman_file_to_file.h"
 
 bool test_big_file_coding(void)
 {

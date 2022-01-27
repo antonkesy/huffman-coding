@@ -1,7 +1,7 @@
 #include <malloc.h>
 #include "huffman_file_to_file.h"
-#include "../huffman.h"
-#include "serialization/huffman_serialization.h"
+#include "../../huffman.h"
+#include "../serialization/huffman_serialization.h"
 
 int huffman_code_file_to_file(const char* src_file_name, const char* des_coded_file_name, long buffer_size)
 {

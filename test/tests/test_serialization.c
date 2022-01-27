@@ -2,8 +2,8 @@
 #include <string.h>
 #include "../../src/huffman.h"
 #include "../../src/utility/huffman_utility.h"
-#include "../../src/utility/huffman_serialization.h"
-#include "../../src/utility/huffman_file_to_file.h"
+#include "../../src/utility/serialization/huffman_serialization.h"
+#include "../../src/utility/file/huffman_file_to_file.h"
 
 int test_print_serialization()
 {

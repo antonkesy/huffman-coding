@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <memory.h>
-#include "../src/utility/huffman_file_to_file.h"
+#include "../src/utility/file/huffman_file_to_file.h"
 
 
 bool filesp_equal(const char *file_1_name, const char *file_2_name)
