@@ -26,7 +26,7 @@ If input is a file, the file is cut into buffer size blocks and treated like an 
 huffman_code_file_to_file(INPUT_FILE_NAME, OUTPUT_FILE_NAME, 0);
 ```
 
-### decode file
+### encode file
 
 ```c
 huffman_decode_file_to_file(CODED_FILE_NAME, OUTPUT_FILE_NAME);
@@ -39,15 +39,15 @@ huffman_decode_file_to_file(CODED_FILE_NAME, OUTPUT_FILE_NAME);
 uint8_t* example_string = (uint8_t*) "BCAADDDCCACACAC";
 //get size of input data
 const uint32_t size_string = strlen((char*) example_string);
-//create huffman data
-HuffmanData* hd = code_into_huffman_data(example_string, size_string);
-//need to transfer whole data to decode into original
+//encode huffman data
+IHuffmanData* hd = code_into_huffman_data(example_string, size_string);
+//need to transfer whole data to encode into original
 ```
 
-### decode uint8_t array
+### encode uint8_t array
 
 ```c
-//create pointer to unsigned char arrays
+//encode pointer to unsigned char arrays
 uint8_t** decoded = (uint8_t**) malloc(sizeof(uint8_t**));
 if (decoded != NULL)
 {

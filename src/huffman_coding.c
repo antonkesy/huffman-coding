@@ -286,34 +286,6 @@ int decode_huffman_data(HuffmanData *hd, uint8_t **dest, uint32_t *out_size)
     return 0;
 }
 
-void delete_huffman_tree(HuffmanTree *tree)
-{
-    delete_huffman_nodes(tree->root);
-    free(tree);
-    tree = NULL;
-}
-
-void delete_huffman_data(HuffmanData *data)
-{
-    if (data != NULL)
-    {
-        free(data->coded_array);
-        data->coded_array = NULL;
-        delete_sorted_items(data->sort_items);
-        free(data);
-    }
-    data = NULL;
-}
-
-void delete_sorted_items(SortedItems *sort_items)
-{
-    if (sort_items != NULL)
-    {
-        free(sort_items->items);
-        free(sort_items);
-        sort_items = NULL;
-    }
-}
 
 uint32_t get_amount_of_character(SortedItems *sorted_items)
 {
